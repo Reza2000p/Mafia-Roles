@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تقسیم نقش و دستیار مافیا - رضا پاکدل</title>
+    <!-- رفع ارور 404 آیکون -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎩</text></svg>">
     <!-- Web App Manifest -->
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
     <meta name="theme-color" content="#dc2626">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', Tahoma, 'Segoe UI', sans-serif; user-select: none; -webkit-user-select: none; }
+        /* بهینه‌سازی فونت‌ها برای نمایش شفاف و تمیز در حالت آنلاین و آفلاین */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Vazirmatn", "Tahoma", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
         body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 140px; }
 
         /* هدر اصلی */
@@ -36,7 +49,7 @@
             justify-content: space-between;
         }
         .player-input {
-            width: 60px;
+            width: 65px;
             background: #0f172a;
             border: 1px solid #475569;
             color: #38bdf8;
@@ -167,7 +180,7 @@
         }
         .modal-role-title { font-size: 24px; font-weight: bold; margin: 12px 0 6px 0; padding: 10px; border-radius: 8px; }
 
-        /* صفحه گاد (مطابق اسکرین‌شات‌ها) */
+        /* صفحه گاد */
         .god-header-bar {
             display: flex;
             justify-content: space-between;
@@ -238,7 +251,7 @@
             cursor: pointer;
         }
 
-        /* آمار پایین صفحه گاد (مطابق اسکرین‌شات) */
+        /* آمار پایین صفحه گاد */
         .god-stats-panel {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -301,8 +314,8 @@
                 <option value="nato">سناریو ناتو (۱۰ نفره)</option>
                 <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
                 <option value="zodiac">سناریو زودیاک (۱۲ نفره)</option>
-                <option value="capo10">سناریو کاپو (۱۰ نفره)</option>
-                <option value="capo12">سناریو کاپو (۱۲ نفره)</option>
+                <option value="scen14">سناریو شلوغ (۱۴ نفره)</option>
+                <option value="scen16">سناریو شلوغ (۱۶ نفره)</option>
             </select>
         </div>
 
@@ -340,7 +353,7 @@
         </div>
     </div>
 
-    <!-- صفحه ۳: پنل مدیریت گاد (طابق دقیق با اسکرین‌شات‌ها) -->
+    <!-- صفحه ۳: پنل مدیریت گاد -->
     <div id="god-screen" class="screen">
         <div class="god-header-bar">
             <span style="font-weight: bold; font-size: 13px;">ترتیب نوبت پلیرها</span>
@@ -352,14 +365,13 @@
 
         <div id="god-players-container"></div>
 
-        <!-- خلاصه آمار بازی (طابق اسکرین شات) -->
+        <!-- خلاصه آمار بازی -->
         <div class="god-stats-panel">
             <div class="stats-row">
                 <span>افراد حاضر: <strong id="stat-alive-total" style="color:#38bdf8;">۱۰</strong></span>
                 <span>افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
             </div>
 
-            <!-- کنترل استعلام وضعیت -->
             <div class="stats-row" style="margin-top: 6px;">
                 <span>استعلام وضعیت: <strong id="inquiry-count-text" style="color:#f59e0b;">۰</strong></span>
                 <div class="inquiry-control">
@@ -368,7 +380,6 @@
                 </div>
             </div>
 
-            <!-- آمار افراد خارج شده -->
             <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد خارج شده:</div>
             <div class="stats-grid">
                 <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-dead">۰</span></div>
@@ -376,7 +387,6 @@
                 <div class="stat-box" style="color: #fdba74;">مستقل: <span id="stat-free-dead">۰</span></div>
             </div>
 
-            <!-- آمار افراد حاضر -->
             <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد حاضر (زنده):</div>
             <div class="stats-grid">
                 <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-alive">۰</span></div>
@@ -408,7 +418,7 @@
     </div>
 
     <script>
-        // بانک جامع تمام نقش‌های اولیه و جدید
+        // بانک نقش‌ها (اصلاح‌شده: ادغام پزشک در دکتر، انتقال خبرچین به مافیا، حذف کاپو)
         const ALL_ROLES = {
             citizen: [
                 { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
@@ -440,12 +450,10 @@
                 { id: 'c_ghahreman', name: 'قهرمان', teamLabel: 'گروه شهروندی' },
                 { id: 'c_ocean', name: 'اوشن', teamLabel: 'گروه شهروندی' },
                 { id: 'c_herfehei', name: 'حرفه‌ای', teamLabel: 'گروه شهروندی' },
-                { id: 'c_pezeshk', name: 'پزشک', teamLabel: 'گروه شهروندی' },
                 { id: 'c_maznoon', name: 'مظنون', teamLabel: 'گروه شهروندی' },
                 { id: 'c_zaresaz', name: 'زره‌ساز', teamLabel: 'گروه شهروندی' },
                 { id: 'c_attar', name: 'عطار', teamLabel: 'گروه شهروندی' },
                 { id: 'c_vares', name: 'وارث', teamLabel: 'گروه شهروندی' },
-                { id: 'c_khabarchein', name: 'خبرچین', teamLabel: 'گروه شهروندی' },
                 { id: 'c_kadkhoda', name: 'کدخدای شهر', teamLabel: 'گروه شهروندی' }
             ],
             mafia: [
@@ -453,6 +461,7 @@
                 { id: 'm_godfather', name: 'گادفادر', teamLabel: 'گروه مافیا' },
                 { id: 'm_nato', name: 'ناتو', teamLabel: 'گروه مافیا' },
                 { id: 'm_gorogangir', name: 'گروگانگیر', teamLabel: 'گروه مافیا' },
+                { id: 'm_khabarchein', name: 'خبرچین', teamLabel: 'گروه مافیا' },
                 { id: 'm_shaiad', name: 'شیاد', teamLabel: 'گروه مافیا' },
                 { id: 'm_shobadebaz', name: 'شعبده‌باز', teamLabel: 'گروه مافیا' },
                 { id: 'm_bombgozar', name: 'بمب‌گذار', teamLabel: 'گروه مافیا' },
@@ -472,8 +481,7 @@
                 { id: 'm_nano', name: 'نانو', teamLabel: 'گروه مافیا' },
                 { id: 'm_ghatle_herfehei', name: 'قاتل حرفه‌ای', teamLabel: 'گروه مافیا' },
                 { id: 'm_jalab', name: 'جلب', teamLabel: 'گروه مافیا' },
-                { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' },
-                { id: 'm_capo', name: 'کاپو', teamLabel: 'گروه مافیا' }
+                { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' }
             ],
             free: [
                 { id: 'f_zodiac', name: 'زودیاک', teamLabel: 'گروه مستقل' },
@@ -488,7 +496,7 @@
 
         let selectedRoles = {};
         let assignedCards = [];
-        let pickedHistory = []; // ثبت تاریخچه کارت کشیدن به ترتیب
+        let pickedHistory = [];
         let openedCount = 0;
         let showRolesInGodView = true;
         let inquiryCount = 0;
@@ -598,19 +606,19 @@
 
             if (val === 'nato') {
                 document.getElementById('player-count').value = 10;
-                selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_pezeshk': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
+                selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_doctor': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
             } else if (val === 'bazpors') {
                 document.getElementById('player-count').value = 10;
                 selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_shaiad': 1, 'c_mohaghegh': 1, 'c_roointan': 1, 'c_bazpors': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_simple': 2 };
             } else if (val === 'zodiac') {
                 document.getElementById('player-count').value = 12;
-                selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_pezeshk': 1, 'c_simple': 2 };
-            } else if (val === 'capo10') {
-                document.getElementById('player-count').value = 10;
-                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
-            } else if (val === 'capo12') {
-                document.getElementById('player-count').value = 12;
-                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_khabarchein': 1, 'c_kadkhoda': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
+                selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
+            } else if (val === 'scen14') {
+                document.getElementById('player-count').value = 14;
+                selectedRoles = { 'm_godfather': 1, 'm_lecter': 1, 'm_silencer': 1, 'm_simple': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'c_negahban': 1, 'c_roointan': 1, 'c_khabarnegar': 1, 'c_simple': 4 };
+            } else if (val === 'scen16') {
+                document.getElementById('player-count').value = 16;
+                selectedRoles = { 'm_godfather': 1, 'm_lecter': 1, 'm_silencer': 1, 'm_mozakere': 1, 'm_simple': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'c_negahban': 1, 'c_roointan': 1, 'c_khabarnegar': 1, 'c_bazpors': 1, 'c_simple': 4 };
             }
 
             Object.keys(selectedRoles).forEach(id => {
@@ -696,7 +704,6 @@
                     cardEl.classList.add('opened');
                     cardEl.innerText = '✓';
                     
-                    // ثبت دقیق نوبت انتخاب پلیر
                     pickedHistory.push({
                         pickOrder: pickedHistory.length + 1,
                         cardNumber: currentCardIndex + 1,
@@ -720,7 +727,6 @@
             const container = document.getElementById('god-players-container');
             container.innerHTML = '';
 
-            // رندر بر اساس ترتیب نوبت کارت کشیدن پلیرها
             pickedHistory.forEach((item, idx) => {
                 const role = item.role;
                 const row = document.createElement('div');
@@ -738,7 +744,6 @@
                     </div>
                     
                     <div class="player-actions">
-                        <!-- اخطار -->
                         <div class="warning-control">
                             <span>اخطار:</span>
                             <button class="warning-btn" onclick="changeWarning(${idx}, -1)">-</button>
@@ -746,7 +751,6 @@
                             <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
                         </div>
                         
-                        <!-- زنده/حذف -->
                         <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
                     </div>
                 `;
@@ -786,12 +790,10 @@
             const aliveTotal = pickedHistory.filter(h => h.role.isAlive).length;
             const deadTotal = total - aliveTotal;
 
-            // آمار حاضران (زنده)
             const citizenAlive = pickedHistory.filter(h => h.role.team === 'citizen' && h.role.isAlive).length;
             const mafiaAlive = pickedHistory.filter(h => h.role.team === 'mafia' && h.role.isAlive).length;
             const freeAlive = pickedHistory.filter(h => h.role.team === 'free' && h.role.isAlive).length;
 
-            // آمار خارج‌شدگان (حذف شده)
             const citizenDead = pickedHistory.filter(h => h.role.team === 'citizen' && !h.role.isAlive).length;
             const mafiaDead = pickedHistory.filter(h => h.role.team === 'mafia' && !h.role.isAlive).length;
             const freeDead = pickedHistory.filter(h => h.role.team === 'free' && !h.role.isAlive).length;
