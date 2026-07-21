@@ -1,13 +1,6 @@
-const CACHE_NAME = 'mafia-pwa-v3';
+const CACHE_NAME = 'mafia-pwa-v4';
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(['./', './index.html']).catch(err => {
-        console.warn('تعدادی از مسیرها کش نشدند اما نصب ادامه یافت:', err);
-      });
-    })
-  );
   self.skipWaiting();
 });
 
@@ -23,9 +16,25 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // فقط درخواست‌های هم‌مبدأ برای کش‌سازی بررسی شوند تا ارور 404 داده نشود
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request).catch(() => {
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then(response => {
+        if (response.status === 200) {
+          const responseCopy = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseCopy);
+          });
+        }
+        return response;
+      }).catch(() => {
         return caches.match('./index.html');
       });
     })

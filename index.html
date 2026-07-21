@@ -8,22 +8,20 @@
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
     <meta name="theme-color" content="#dc2626">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', Tahoma, sans-serif; user-select: none; -webkit-user-select: none; }
-        body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 120px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', Tahoma, 'Segoe UI', sans-serif; user-select: none; -webkit-user-select: none; }
+        body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 140px; }
 
         /* هدر اصلی */
         .app-header {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border: 1px solid #334155;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
-        .app-header h1 { font-size: 17px; color: #f87171; font-weight: 700; margin-bottom: 2px; }
+        .app-header h1 { font-size: 16px; color: #f87171; font-weight: 700; margin-bottom: 2px; }
         .app-header p { font-size: 11px; color: #94a3b8; }
 
         /* باکس تنظیمات */
@@ -31,14 +29,14 @@
             background: #1e293b;
             border: 1px solid #334155;
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         .player-input {
-            width: 65px;
+            width: 60px;
             background: #0f172a;
             border: 1px solid #475569;
             color: #38bdf8;
@@ -46,28 +44,28 @@
             font-weight: bold;
             text-align: center;
             border-radius: 8px;
-            padding: 5px;
+            padding: 4px;
         }
 
         .select-custom {
             background: #0f172a;
             color: #f8fafc;
             border: 1px solid #475569;
-            padding: 8px;
+            padding: 6px 10px;
             border-radius: 8px;
             font-size: 12px;
             outline: none;
-            width: 60%;
+            width: 65%;
         }
 
         /* عنوان بخش‌ها */
         .section-header {
-            padding: 8px 12px;
+            padding: 6px 12px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 700;
             text-align: center;
-            margin: 14px 0 8px 0;
+            margin: 12px 0 6px 0;
         }
         .bg-citizen { background-color: #064e3b; color: #6ee7b7; border: 1px solid #047857; }
         .bg-mafia { background-color: #7f1d1d; color: #fca5a5; border: 1px solid #b91c1c; }
@@ -79,22 +77,22 @@
             background-color: #1e293b;
             border: 1px solid #334155;
             border-radius: 8px;
-            padding: 8px 6px;
+            padding: 6px 4px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             cursor: pointer;
-            min-height: 52px;
+            min-height: 50px;
             transition: all 0.15s ease;
         }
         .role-card .role-name { font-size: 11px; font-weight: bold; color: #e2e8f0; }
-        .role-card .group-badge { font-size: 8px; margin-top: 3px; color: #94a3b8; }
+        .role-card .group-badge { font-size: 8px; margin-top: 2px; color: #94a3b8; }
         
         .role-card.selected-citizen { background-color: #065f46; border-color: #10b981; }
         .role-card.selected-mafia { background-color: #991b1b; border-color: #ef4444; }
         .role-card.selected-free { background-color: #9a3412; border-color: #f97316; }
 
-        .counter-controls { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+        .counter-controls { display: flex; align-items: center; gap: 4px; margin-top: 2px; }
         .counter-btn { background: #334155; color: #fff; border: none; width: 22px; height: 22px; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
         /* نوار پایین */
@@ -169,7 +167,7 @@
         }
         .modal-role-title { font-size: 24px; font-weight: bold; margin: 12px 0 6px 0; padding: 10px; border-radius: 8px; }
 
-        /* صفحه گاد (مطابق اسکرین شات‌ها) */
+        /* صفحه گاد (مطابق اسکرین‌شات‌ها) */
         .god-header-bar {
             display: flex;
             justify-content: space-between;
@@ -197,26 +195,50 @@
             background: #1e293b;
             border: 1px solid #334155;
             border-radius: 10px;
-            padding: 10px 14px;
+            padding: 8px 12px;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        .god-player-row.dead { opacity: 0.4; background: #0f172a; }
+        .god-player-row.dead { opacity: 0.45; background: #0f172a; }
 
-        .player-info { display: flex; align-items: center; gap: 10px; }
-        .player-num { font-size: 16px; font-weight: bold; color: #38bdf8; width: 25px; }
-        .player-role-text { font-size: 13px; font-weight: bold; }
+        .player-info { display: flex; align-items: center; gap: 8px; }
+        .player-num { font-size: 14px; font-weight: bold; color: #38bdf8; width: 22px; }
+        .player-role-text { font-size: 12px; font-weight: bold; }
+
+        .player-actions { display: flex; align-items: center; gap: 10px; }
+
+        .warning-control {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            background: #0f172a;
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            font-size: 11px;
+        }
+        .warning-btn {
+            background: #334155;
+            color: #fff;
+            border: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
         .alive-checkbox {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             accent-color: #22c55e;
             cursor: pointer;
         }
 
-        /* آمار پایین صفحه گاد */
+        /* آمار پایین صفحه گاد (مطابق اسکرین‌شات) */
         .god-stats-panel {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -225,8 +247,35 @@
             margin-top: 15px;
             font-size: 12px;
         }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; text-align: center; }
-        .stat-box { background: #1e293b; padding: 6px; border-radius: 6px; border: 1px solid #334155; }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px dashed #1e293b;
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; text-align: center; }
+        .stat-box { background: #1e293b; padding: 6px; border-radius: 6px; border: 1px solid #334155; font-size: 11px; }
+
+        .inquiry-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+        }
+        .inquiry-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -291,10 +340,10 @@
         </div>
     </div>
 
-    <!-- صفحه ۳: پنل مدیریت گاد -->
+    <!-- صفحه ۳: پنل مدیریت گاد (طابق دقیق با اسکرین‌شات‌ها) -->
     <div id="god-screen" class="screen">
         <div class="god-header-bar">
-            <span style="font-weight: bold; font-size: 13px;">فهرست بازیکنان</span>
+            <span style="font-weight: bold; font-size: 13px;">ترتیب نوبت پلیرها</span>
             <button class="toggle-btn" onclick="toggleRolesVisibility()">
                 <span>🔄</span>
                 <span id="toggle-role-text">مخفی‌سازی نقش‌ها</span>
@@ -303,12 +352,32 @@
 
         <div id="god-players-container"></div>
 
-        <!-- خلاصه آمار بازی -->
+        <!-- خلاصه آمار بازی (طابق اسکرین شات) -->
         <div class="god-stats-panel">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; color: #cbd5e1;">
-                <span>افراد حاضر: <strong id="stat-alive-total">۱۰</strong></span>
-                <span>افراد خارج شده: <strong id="stat-dead-total">۰</strong></span>
+            <div class="stats-row">
+                <span>افراد حاضر: <strong id="stat-alive-total" style="color:#38bdf8;">۱۰</strong></span>
+                <span>افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
             </div>
+
+            <!-- کنترل استعلام وضعیت -->
+            <div class="stats-row" style="margin-top: 6px;">
+                <span>استعلام وضعیت: <strong id="inquiry-count-text" style="color:#f59e0b;">۰</strong></span>
+                <div class="inquiry-control">
+                    <button class="inquiry-btn" onclick="changeInquiry(-1)">-</button>
+                    <button class="inquiry-btn" style="background:#10b981;" onclick="changeInquiry(1)">+</button>
+                </div>
+            </div>
+
+            <!-- آمار افراد خارج شده -->
+            <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد خارج شده:</div>
+            <div class="stats-grid">
+                <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-dead">۰</span></div>
+                <div class="stat-box" style="color: #fca5a5;">مافیا: <span id="stat-mafia-dead">۰</span></div>
+                <div class="stat-box" style="color: #fdba74;">مستقل: <span id="stat-free-dead">۰</span></div>
+            </div>
+
+            <!-- آمار افراد حاضر -->
+            <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد حاضر (زنده):</div>
             <div class="stats-grid">
                 <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-alive">۰</span></div>
                 <div class="stat-box" style="color: #fca5a5;">مافیا: <span id="stat-mafia-alive">۰</span></div>
@@ -339,6 +408,7 @@
     </div>
 
     <script>
+        // بانک جامع تمام نقش‌های اولیه و جدید
         const ALL_ROLES = {
             citizen: [
                 { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
@@ -352,6 +422,22 @@
                 { id: 'c_takavar', name: 'تکاور', teamLabel: 'گروه شهروندی' },
                 { id: 'c_roointan', name: 'رویین‌تن', teamLabel: 'گروه شهروندی' },
                 { id: 'c_mohafez', name: 'محافظ', teamLabel: 'گروه شهروندی' },
+                { id: 'c_kashish', name: 'کشیش', teamLabel: 'گروه شهروندی' },
+                { id: 'c_bakere', name: 'باکره', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ghazi', name: 'قاضی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_bomber', name: 'بمبر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_faramason', name: 'فراماسون', teamLabel: 'گروه شهروندی' },
+                { id: 'c_fadaei', name: 'فدایی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_kalantar', name: 'کلانتر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_cowboy', name: 'کابوی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_hacker', name: 'هکر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_nanva', name: 'نانوا', teamLabel: 'گروه شهروندی' },
+                { id: 'c_fereshte', name: 'فرشته', teamLabel: 'گروه شهروندی' },
+                { id: 'c_khabarnegar', name: 'خبرنگار', teamLabel: 'گروه شهروندی' },
+                { id: 'c_dastkaj', name: 'دست کج', teamLabel: 'گروه شهروندی' },
+                { id: 'c_shekarchi', name: 'شکارچی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_zendanban', name: 'زندانبان', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ghahreman', name: 'قهرمان', teamLabel: 'گروه شهروندی' },
                 { id: 'c_ocean', name: 'اوشن', teamLabel: 'گروه شهروندی' },
                 { id: 'c_herfehei', name: 'حرفه‌ای', teamLabel: 'گروه شهروندی' },
                 { id: 'c_pezeshk', name: 'پزشک', teamLabel: 'گروه شهروندی' },
@@ -373,19 +459,39 @@
                 { id: 'm_jadoogar', name: 'جادوگر', teamLabel: 'گروه مافیا' },
                 { id: 'm_jallad', name: 'جلاد', teamLabel: 'گروه مافیا' },
                 { id: 'm_mozakere', name: 'مذاکره‌کننده', teamLabel: 'گروه مافیا' },
-                { id: 'm_lecter', name: 'دکتر لکتر', teamLabel: 'گروه مافیا' }
+                { id: 'm_lecter', name: 'دکتر لکتر', teamLabel: 'گروه مافیا' },
+                { id: 'm_silencer', name: 'سايلنسر', teamLabel: 'گروه مافیا' },
+                { id: 'm_vakeel', name: 'وکیل', teamLabel: 'گروه مافیا' },
+                { id: 'm_terorist', name: 'تروریست', teamLabel: 'گروه مافیا' },
+                { id: 'm_mardeghavi', name: 'مرد قوی', teamLabel: 'گروه مافیا' },
+                { id: 'm_tohamatzan', name: 'تهمت زن', teamLabel: 'گروه مافیا' },
+                { id: 'm_afsangar', name: 'افسونگر', teamLabel: 'گروه مافیا' },
+                { id: 'm_dozd', name: 'دزد', teamLabel: 'گروه مافیا' },
+                { id: 'm_jasoos', name: 'جاسوس', teamLabel: 'گروه مافیا' },
+                { id: 'm_samsaz', name: 'سم ساز', teamLabel: 'گروه مافیا' },
+                { id: 'm_nano', name: 'نانو', teamLabel: 'گروه مافیا' },
+                { id: 'm_ghatle_herfehei', name: 'قاتل حرفه‌ای', teamLabel: 'گروه مافیا' },
+                { id: 'm_jalab', name: 'جلب', teamLabel: 'گروه مافیا' },
+                { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' },
+                { id: 'm_capo', name: 'کاپو', teamLabel: 'گروه مافیا' }
             ],
             free: [
                 { id: 'f_zodiac', name: 'زودیاک', teamLabel: 'گروه مستقل' },
                 { id: 'f_killer', name: 'قاتل (کیلر)', teamLabel: 'گروه مستقل' },
-                { id: 'f_joker', name: 'جوکر', teamLabel: 'گروه مستقل' }
+                { id: 'f_joker', name: 'جوکر', teamLabel: 'گروه مستقل' },
+                { id: 'f_delroba', name: 'دلربا', teamLabel: 'گروه مستقل' },
+                { id: 'f_sandika', name: 'سندیکا', teamLabel: 'گروه مستقل' },
+                { id: 'f_gorgnama', name: 'گرگ‌نما', teamLabel: 'گروه مستقل' },
+                { id: 'f_hezarchehre', name: 'هزارچهره', teamLabel: 'گروه مستقل' }
             ]
         };
 
         let selectedRoles = {};
         let assignedCards = [];
+        let pickedHistory = []; // ثبت تاریخچه کارت کشیدن به ترتیب
         let openedCount = 0;
         let showRolesInGodView = true;
+        let inquiryCount = 0;
 
         window.onload = () => {
             renderRoles();
@@ -521,7 +627,7 @@
                 ALL_ROLES[team].forEach(role => {
                     const count = selectedRoles[role.id] || 0;
                     for (let i = 0; i < count; i++) {
-                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true });
+                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0 });
                     }
                 });
             });
@@ -532,7 +638,9 @@
             }
 
             assignedCards = rolePool;
+            pickedHistory = [];
             openedCount = 0;
+            inquiryCount = 0;
 
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
@@ -587,6 +695,14 @@
                 if (!cardEl.classList.contains('opened')) {
                     cardEl.classList.add('opened');
                     cardEl.innerText = '✓';
+                    
+                    // ثبت دقیق نوبت انتخاب پلیر
+                    pickedHistory.push({
+                        pickOrder: pickedHistory.length + 1,
+                        cardNumber: currentCardIndex + 1,
+                        role: assignedCards[currentCardIndex]
+                    });
+
                     openedCount++;
                     if (openedCount === assignedCards.length) {
                         document.getElementById('god-btn').style.display = 'block';
@@ -604,7 +720,9 @@
             const container = document.getElementById('god-players-container');
             container.innerHTML = '';
 
-            assignedCards.forEach((role, idx) => {
+            // رندر بر اساس ترتیب نوبت کارت کشیدن پلیرها
+            pickedHistory.forEach((item, idx) => {
+                const role = item.role;
                 const row = document.createElement('div');
                 row.className = `god-player-row ${role.isAlive ? '' : 'dead'}`;
                 
@@ -612,10 +730,25 @@
 
                 row.innerHTML = `
                     <div class="player-info">
-                        <span class="player-num">${idx + 1}</span>
-                        <span class="player-role-text">${roleDisplay}</span>
+                        <span class="player-num">${item.pickOrder}</span>
+                        <div>
+                            <div class="player-role-text">${roleDisplay}</div>
+                            <div style="font-size:9px; color:#64748b;">کارت شماره ${item.cardNumber}</div>
+                        </div>
                     </div>
-                    <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
+                    
+                    <div class="player-actions">
+                        <!-- اخطار -->
+                        <div class="warning-control">
+                            <span>اخطار:</span>
+                            <button class="warning-btn" onclick="changeWarning(${idx}, -1)">-</button>
+                            <span style="font-weight:bold; color:#f59e0b;" id="warn-count-${idx}">${role.warnings || 0}</span>
+                            <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
+                        </div>
+                        
+                        <!-- زنده/حذف -->
+                        <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
+                    </div>
                 `;
                 container.appendChild(row);
             });
@@ -623,9 +756,23 @@
             updateGodStats();
         }
 
-        function togglePlayerAlive(index) {
-            assignedCards[index].isAlive = !assignedCards[index].isAlive;
+        function togglePlayerAlive(historyIndex) {
+            pickedHistory[historyIndex].role.isAlive = !pickedHistory[historyIndex].role.isAlive;
             renderGodList();
+        }
+
+        function changeWarning(historyIndex, delta) {
+            let current = pickedHistory[historyIndex].role.warnings || 0;
+            current += delta;
+            if (current < 0) current = 0;
+            pickedHistory[historyIndex].role.warnings = current;
+            document.getElementById(`warn-count-${historyIndex}`).innerText = current;
+        }
+
+        function changeInquiry(delta) {
+            inquiryCount += delta;
+            if (inquiryCount < 0) inquiryCount = 0;
+            document.getElementById('inquiry-count-text').innerText = inquiryCount;
         }
 
         function toggleRolesVisibility() {
@@ -635,13 +782,19 @@
         }
 
         function updateGodStats() {
-            const total = assignedCards.length;
-            const aliveTotal = assignedCards.filter(r => r.isAlive).length;
+            const total = pickedHistory.length;
+            const aliveTotal = pickedHistory.filter(h => h.role.isAlive).length;
             const deadTotal = total - aliveTotal;
 
-            const citizenAlive = assignedCards.filter(r => r.team === 'citizen' && r.isAlive).length;
-            const mafiaAlive = assignedCards.filter(r => r.team === 'mafia' && r.isAlive).length;
-            const freeAlive = assignedCards.filter(r => r.team === 'free' && r.isAlive).length;
+            // آمار حاضران (زنده)
+            const citizenAlive = pickedHistory.filter(h => h.role.team === 'citizen' && h.role.isAlive).length;
+            const mafiaAlive = pickedHistory.filter(h => h.role.team === 'mafia' && h.role.isAlive).length;
+            const freeAlive = pickedHistory.filter(h => h.role.team === 'free' && h.role.isAlive).length;
+
+            // آمار خارج‌شدگان (حذف شده)
+            const citizenDead = pickedHistory.filter(h => h.role.team === 'citizen' && !h.role.isAlive).length;
+            const mafiaDead = pickedHistory.filter(h => h.role.team === 'mafia' && !h.role.isAlive).length;
+            const freeDead = pickedHistory.filter(h => h.role.team === 'free' && !h.role.isAlive).length;
 
             document.getElementById('stat-alive-total').innerText = aliveTotal;
             document.getElementById('stat-dead-total').innerText = deadTotal;
@@ -649,6 +802,10 @@
             document.getElementById('stat-citizen-alive').innerText = citizenAlive;
             document.getElementById('stat-mafia-alive').innerText = mafiaAlive;
             document.getElementById('stat-free-alive').innerText = freeAlive;
+
+            document.getElementById('stat-citizen-dead').innerText = citizenDead;
+            document.getElementById('stat-mafia-dead').innerText = mafiaDead;
+            document.getElementById('stat-free-dead').innerText = freeDead;
         }
 
         function showScreen(screenId) {
