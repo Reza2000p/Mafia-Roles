@@ -21,7 +21,7 @@
             -webkit-user-select: none;
         }
 
-        body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 140px; }
+        body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 85px; }
 
         /* هدر اصلی */
         .app-header {
@@ -156,7 +156,7 @@
         }
         .draw-card.opened { background: #0f172a; border-color: #334155; color: #475569; cursor: not-allowed; opacity: 0.5; }
 
-        /* مودال نمایش محرمانه */
+        /* مودال‌ها */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -308,7 +308,7 @@
         /* استایل گزارش نهایی */
         .report-textarea {
             width: 100%;
-            height: 220px;
+            height: 200px;
             background: #0f172a;
             color: #e2e8f0;
             border: 1px solid #334155;
@@ -319,7 +319,7 @@
             outline: none;
             user-select: text;
             -webkit-user-select: text;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -339,16 +339,31 @@
             <span style="font-size: 13px;">نفر</span>
         </div>
 
-        <div class="setup-box">
-            <span style="font-size: 12px; color: #94a3b8;">انتخاب سناریو:</span>
-            <select id="scenario-select" class="select-custom" onchange="applyScenario()">
-                <option value="custom">انتخاب دستی (دلخواه)</option>
-                <option value="capo10">سناریو کاپو (۱۰ نفره)</option>
-                <option value="capo12">سناریو کاپو (۱۲ نفره)</option>
-                <option value="nato">سناریو ناتو (۱۰ نفره)</option>
-                <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
-                <option value="zodiac">سناریو زودیاک (۱۲ نفره)</option>
-            </select>
+        <!-- باکس سناریوها و ذخیره شخصی -->
+        <div class="setup-box" style="flex-direction: column; gap: 8px; align-items: stretch;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 12px; color: #94a3b8;">انتخاب سناریو:</span>
+                <select id="scenario-select" class="select-custom" onchange="applyScenario()">
+                    <option value="custom">انتخاب دستی (دلخواه)</option>
+                    <optgroup label="⭐ سناریوهای شخصی شما" id="custom-scenarios-group"></optgroup>
+                    <optgroup label="📜 سناریوهای پیش‌فرض">
+                        <option value="capo10">سناریو کاپو (۱۰ نفره)</option>
+                        <option value="capo12">سناریو کاپو (۱۲ نفره)</option>
+                        <option value="nato">سناریو ناتو (۱۰ نفره)</option>
+                        <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
+                        <option value="zodiac">سناریو زودیاک (۱۲ نفره)</option>
+                    </optgroup>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 6px;">
+                <button onclick="saveCurrentScenario()" style="flex: 1; background: #0284c7; color: #fff; border: none; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">
+                    💾 ذخیره این چیدمان به عنوان سناریو جدید
+                </button>
+                <button onclick="deleteCurrentScenario()" id="delete-scenario-btn" style="display: none; background: #991b1b; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">
+                    🗑️ حذف
+                </button>
+            </div>
         </div>
 
         <div class="section-header bg-citizen" id="citizen-header">گروه شهروندی: ۰</div>
@@ -374,7 +389,7 @@
             <h2 style="font-size: 15px;">کارت شماره خود را انتخاب کنید</h2>
         </div>
         <p style="text-align: center; color: #94a3b8; font-size: 11px;">
-            هر بازیکن شماره خود را باز کرده، نقش را ببیند و تایید کند.
+            ترتیب شماره‌ها کاملاً تصادفی است. هر بازیکن شماره خود را باز کند.
         </p>
         <div class="cards-grid" id="cards-container"></div>
         
@@ -440,7 +455,7 @@
     <!-- مودال گزارش پایان بازی -->
     <div class="modal-overlay" id="report-modal">
         <div class="modal-card" style="max-width: 380px;">
-            <h3 style="font-size: 16px; color: #f87171; margin-bottom: 8px;">📊 گزارش نهایی بازی</h3>
+            <h3 style="font-size: 16px; color: #f87171; margin-bottom: 8px;">📊 گزارش نهایی نقش‌ها</h3>
             <textarea readonly id="report-text-area" class="report-textarea"></textarea>
             
             <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -559,12 +574,85 @@
         let inquiryCount = 0;
 
         window.onload = () => {
+            renderCustomScenariosOptions();
             renderRoles();
             updateCounts();
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW register skipped:', err));
             }
         };
+
+        /* مدیریت سناریوهای شخصی ذخیره شده در localStorage */
+        function getSavedScenarios() {
+            try {
+                return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]');
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function renderCustomScenariosOptions() {
+            const group = document.getElementById('custom-scenarios-group');
+            const saved = getSavedScenarios();
+            group.innerHTML = '';
+            if (saved.length === 0) {
+                const opt = document.createElement('option');
+                opt.disabled = true;
+                opt.innerText = '(سناریوی شخصی ثبت نشده)';
+                group.appendChild(opt);
+            } else {
+                saved.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = `user_${s.id}`;
+                    opt.innerText = `⭐ ${s.name} (${s.count} نفره)`;
+                    group.appendChild(opt);
+                });
+            }
+        }
+
+        function saveCurrentScenario() {
+            let citizenCount = 0, mafiaCount = 0, freeCount = 0;
+            ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id] || 0));
+            ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
+            ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
+            const total = citizenCount + mafiaCount + freeCount;
+
+            if (total === 0) {
+                alert('لطفاً ابتدا حداقل یک نقش را انتخاب کنید تا بتوانید سناریو را ذخیره کنید.');
+                return;
+            }
+
+            const name = prompt('لطفاً یک نام برای این سناریوی شخصی وارد کنید:');
+            if (!name || !name.trim()) return;
+
+            const saved = getSavedScenarios();
+            const newScenario = {
+                id: Date.now(),
+                name: name.trim(),
+                count: total,
+                roles: { ...selectedRoles }
+            };
+            saved.push(newScenario);
+            localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+            renderCustomScenariosOptions();
+            document.getElementById('scenario-select').value = `user_${newScenario.id}`;
+            applyScenario();
+            alert(`سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`);
+        }
+
+        function deleteCurrentScenario() {
+            const val = document.getElementById('scenario-select').value;
+            if (!val.startsWith('user_')) return;
+            const scenarioId = parseInt(val.replace('user_', ''));
+            if (confirm('آیا از حذف این سناریوی شخصی مطمئن هستید؟')) {
+                let saved = getSavedScenarios();
+                saved = saved.filter(s => s.id !== scenarioId);
+                localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+                renderCustomScenariosOptions();
+                document.getElementById('scenario-select').value = 'custom';
+                applyScenario();
+            }
+        }
 
         function renderRoles() {
             ['citizen', 'mafia', 'free'].forEach(team => {
@@ -650,7 +738,6 @@
 
             const totalSelected = citizenCount + mafiaCount + freeCount;
 
-            // تنظیم خودکار تعداد بازیکنان بدون محدودیت
             if (totalSelected > 0) {
                 document.getElementById('player-count').value = totalSelected;
             }
@@ -665,21 +752,34 @@
             selectedRoles = {};
             document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
 
-            if (val === 'capo10') {
-                document.getElementById('player-count').value = 10;
-                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
-            } else if (val === 'capo12') {
-                document.getElementById('player-count').value = 12;
-                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'm_khabarchein': 1, 'c_kadkhoda': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
-            } else if (val === 'nato') {
-                document.getElementById('player-count').value = 10;
-                selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_doctor': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
-            } else if (val === 'bazpors') {
-                document.getElementById('player-count').value = 10;
-                selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_shaiad': 1, 'c_mohaghegh': 1, 'c_roointan': 1, 'c_bazpors': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_simple': 2 };
-            } else if (val === 'zodiac') {
-                document.getElementById('player-count').value = 12;
-                selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
+            if (val.startsWith('user_')) {
+                const scenarioId = parseInt(val.replace('user_', ''));
+                const saved = getSavedScenarios();
+                const found = saved.find(s => s.id === scenarioId);
+                if (found) {
+                    document.getElementById('player-count').value = found.count;
+                    selectedRoles = { ...found.roles };
+                    document.getElementById('delete-scenario-btn').style.display = 'inline-block';
+                }
+            } else {
+                document.getElementById('delete-scenario-btn').style.display = 'none';
+
+                if (val === 'capo10') {
+                    document.getElementById('player-count').value = 10;
+                    selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
+                } else if (val === 'capo12') {
+                    document.getElementById('player-count').value = 12;
+                    selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'm_khabarchein': 1, 'c_kadkhoda': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
+                } else if (val === 'nato') {
+                    document.getElementById('player-count').value = 10;
+                    selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_doctor': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
+                } else if (val === 'bazpors') {
+                    document.getElementById('player-count').value = 10;
+                    selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_shaiad': 1, 'c_mohaghegh': 1, 'c_roointan': 1, 'c_bazpors': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_simple': 2 };
+                } else if (val === 'zodiac') {
+                    document.getElementById('player-count').value = 12;
+                    selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
+                }
             }
 
             Object.keys(selectedRoles).forEach(id => {
@@ -714,12 +814,19 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
             
-            assignedCards.forEach((_, index) => {
+            // چیدمان تصادفی دکمه‌های شماره‌دار کارت‌ها روی صفحه
+            let cardDisplayIndices = Array.from({ length: assignedCards.length }, (_, i) => i);
+            for (let i = cardDisplayIndices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cardDisplayIndices[i], cardDisplayIndices[j]] = [cardDisplayIndices[j], cardDisplayIndices[i]];
+            }
+
+            cardDisplayIndices.forEach((cardIndex) => {
                 const card = document.createElement('div');
                 card.className = 'draw-card';
-                card.id = `draw-card-${index}`;
-                card.innerText = index + 1;
-                card.onclick = () => revealRole(index);
+                card.id = `draw-card-${cardIndex}`;
+                card.innerText = cardIndex + 1;
+                card.onclick = () => revealRole(cardIndex);
                 container.appendChild(card);
             });
 
@@ -876,37 +983,47 @@
             document.getElementById('stat-free-dead').innerText = freeDead;
         }
 
-        // تولید گزارش فقط با شماره/نام، نقش و گروه
+        // گزارش متنی سرشار از ایموجی و استایل رسمی
         function generateRawReport() {
             let r = `====================================\n`;
-            r += `       گزارش نهایی نقش‌ها            \n`;
-            r += `       طراحی: رضا پاکدل             \n`;
+            r += `       🎩 گزارش نهایی بازی مافیا 🎩      \n`;
+            r += `       ✒️ طراح و توسعه: رضا پاکدل        \n`;
             r += `====================================\n\n`;
 
+            r += `📜 فهرست و نوبت نقش‌های بازیکنان:\n`;
+            r += `------------------------------------\n`;
+
             pickedHistory.forEach(item => {
-                const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن ${item.pickOrder}`;
-                r += `${item.pickOrder}. ${pName} | نقش: ${item.role.name} | ${item.role.teamLabel}\n`;
+                const pName = item.role.playerName ? `👤 ${item.role.playerName}` : `👤 بازیکن نوبت ${item.pickOrder}`;
+                let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
+                r += `#️⃣ نوبت ${item.pickOrder} | ${pName}\n`;
+                r += `   🏷️ نقش: ${item.role.name}\n`;
+                r += `   🎭 گروه: ${item.role.teamLabel} ${teamEmoji}\n`;
+                r += `   🃏 کارت انتخابی: شماره ${item.cardNumber}\n`;
+                r += `....................................\n`;
             });
 
             r += `\n====================================\n`;
-            r += `طراحی و توسعه: رضا پاکدل`;
+            r += `🏁 پایان گزارش | 👑 دستیار تخصصی مافیا`;
             return r;
         }
 
         function generateHtmlReport() {
             let rows = '';
             pickedHistory.forEach(item => {
-                const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن ${item.pickOrder}`;
+                const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
                 let teamBg = item.role.team === 'citizen' ? '#064e3b' : (item.role.team === 'mafia' ? '#7f1d1d' : '#7c2d12');
                 let teamColor = item.role.team === 'citizen' ? '#6ee7b7' : (item.role.team === 'mafia' ? '#fca5a5' : '#fdba74');
+                let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
                 
                 rows += `
                 <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
                     <div>
-                        <span style="font-weight:bold; color:#38bdf8; font-size:14px;">#${item.pickOrder} - ${pName}</span>
-                        <div style="font-size:13px; font-weight:bold; color:#f8fafc; margin-top:4px;">نقش: ${item.role.name}</div>
+                        <span style="font-weight:bold; color:#38bdf8; font-size:14px;">#${item.pickOrder} - 👤 ${pName}</span>
+                        <div style="font-size:13px; font-weight:bold; color:#f8fafc; margin-top:4px;">🏷️ نقش: ${item.role.name}</div>
+                        <div style="font-size:10px; color:#64748b; margin-top:2px;">🃏 کارت انتخابی: شماره ${item.cardNumber}</div>
                     </div>
-                    <span style="background:${teamBg}; color:${teamColor}; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:bold;">${item.role.teamLabel}</span>
+                    <span style="background:${teamBg}; color:${teamColor}; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:bold;">${item.role.teamLabel} ${teamEmoji}</span>
                 </div>`;
             });
 
@@ -923,7 +1040,7 @@
 </head>
 <body>
     <h2>🏆 گزارش نهایی نقش‌های بازی</h2>
-    <p class="sub">طراحی و توسعه: رضا پاکدل</p>
+    <p class="sub">طراحی و توسعه تخصصی: رضا پاکدل</p>
     <div>${rows}</div>
 </body>
 </html>`;
