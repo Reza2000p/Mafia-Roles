@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mafia-pwa-v6';
+const CACHE_NAME = 'mafia-pwa-v7';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
