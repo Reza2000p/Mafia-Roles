@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mafia-pwa-v5';
+const CACHE_NAME = 'mafia-pwa-v6';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -20,7 +20,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // درخواست آیکون به‌صورت مجزا مدیریت شود تا 404 ندهد
   if (event.request.url.endsWith('favicon.ico')) {
     return;
   }

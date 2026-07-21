@@ -10,7 +10,6 @@
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
     <meta name="theme-color" content="#dc2626">
     <style>
-        /* بهینه‌سازی فونت‌ها برای نمایش شفاف و تمیز در حالت آنلاین و آفلاین */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -208,29 +207,45 @@
             background: #1e293b;
             border: 1px solid #334155;
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 8px 10px;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 6px;
         }
         .god-player-row.dead { opacity: 0.45; background: #0f172a; }
 
-        .player-info { display: flex; align-items: center; gap: 8px; }
-        .player-num { font-size: 14px; font-weight: bold; color: #38bdf8; width: 22px; }
-        .player-role-text { font-size: 12px; font-weight: bold; }
+        .player-info { display: flex; align-items: center; gap: 6px; flex: 1; }
+        .player-num { font-size: 13px; font-weight: bold; color: #38bdf8; width: 18px; }
+        
+        .player-name-input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            font-size: 11px;
+            padding: 4px 6px;
+            border-radius: 6px;
+            width: 85px;
+            outline: none;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+        .player-name-input:focus { border-color: #38bdf8; }
 
-        .player-actions { display: flex; align-items: center; gap: 10px; }
+        .player-role-text { font-size: 11px; font-weight: bold; flex: 1; }
+
+        .player-actions { display: flex; align-items: center; gap: 6px; }
 
         .warning-control {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
             background: #0f172a;
-            padding: 2px 6px;
+            padding: 2px 4px;
             border-radius: 6px;
             border: 1px solid #334155;
-            font-size: 11px;
+            font-size: 10px;
         }
         .warning-btn {
             background: #334155;
@@ -289,6 +304,23 @@
             font-weight: bold;
             cursor: pointer;
         }
+
+        /* استایل گزارش نهایی */
+        .report-textarea {
+            width: 100%;
+            height: 220px;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11px;
+            line-height: 1.6;
+            outline: none;
+            user-select: text;
+            -webkit-user-select: text;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -311,6 +343,8 @@
             <span style="font-size: 12px; color: #94a3b8;">انتخاب سناریو:</span>
             <select id="scenario-select" class="select-custom" onchange="applyScenario()">
                 <option value="custom">انتخاب دستی (دلخواه)</option>
+                <option value="capo10">سناریو کاپو (۱۰ نفره)</option>
+                <option value="capo12">سناریو کاپو (۱۲ نفره)</option>
                 <option value="nato">سناریو ناتو (۱۰ نفره)</option>
                 <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
                 <option value="zodiac">سناریو زودیاک (۱۲ نفره)</option>
@@ -356,7 +390,7 @@
     <!-- صفحه ۳: پنل مدیریت گاد -->
     <div id="god-screen" class="screen">
         <div class="god-header-bar">
-            <span style="font-weight: bold; font-size: 13px;">ترتیب نوبت پلیرها</span>
+            <span style="font-weight: bold; font-size: 13px;">ترتیب نوبت و ثبت اسم</span>
             <button class="toggle-btn" onclick="toggleRolesVisibility()">
                 <span>🔄</span>
                 <span id="toggle-role-text">مخفی‌سازی نقش‌ها</span>
@@ -395,10 +429,33 @@
             </div>
         </div>
 
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn-action" onclick="openReportModal()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+                🏁 اتمام بازی و دریافت گزارش
+            </button>
             <button class="btn-action" onclick="resetApp()" style="background: #334155;">
                 شروع بازی جدید 🔄
             </button>
+        </div>
+    </div>
+
+    <!-- مودال گزارش پایان بازی -->
+    <div class="modal-overlay" id="report-modal">
+        <div class="modal-card" style="max-width: 380px;">
+            <h3 style="font-size: 16px; color: #f87171; margin-bottom: 8px;">📊 گزارش نهایی بازی</h3>
+            <textarea readonly id="report-text-area" class="report-textarea"></textarea>
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn-action" style="background: #10b981; font-size: 13px;" onclick="copyReport()">
+                    📋 کپی گزارش در حافظه
+                </button>
+                <button class="btn-action" style="background: #3b82f6; font-size: 13px;" onclick="downloadReport()">
+                    📥 دانلود فایل متنی (.txt)
+                </button>
+                <button class="btn-action" style="background: #475569; font-size: 13px;" onclick="closeReportModal()">
+                    ↩️ بازگشت به بازی
+                </button>
+            </div>
         </div>
     </div>
 
@@ -418,7 +475,6 @@
     </div>
 
     <script>
-        // بانک نقش‌ها (اصلاح‌شده: ادغام پزشک در دکتر، انتقال خبرچین به مافیا، حذف کاپو)
         const ALL_ROLES = {
             citizen: [
                 { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
@@ -604,7 +660,13 @@
             selectedRoles = {};
             document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
 
-            if (val === 'nato') {
+            if (val === 'capo10') {
+                document.getElementById('player-count').value = 10;
+                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
+            } else if (val === 'capo12') {
+                document.getElementById('player-count').value = 12;
+                selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'm_khabarchein': 1, 'c_kadkhoda': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
+            } else if (val === 'nato') {
                 document.getElementById('player-count').value = 10;
                 selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_doctor': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
             } else if (val === 'bazpors') {
@@ -635,7 +697,7 @@
                 ALL_ROLES[team].forEach(role => {
                     const count = selectedRoles[role.id] || 0;
                     for (let i = 0; i < count; i++) {
-                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0 });
+                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0, playerName: '' });
                     }
                 });
             });
@@ -737,6 +799,7 @@
                 row.innerHTML = `
                     <div class="player-info">
                         <span class="player-num">${item.pickOrder}</span>
+                        <input type="text" class="player-name-input" placeholder="نام..." value="${role.playerName || ''}" oninput="updatePlayerName(${idx}, this.value)">
                         <div>
                             <div class="player-role-text">${roleDisplay}</div>
                             <div style="font-size:9px; color:#64748b;">کارت شماره ${item.cardNumber}</div>
@@ -758,6 +821,10 @@
             });
 
             updateGodStats();
+        }
+
+        function updatePlayerName(historyIndex, val) {
+            pickedHistory[historyIndex].role.playerName = val;
         }
 
         function togglePlayerAlive(historyIndex) {
@@ -808,6 +875,64 @@
             document.getElementById('stat-citizen-dead').innerText = citizenDead;
             document.getElementById('stat-mafia-dead').innerText = mafiaDead;
             document.getElementById('stat-free-dead').innerText = freeDead;
+        }
+
+        // توابع مربوط به گزارش نهایی
+        function generateReportText() {
+            let r = `====================================\n`;
+            r += `       گزارش نهایی بازی مافیا       \n`;
+            r += `       طراحی: رضا پاکدل            \n`;
+            r += `====================================\n\n`;
+            
+            const total = pickedHistory.length;
+            const aliveTotal = pickedHistory.filter(h => h.role.isAlive).length;
+            const deadTotal = total - aliveTotal;
+
+            r += `خلاصه وضعیت بازی:\n`;
+            r += `- تعداد کل بازیکنان: ${total}\n`;
+            r += `- بازیکنان زنده: ${aliveTotal}\n`;
+            r += `- بازیکنان حذف‌شده: ${deadTotal}\n`;
+            r += `- تعداد استعلام‌های وضعیت: ${inquiryCount}\n\n`;
+            r += `------------------------------------\n`;
+            r += `فهرست نقش‌های بازیکنان:\n`;
+            r += `------------------------------------\n`;
+
+            pickedHistory.forEach(item => {
+                const pName = item.role.playerName ? item.role.playerName : `بازیکن نوبت ${item.pickOrder}`;
+                const statusStr = item.role.isAlive ? '🟢 زنده' : '💀 حذف شده';
+                r += `👤 نوبت ${item.pickOrder} | نام: ${pName}\n`;
+                r += `   - کارت شماره: ${item.cardNumber}\n`;
+                r += `   - نقش: ${item.role.name} [${item.role.teamLabel}]\n`;
+                r += `   - وضعیت: ${statusStr} | اخطار: ${item.role.warnings || 0}\n`;
+                r += `....................................\n`;
+            });
+
+            r += `\nپایان گزارش - طراحی شده توسط رضا پاکدل`;
+            return r;
+        }
+
+        function openReportModal() {
+            document.getElementById('report-text-area').value = generateReportText();
+            document.getElementById('report-modal').style.display = 'flex';
+        }
+
+        function closeReportModal() {
+            document.getElementById('report-modal').style.display = 'none';
+        }
+
+        function copyReport() {
+            const txtArea = document.getElementById('report-text-area');
+            navigator.clipboard.writeText(txtArea.value).then(() => {
+                alert('گزارش با موفقیت در حافظه کپی شد!');
+            });
+        }
+
+        function downloadReport() {
+            const blob = new Blob([generateReportText()], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Mafia_Report_${Date.now()}.txt`;
+            link.click();
         }
 
         function showScreen(screenId) {
