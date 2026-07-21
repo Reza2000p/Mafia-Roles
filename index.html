@@ -48,15 +48,16 @@
             justify-content: space-between;
         }
         .player-input {
-            width: 65px;
+            width: 70px;
             background: #0f172a;
-            border: 1px solid #475569;
+            border: 1px solid #334155;
             color: #38bdf8;
             font-size: 18px;
             font-weight: bold;
             text-align: center;
             border-radius: 8px;
             padding: 4px;
+            cursor: not-allowed;
         }
 
         .select-custom {
@@ -217,16 +218,17 @@
         .god-player-row.dead { opacity: 0.45; background: #0f172a; }
 
         .player-info { display: flex; align-items: center; gap: 6px; flex: 1; }
-        .player-num { font-size: 13px; font-weight: bold; color: #38bdf8; width: 18px; }
+        .player-num { font-size: 13px; font-weight: bold; color: #38bdf8; width: 16px; }
         
+        /* کادر نام بزرگ‌تر و راحت‌تر برای تایپ */
         .player-name-input {
             background: #0f172a;
             border: 1px solid #334155;
             color: #f8fafc;
-            font-size: 11px;
-            padding: 4px 6px;
+            font-size: 12px;
+            padding: 5px 8px;
             border-radius: 6px;
-            width: 85px;
+            width: 110px;
             outline: none;
             user-select: text;
             -webkit-user-select: text;
@@ -335,7 +337,8 @@
     <div id="setup-screen" class="screen active">
         <div class="setup-box">
             <span style="font-size: 13px;">تعداد بازیکنان:</span>
-            <input type="number" id="player-count" class="player-input" value="10" min="1" max="100" onchange="updateCounts()">
+            <!-- غیرقابل تغییر دست‌ساز (خودکار اپدیت می‌شود) -->
+            <input type="number" id="player-count" class="player-input" value="0" readonly>
             <span style="font-size: 13px;">نفر</span>
         </div>
 
@@ -378,7 +381,7 @@
         <div class="bottom-bar">
             <button class="btn-action" id="start-btn" onclick="distributeRoles()">
                 <span>شروع و تقسیم نقش‌ها</span>
-                <span id="btn-count">(۰)</span>
+                <span id="btn-count">(۰ نقش)</span>
             </button>
         </div>
     </div>
@@ -582,7 +585,6 @@
             }
         };
 
-        /* مدیریت سناریوهای شخصی ذخیره شده در localStorage */
         function getSavedScenarios() {
             try {
                 return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]');
@@ -738,9 +740,8 @@
 
             const totalSelected = citizenCount + mafiaCount + freeCount;
 
-            if (totalSelected > 0) {
-                document.getElementById('player-count').value = totalSelected;
-            }
+            // محاسبه دقیق و همیشگی تعداد بازیکنان
+            document.getElementById('player-count').value = totalSelected;
 
             const btn = document.getElementById('start-btn');
             document.getElementById('btn-count').innerText = `(${totalSelected} نقش)`;
@@ -757,7 +758,6 @@
                 const saved = getSavedScenarios();
                 const found = saved.find(s => s.id === scenarioId);
                 if (found) {
-                    document.getElementById('player-count').value = found.count;
                     selectedRoles = { ...found.roles };
                     document.getElementById('delete-scenario-btn').style.display = 'inline-block';
                 }
@@ -765,19 +765,14 @@
                 document.getElementById('delete-scenario-btn').style.display = 'none';
 
                 if (val === 'capo10') {
-                    document.getElementById('player-count').value = 10;
                     selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
                 } else if (val === 'capo12') {
-                    document.getElementById('player-count').value = 12;
                     selectedRoles = { 'm_godfather': 1, 'm_jadoogar': 1, 'm_jallad': 1, 'm_khabarchein': 1, 'c_kadkhoda': 1, 'c_karagah': 1, 'c_maznoon': 1, 'c_zaresaz': 1, 'c_attar': 1, 'c_vares': 1, 'c_simple': 2 };
                 } else if (val === 'nato') {
-                    document.getElementById('player-count').value = 10;
                     selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_gorogangir': 1, 'c_doctor': 1, 'c_negahban': 1, 'c_tofangdar': 1, 'c_karagah': 1, 'c_takavar': 1, 'c_simple': 2 };
                 } else if (val === 'bazpors') {
-                    document.getElementById('player-count').value = 10;
                     selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_shaiad': 1, 'c_mohaghegh': 1, 'c_roointan': 1, 'c_bazpors': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_simple': 2 };
                 } else if (val === 'zodiac') {
-                    document.getElementById('player-count').value = 12;
                     selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
                 }
             }
@@ -814,7 +809,6 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
             
-            // چیدمان تصادفی دکمه‌های شماره‌دار کارت‌ها روی صفحه
             let cardDisplayIndices = Array.from({ length: assignedCards.length }, (_, i) => i);
             for (let i = cardDisplayIndices.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -983,31 +977,27 @@
             document.getElementById('stat-free-dead').innerText = freeDead;
         }
 
-        // گزارش متنی سرشار از ایموجی و استایل رسمی
+        /* تولید خروجی متنی دقیقاً در ۲ خط با جداکننده | */
         function generateRawReport() {
             let r = `====================================\n`;
             r += `       🎩 گزارش نهایی بازی مافیا 🎩      \n`;
             r += `       ✒️ طراح و توسعه: رضا پاکدل        \n`;
             r += `====================================\n\n`;
 
-            r += `📜 فهرست و نوبت نقش‌های بازیکنان:\n`;
-            r += `------------------------------------\n`;
-
             pickedHistory.forEach(item => {
-                const pName = item.role.playerName ? `👤 ${item.role.playerName}` : `👤 بازیکن نوبت ${item.pickOrder}`;
+                const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
-                r += `#️⃣ نوبت ${item.pickOrder} | ${pName}\n`;
-                r += `   🏷️ نقش: ${item.role.name}\n`;
-                r += `   🎭 گروه: ${item.role.teamLabel} ${teamEmoji}\n`;
-                r += `   🃏 کارت انتخابی: شماره ${item.cardNumber}\n`;
-                r += `....................................\n`;
+                
+                r += `#️⃣ نوبت ${item.pickOrder} | 👤 ${pName} | 🏷️ نقش: ${item.role.name}\n`;
+                r += `🎭 گروه: ${item.role.teamLabel} ${teamEmoji} | 🃏 کارت: شماره ${item.cardNumber}\n`;
+                r += `------------------------------------\n`;
             });
 
-            r += `\n====================================\n`;
-            r += `🏁 پایان گزارش | 👑 دستیار تخصصی مافیا`;
+            r += `\n🏁 پایان گزارش | 👑 دستیار تخصصی مافیا - رضا پاکدل`;
             return r;
         }
 
+        /* تولید گزارش HTML شیک، ریسپانسیو و بهینه برای گوشی در ۲ خط */
         function generateHtmlReport() {
             let rows = '';
             pickedHistory.forEach(item => {
@@ -1017,13 +1007,15 @@
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
                 
                 rows += `
-                <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <span style="font-weight:bold; color:#38bdf8; font-size:14px;">#${item.pickOrder} - 👤 ${pName}</span>
-                        <div style="font-size:13px; font-weight:bold; color:#f8fafc; margin-top:4px;">🏷️ نقش: ${item.role.name}</div>
-                        <div style="font-size:10px; color:#64748b; margin-top:2px;">🃏 کارت انتخابی: شماره ${item.cardNumber}</div>
+                <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:10px 12px; margin-bottom:8px;">
+                    <div style="font-size:13px; font-weight:bold; color:#f8fafc; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <span>#️⃣ نوبت ${item.pickOrder} | 👤 ${pName}</span>
+                        <span>🏷️ نقش: <strong style="color:#38bdf8;">${item.role.name}</strong></span>
                     </div>
-                    <span style="background:${teamBg}; color:${teamColor}; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:bold;">${item.role.teamLabel} ${teamEmoji}</span>
+                    <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #334155; padding-top:6px;">
+                        <span>🎭 گروه: <strong style="color:${teamColor};">${item.role.teamLabel}</strong> ${teamEmoji}</span>
+                        <span>🃏 کارت: شماره <strong>${item.cardNumber}</strong></span>
+                    </div>
                 </div>`;
             });
 
@@ -1031,16 +1023,21 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>گزارش نهایی نقش‌ها - رضا پاکدل</title>
     <style>
-        body { background-color: #0b0f19; color: #f1f5f9; font-family: system-ui, Tahoma, sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; }
-        h2 { color: #f87171; text-align: center; font-size: 18px; margin-bottom: 2px; }
-        p.sub { color: #94a3b8; text-align: center; font-size: 11px; margin-bottom: 20px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: #0b0f19; color: #f1f5f9; padding: 14px; max-width: 480px; margin: 0 auto; }
+        .header-box { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 14px; }
+        h2 { color: #f87171; font-size: 17px; margin-bottom: 2px; font-weight: 700; }
+        p.sub { color: #94a3b8; font-size: 11px; }
     </style>
 </head>
 <body>
-    <h2>🏆 گزارش نهایی نقش‌های بازی</h2>
-    <p class="sub">طراحی و توسعه تخصصی: رضا پاکدل</p>
+    <div class="header-box">
+        <h2>🏆 گزارش نهایی نقش‌های بازی</h2>
+        <p class="sub">طراحی و توسعه تخصصی: رضا پاکدل</p>
+    </div>
     <div>${rows}</div>
 </body>
 </html>`;
