@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تقسیم نقش مافیا</title>
+    <!-- وب اپلیکیشن پیشرو (PWA) -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23121212%22%2C%22theme_color%22%3A%22%23b71c1c%22%7D">
+    <meta name="theme-color" content="#b71c1c">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, Arial, sans-serif; user-select: none; -webkit-user-select: none; }
+        body { background-color: #121212; color: #ffffff; padding: 10px; padding-bottom: 90px; }
+        .header { display: flex; align-items: center; justify-content: center; gap: 10px; background-color: #1e1e1e; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333; }
+        .header h2 { font-size: 18px; color: #fff; }
+        .player-count-input { width: 60px; background: #2a2a2a; border: 1px solid #444; color: #00ffcc; font-size: 18px; font-weight: bold; text-align: center; border-radius: 6px; padding: 4px; }
+        .scenario-box { background-color: #1e1e1e; padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #333; display: flex; align-items: center; justify-content: space-between; }
+        .scenario-box select { background: #2a2a2a; color: #fff; border: 1px solid #555; padding: 6px 10px; border-radius: 6px; font-size: 13px; outline: none; }
+        .section-title { padding: 8px 15px; border-radius: 8px; font-size: 15px; font-weight: bold; text-align: center; margin-top: 15px; margin-bottom: 10px; }
+        .bg-citizen { background-color: #1b5e20; color: #a5d6a7; border: 1px solid #2e7d32; }
+        .bg-mafia { background-color: #b71c1c; color: #ef9a9a; border: 1px solid #c62828; }
+        .bg-free { background-color: #e65100; color: #ffe0b2; border: 1px solid #ef6c00; }
+        .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .role-card { background-color: #1c1c1c; border: 1px solid #333; border-radius: 6px; padding: 8px 4px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 11px; transition: 0.1s; }
+        .role-card.selected { background-color: #2e3b2b; border-color: #4caf50; }
+        .role-card.mafia-selected { background-color: #3b2323; border-color: #f44336; }
+        .role-card.free-selected { background-color: #3b2f23; border-color: #ff9800; }
+        .checkbox-custom { width: 16px; height: 16px; border: 1px solid #666; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10px; background: #111; }
+        .selected .checkbox-custom { background: #4caf50; border-color: #4caf50; color: #fff; }
+        .mafia-selected .checkbox-custom { background: #f44336; border-color: #f44336; color: #fff; }
+        .free-selected .checkbox-custom { background: #ff9800; border-color: #ff9800; color: #fff; }
+        .counter-btn { background: #333; color: #fff; border: none; width: 22px; height: 22px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: #121212; padding: 10px; border-top: 1px solid #222; display: flex; justify-content: center; z-index: 10; }
+        .btn-submit { width: 100%; max-width: 500px; background: linear-gradient(180deg, #0288d1 0%, #01579b 100%); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .btn-submit:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .arrow-icon { background: #b71c1c; padding: 4px 8px; border-radius: 4px; }
+        .screen { display: none; }
+        .screen.active { display: block; }
+        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .draw-card { background: linear-gradient(145deg, #222, #181818); border: 2px solid #00bcd4; border-radius: 12px; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #00bcd4; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
+        .draw-card.opened { background: #181818; border-color: #444; color: #555; cursor: not-allowed; opacity: 0.5; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100; padding: 20px; text-align: center; }
+        .modal-card { background: #1e1e1e; border-radius: 15px; padding: 30px 20px; width: 100%; max-width: 350px; border: 2px solid #555; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+        .role-title { font-size: 26px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 8px; }
+        .god-list { background: #1e1e1e; border-radius: 10px; padding: 10px; margin-top: 15px; }
+        .god-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333; font-size: 14px; }
+        .god-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+    <!-- صفحه ۱: انتخاب نقش‌ها -->
+    <div id="setup-screen" class="screen active">
+        <div class="header">
+            <h2>تعداد بازیکن ها :</h2>
+            <input type="number" id="player-count" class="player-count-input" value="10" min="3" max="30" onchange="updateCounts()">
+            <h2>نفر</h2>
+        </div>
+
+        <div class="scenario-box">
+            <span style="font-size: 13px; color: #aaa;">سناریوی آماده:</span>
+            <select id="scenario-select" onchange="applyScenario()">
+                <option value="custom">انتخاب دستی (دلخواه)</option>
+                <option value="nato">سناریو ناتو (۱۰ نفره)</option>
+                <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
+                <option value="mozakere">سناریو مذاکره (۱۰ نفره)</option>
+                <option value="capo">سناریو کاپو (۱۰ نفره)</option>
+                <option value="shab">شب‌های مافیا (۱۲ نفره)</option>
+                <option value="godfather">پدرخوانده (۱۱ نفره)</option>
+                <option value="zodiac">فینال زودیاک (۱۲ نفره)</option>
+            </select>
+        </div>
+
+        <div class="section-title bg-citizen" id="citizen-header">نقش های شهروند: ۰</div>
+        <div class="roles-grid" id="citizen-grid"></div>
+
+        <div class="section-title bg-mafia" id="mafia-header">نقش های مافیا: ۰</div>
+        <div class="roles-grid" id="mafia-grid"></div>
+
+        <div class="section-title bg-free" id="free-header">نقش های آزاد: ۰</div>
+        <div class="roles-grid" id="free-grid"></div>
+
+        <div class="bottom-bar">
+            <button class="btn-submit" id="start-btn" onclick="distributeRoles()">
+                <span>تقسیم نقش ها</span>
+                <span id="btn-count">(۰)</span>
+                <span class="arrow-icon">➔</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحه ۲: انتخاب کارت‌ها -->
+    <div id="draw-screen" class="screen">
+        <div class="header">
+            <h2>شماره خود را انتخاب کنید</h2>
+        </div>
+        <p style="text-align: center; color: #aaa; font-size: 12px; margin-top: 5px;">
+            هر بازیکن روی یک شماره بزند، نقش خود را ببیند و تایید کند.
+        </p>
+        <div class="cards-grid" id="cards-container"></div>
+        
+        <div class="bottom-bar">
+            <button class="btn-submit" id="god-btn" style="display: none; background: #2e7d32;" onclick="showGodScreen()">
+                مشاهده لیست گاد (گرداننده) 👑
+            </button>
+        </div>
+    </div>
+
+    <!-- صفحه ۳: خلاصه لیست گاد -->
+    <div id="god-screen" class="screen">
+        <div class="header">
+            <h2>📋 لیست نقش‌ها برای گاد بازی</h2>
+        </div>
+        <div class="god-list" id="god-list-container"></div>
+        
+        <div style="margin-top: 20px;">
+            <button class="btn-submit" onclick="resetApp()" style="background: #c62828;">
+                شروع بازی جدید 🔄
+            </button>
+        </div>
+    </div>
+
+    <!-- مودال نمایش محرمانه -->
+    <div class="modal-overlay" id="role-modal">
+        <div class="modal-card">
+            <div style="color: #aaa; font-size: 14px;" id="modal-player-num">بازیکن شماره ۱</div>
+            <div style="font-size: 12px; color: #888; margin-top: 5px;">نقش شما:</div>
+            
+            <div class="role-title" id="modal-role-name">دکتر</div>
+            <div style="font-size: 12px; margin-bottom: 20px;" id="modal-team-name">شهروند</div>
+
+            <button class="btn-submit" onclick="closeModal()">
+                تایید و مخفی‌سازی 🔒
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const ALL_ROLES = {
+            citizen: [
+                { id: 'c_simple', name: 'شهروند', isMultiple: true, count: 0 },
+                { id: 'c_doctor', name: 'دکتر' },
+                { id: 'c_karagah', name: 'کارآگاه' },
+                { id: 'c_sniper', name: 'اسنایپر' },
+                { id: 'c_bazpors', name: 'بازپرس' },
+                { id: 'c_roointan', name: 'روئین تن' },
+                { id: 'c_kashish', name: 'کشیش' },
+                { id: 'c_bakere', name: 'باکره' },
+                { id: 'c_ghazi', name: 'قاضی' },
+                { id: 'c_mohafez', name: 'محافظ' },
+                { id: 'c_tofangdar', name: 'تفنگ دار' },
+                { id: 'c_bomber', name: 'بمبر' },
+                { id: 'c_faramason', name: 'فراماسون' },
+                { id: 'c_fadaei', name: 'فدایی' },
+                { id: 'c_kalantar', name: 'کلانتر' },
+                { id: 'c_cowboy', name: 'کابوی' },
+                { id: 'c_hacker', name: 'هکر' },
+                { id: 'c_nanva', name: 'نانوا' },
+                { id: 'c_fereshte', name: 'فرشته' },
+                { id: 'c_takavar', name: 'تکاور' },
+                { id: 'c_negahban', name: 'نگهبان' },
+                { id: 'c_khabarnegar', name: 'خبرنگار' },
+                { id: 'c_dastkaj', name: 'دست کج' },
+                { id: 'c_shekarchi', name: 'شکارچی' },
+                { id: 'c_zendanban', name: 'زندانبان' },
+                { id: 'c_ghahreman', name: 'قهرمان' }
+            ],
+            mafia: [
+                { id: 'm_simple', name: 'مافیا', isMultiple: true, count: 0 },
+                { id: 'm_godfather', name: 'گادفادر' },
+                { id: 'm_nato', name: 'ناتو' },
+                { id: 'm_capo', name: 'کاپو' },
+                { id: 'm_mozakere', name: 'مذاکره کننده' },
+                { id: 'm_silencer', name: 'سايلنسر' },
+                { id: 'm_vakeel', name: 'وکیل' },
+                { id: 'm_terorist', name: 'تروریست' },
+                { id: 'm_mardeghavi', name: 'مرد قوی' },
+                { id: 'm_tohamatzan', name: 'تهمت زن' },
+                { id: 'm_afsangar', name: 'افسونگر' },
+                { id: 'm_dozd', name: 'دزد' },
+                { id: 'm_jasoos', name: 'جاسوس' },
+                { id: 'm_samsaz', name: 'سم ساز' },
+                { id: 'm_lecter', name: 'دکتر لکتر(جراح)' },
+                { id: 'm_nano', name: 'نانو' },
+                { id: 'm_gorogangir', name: 'گروگان گیر' },
+                { id: 'm_ghatle_herfehei', name: 'قاتل حرفه ای' },
+                { id: 'm_jalab', name: 'جلب' },
+                { id: 'm_mashooghe', name: 'معشوقه' }
+            ],
+            free: [
+                { id: 'f_saqi', name: 'ساقی' },
+                { id: 'f_killer', name: 'کیلر' },
+                { id: 'f_joker', name: 'جوکر' },
+                { id: 'f_delroba', name: 'دلربا' },
+                { id: 'f_sandika', name: 'سندیکا' },
+                { id: 'f_gorgnama', name: 'گرگ نما' },
+                { id: 'f_hezarchehre', name: 'هزارچهره' }
+            ]
+        };
+
+        let selectedRoles = {};
+        let assignedCards = [];
+        let openedCount = 0;
+
+        window.onload = () => {
+            renderRoles();
+            updateCounts();
+            
+            // فعال‌سازی آفلاین سرویس ورکر
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js').then(() => console.log('ServiceWorker Active'));
+            }
+        };
+
+        function renderRoles() {
+            ['citizen', 'mafia', 'free'].forEach(team => {
+                const container = document.getElementById(`${team}-grid`);
+                container.innerHTML = '';
+                
+                ALL_ROLES[team].forEach(role => {
+                    const card = document.createElement('div');
+                    card.className = `role-card ${team}-card`;
+                    card.id = `card-${role.id}`;
+
+                    if (role.isMultiple) {
+                        card.innerHTML = `
+                            <span>${role.name}</span>
+                            <div style="display:flex; align-items:center; gap:4px;">
+                                <button class="counter-btn" onclick="changeMultiple('${role.id}', -1, event)">-</button>
+                                <span id="count-${role.id}" style="font-weight:bold; color:#00ffcc;">0</span>
+                                <button class="counter-btn" onclick="changeMultiple('${role.id}', 1, event)">+</button>
+                            </div>
+                        `;
+                    } else {
+                        card.onclick = () => toggleRole(role.id, team);
+                        card.innerHTML = `
+                            <span>${role.name}</span>
+                            <div class="checkbox-custom" id="check-${role.id}"></div>
+                        `;
+                    }
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        function toggleRole(roleId, team) {
+            if (selectedRoles[roleId]) {
+                delete selectedRoles[roleId];
+            } else {
+                selectedRoles[roleId] = 1;
+            }
+            updateUI();
+        }
+
+        function changeMultiple(roleId, delta, event) {
+            event.stopPropagation();
+            let current = selectedRoles[roleId] || 0;
+            current += delta;
+            if (current < 0) current = 0;
+
+            if (current === 0) {
+                delete selectedRoles[roleId];
+            } else {
+                selectedRoles[roleId] = current;
+            }
+
+            const countEl = document.getElementById(`count-${roleId}`);
+            if(countEl) countEl.innerText = current;
+
+            updateUI();
+        }
+
+        function updateUI() {
+            ['citizen', 'mafia', 'free'].forEach(team => {
+                ALL_ROLES[team].forEach(role => {
+                    if (!role.isMultiple) {
+                        const card = document.getElementById(`card-${role.id}`);
+                        const check = document.getElementById(`check-${role.id}`);
+                        if (selectedRoles[role.id]) {
+                            card.classList.add(team === 'citizen' ? 'selected' : (team === 'mafia' ? 'mafia-selected' : 'free-selected'));
+                            check.innerText = '✓';
+                        } else {
+                            card.className = `role-card ${team}-card`;
+                            check.innerText = '';
+                        }
+                    }
+                });
+            });
+
+            updateCounts();
+        }
+
+        function updateCounts() {
+            let citizenCount = 0;
+            let mafiaCount = 0;
+            let freeCount = 0;
+
+            ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id] || 0));
+            ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
+            ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
+
+            document.getElementById('citizen-header').innerText = `نقش های شهروند: ${citizenCount}`;
+            document.getElementById('mafia-header').innerText = `نقش های مافیا: ${mafiaCount}`;
+            document.getElementById('free-header').innerText = `نقش های آزاد: ${freeCount}`;
+
+            const totalSelected = citizenCount + mafiaCount + freeCount;
+            const targetCount = parseInt(document.getElementById('player-count').value) || 0;
+
+            const btn = document.getElementById('start-btn');
+            const btnCount = document.getElementById('btn-count');
+            btnCount.innerText = `(${totalSelected} از ${targetCount})`;
+
+            btn.disabled = !(totalSelected === targetCount && targetCount > 0);
+        }
+
+        function applyScenario() {
+            const val = document.getElementById('scenario-select').value;
+            selectedRoles = {};
+            document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
+
+            if (val === 'nato') {
+                document.getElementById('player-count').value = 10;
+                selectedRoles = { 'c_simple': 3, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'c_negahban': 1, 'm_godfather': 1, 'm_nato': 1, 'm_lecter': 1 };
+            } else if (val === 'bazpors') {
+                document.getElementById('player-count').value = 10;
+                selectedRoles = { 'c_simple': 3, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'c_bazpors': 1, 'm_godfather': 1, 'm_mozakere': 1, 'm_simple': 1 };
+            } else if (val === 'mozakere') {
+                document.getElementById('player-count').value = 10;
+                selectedRoles = { 'c_simple': 4, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'm_godfather': 1, 'm_mozakere': 1, 'm_simple': 1 };
+            } else if (val === 'capo') {
+                document.getElementById('player-count').value = 10;
+                selectedRoles = { 'c_simple': 4, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'm_godfather': 1, 'm_capo': 1, 'm_simple': 1 };
+            } else if (val === 'shab') {
+                document.getElementById('player-count').value = 12;
+                selectedRoles = { 'c_simple': 2, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'c_roointan': 1, 'm_godfather': 1, 'm_lecter': 1, 'm_mozakere': 1, 'f_joker': 1 };
+            } else if (val === 'godfather') {
+                document.getElementById('player-count').value = 11;
+                selectedRoles = { 'c_simple': 3, 'c_doctor': 1, 'c_karagah': 1, 'c_sniper': 1, 'm_godfather': 1, 'm_lecter': 1, 'm_simple': 1, 'f_joker': 1 };
+            } else if (val === 'zodiac') {
+                document.getElementById('player-count').value = 12;
+                selectedRoles = { 'c_simple': 3, 'c_doctor': 1, 'c_karagah': 1, 'c_tofangdar': 1, 'm_godfather': 1, 'm_gorogangir': 1, 'm_simple': 1, 'f_killer': 1 };
+            }
+
+            Object.keys(selectedRoles).forEach(id => {
+                const countEl = document.getElementById(`count-${id}`);
+                if (countEl) countEl.innerText = selectedRoles[id];
+            });
+
+            updateUI();
+        }
+
+        function distributeRoles() {
+            let rolePool = [];
+            ['citizen', 'mafia', 'free'].forEach(team => {
+                ALL_ROLES[team].forEach(role => {
+                    const count = selectedRoles[role.id] || 0;
+                    for (let i = 0; i < count; i++) {
+                        rolePool.push({ name: role.name, team: team });
+                    }
+                });
+            });
+
+            for (let i = rolePool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
+            }
+
+            assignedCards = rolePool;
+            openedCount = 0;
+
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            
+            assignedCards.forEach((_, index) => {
+                const card = document.createElement('div');
+                card.className = 'draw-card';
+                card.id = `draw-card-${index}`;
+                card.innerText = index + 1;
+                card.onclick = () => revealRole(index);
+                container.appendChild(card);
+            });
+
+            showScreen('draw-screen');
+        }
+
+        let currentCardIndex = -1;
+        function revealRole(index) {
+            const cardEl = document.getElementById(`draw-card-${index}`);
+            if (cardEl.classList.contains('opened')) return;
+
+            currentCardIndex = index;
+            const roleData = assignedCards[index];
+
+            document.getElementById('modal-player-num').innerText = `بازیکن شماره ${index + 1}`;
+            
+            const roleTitle = document.getElementById('modal-role-name');
+            roleTitle.innerText = roleData.name;
+
+            const teamLabel = document.getElementById('modal-team-name');
+            if (roleData.team === 'citizen') {
+                roleTitle.style.backgroundColor = '#1b5e20';
+                roleTitle.style.color = '#a5d6a7';
+                teamLabel.innerText = 'شهروند 🟩';
+            } else if (roleData.team === 'mafia') {
+                roleTitle.style.backgroundColor = '#b71c1c';
+                roleTitle.style.color = '#ef9a9a';
+                teamLabel.innerText = 'مافیا 🟥';
+            } else {
+                roleTitle.style.backgroundColor = '#e65100';
+                roleTitle.style.color = '#ffe0b2';
+                teamLabel.innerText = 'نقش آزاد (مستقل) 🟧';
+            }
+
+            document.getElementById('role-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('role-modal').style.display = 'none';
+            if (currentCardIndex !== -1) {
+                const cardEl = document.getElementById(`draw-card-${currentCardIndex}`);
+                if (!cardEl.classList.contains('opened')) {
+                    cardEl.classList.add('opened');
+                    cardEl.innerText = '✓';
+                    openedCount++;
+                    if (openedCount === assignedCards.length) {
+                        document.getElementById('god-btn').style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function showGodScreen() {
+            const container = document.getElementById('god-list-container');
+            container.innerHTML = '';
+
+            assignedCards.forEach((role, idx) => {
+                const item = document.createElement('div');
+                item.className = 'god-item';
+                let teamTag = role.team === 'citizen' ? '<span style="color:#4caf50;">شهروند</span>' : (role.team === 'mafia' ? '<span style="color:#f44336;">مافیا</span>' : '<span style="color:#ff9800;">مستقل</span>');
+                item.innerHTML = `<span>شماره ${idx + 1} : <strong>${role.name}</strong></span><span>${teamTag}</span>`;
+                container.appendChild(item);
+            });
+
+            showScreen('god-screen');
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function resetApp() {
+            document.getElementById('god-btn').style.display = 'none';
+            showScreen('setup-screen');
+        }
+    </script>
+</body>
+</html>
