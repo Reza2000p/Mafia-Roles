@@ -4,120 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تقسیم نقش و دستیار مافیا - رضا پاکدل</title>
-    <!-- رفع ارور 404 آیکون -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎩</text></svg>">
-    <!-- Web App Manifest -->
     <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
     <meta name="theme-color" content="#dc2626">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Vazirmatn", "Tahoma", sans-serif;
+            font-family: 'Vazirmatn', 'Tahoma', system-ui, -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        body { background-color: #0b0f19; color: #f1f5f9; padding: 12px; padding-bottom: 85px; }
-
-        /* هدر اصلی */
-        .app-header {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid #334155;
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        body {
+            background: #0b0f19;
+            color: #e8edf5;
+            padding: 14px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 30%, #182235 0%, #0b0f19 70%);
         }
-        .app-header h1 { font-size: 16px; color: #f87171; font-weight: 700; margin-bottom: 2px; }
-        .app-header p { font-size: 11px; color: #94a3b8; }
 
-        /* باکس تنظیمات */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid #2d3a4f;
+            padding: 12px 10px;
+            border-radius: 18px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+        }
+        .app-header h1 {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 800;
+            color: #f87171;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+        }
+        .app-header p {
+            font-size: clamp(11px, 2.5vw, 14px);
+            color: #94a3b8;
+        }
+
+        /* ===== SETUP BOX ===== */
         .setup-box {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 10px;
+            background: #182235;
+            border: 1px solid #2d3a4f;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 6px;
         }
+        .setup-box:focus-within { border-color: #38bdf8; }
+
         .player-input {
-            width: 70px;
-            background: #0f172a;
+            width: 60px;
+            background: #0b0f19;
             border: 1px solid #334155;
             color: #38bdf8;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: clamp(18px, 4vw, 24px);
+            font-weight: 700;
             text-align: center;
-            border-radius: 8px;
-            padding: 4px;
+            border-radius: 10px;
+            padding: 4px 0;
             cursor: not-allowed;
+            opacity: 0.8;
         }
 
         .select-custom {
-            background: #0f172a;
-            color: #f8fafc;
-            border: 1px solid #475569;
+            background: #0b0f19;
+            color: #f1f5f9;
+            border: 1px solid #334155;
             padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
+            border-radius: 10px;
+            font-size: clamp(12px, 2.5vw, 14px);
             outline: none;
             width: 65%;
+            cursor: pointer;
+            min-width: 120px;
         }
+        .select-custom:focus { border-color: #38bdf8; }
 
-        /* عنوان بخش‌ها */
+        .scenario-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .scenario-actions button {
+            flex: 1 1 auto;
+            min-width: 70px;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: clamp(10px, 2vw, 12px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: #1e293b;
+            color: #e8edf5;
+            border: 1px solid #334155;
+        }
+        .scenario-actions .save-btn {
+            background: #0284c7;
+            border-color: #0284c7;
+            color: #fff;
+        }
+        .scenario-actions .save-btn:hover { background: #0369a1; }
+        .scenario-actions .del-btn {
+            background: #7f1d1d;
+            border-color: #7f1d1d;
+            color: #fca5a5;
+            display: none;
+        }
+        .scenario-actions .del-btn:hover { background: #991b1b; }
+
+        /* ===== SECTION HEADERS ===== */
         .section-header {
             padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
+            border-radius: 12px;
+            font-size: clamp(13px, 2.8vw, 16px);
             font-weight: 700;
             text-align: center;
-            margin: 12px 0 6px 0;
+            margin: 14px 0 8px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
-        .bg-citizen { background-color: #064e3b; color: #6ee7b7; border: 1px solid #047857; }
-        .bg-mafia { background-color: #7f1d1d; color: #fca5a5; border: 1px solid #b91c1c; }
-        .bg-free { background-color: #7c2d12; color: #fdba74; border: 1px solid #c2410c; }
+        .bg-citizen {
+            background: linear-gradient(135deg, #064e3b, #0a5e48);
+            color: #6ee7b7;
+            border: 1px solid #10b981;
+        }
+        .bg-mafia {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            color: #fca5a5;
+            border: 1px solid #ef4444;
+        }
+        .bg-free {
+            background: linear-gradient(135deg, #7c2d12, #9a3412);
+            color: #fdba74;
+            border: 1px solid #f97316;
+        }
 
-        /* گرید نقش‌ها */
-        .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        /* ===== ROLES GRID (همانند قبل – جمع و مناسب) ===== */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+            gap: 10px;
+        }
+
         .role-card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 6px 4px;
+            background: #182235;
+            border: 1px solid #2d3a4f;
+            border-radius: 14px;
+            padding: 10px 6px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            align-items: center;
             cursor: pointer;
-            min-height: 50px;
+            min-height: 72px;
             transition: all 0.15s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
-        .role-card .role-name { font-size: 11px; font-weight: bold; color: #e2e8f0; }
-        .role-card .group-badge { font-size: 8px; margin-top: 2px; color: #94a3b8; }
-        
-        .role-card.selected-citizen { background-color: #065f46; border-color: #10b981; }
-        .role-card.selected-mafia { background-color: #991b1b; border-color: #ef4444; }
-        .role-card.selected-free { background-color: #9a3412; border-color: #f97316; }
+        .role-card:active { transform: scale(0.96); }
 
-        .counter-controls { display: flex; align-items: center; gap: 4px; margin-top: 2px; }
-        .counter-btn { background: #334155; color: #fff; border: none; width: 22px; height: 22px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .role-card .role-name {
+            font-size: clamp(12px, 2.2vw, 14px);
+            font-weight: 600;
+            color: #e2e8f0;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .role-card .group-badge {
+            font-size: clamp(9px, 1.5vw, 11px);
+            margin-top: 4px;
+            color: #94a3b8;
+            background: #0b0f19;
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid #2d3a4f;
+        }
 
-        /* نوار پایین */
+        .role-card.selected-citizen {
+            background: #065f46;
+            border-color: #10b981;
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.15);
+        }
+        .role-card.selected-mafia {
+            background: #991b1b;
+            border-color: #ef4444;
+            box-shadow: 0 0 18px rgba(239, 68, 68, 0.15);
+        }
+        .role-card.selected-free {
+            background: #9a3412;
+            border-color: #f97316;
+            box-shadow: 0 0 18px rgba(249, 115, 22, 0.15);
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            background: #0b0f19;
+            padding: 3px 8px;
+            border-radius: 30px;
+            border: 1px solid #2d3a4f;
+        }
+        .counter-btn {
+            background: transparent;
+            color: #cbd5e1;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .counter-btn:hover { background: #334155; }
+        .counter-value {
+            font-weight: 700;
+            color: #38bdf8;
+            font-size: clamp(14px, 2.8vw, 18px);
+            min-width: 22px;
+            text-align: center;
+        }
+
+        /* ===== BOTTOM BAR ===== */
         .bottom-bar {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #0f172a;
-            padding: 10px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172aee;
+            backdrop-filter: blur(8px);
+            padding: 12px 16px;
             border-top: 1px solid #1e293b;
             display: flex;
             justify-content: center;
             z-index: 50;
+            box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
         }
         .btn-action {
             width: 100%;
@@ -125,157 +268,231 @@
             background: linear-gradient(135deg, #dc2626, #991b1b);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
+            padding: clamp(12px, 2.5vw, 16px);
+            border-radius: 14px;
+            font-size: clamp(14px, 3vw, 18px);
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.25);
         }
-        .btn-action:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+        .btn-action:active { transform: scale(0.97); }
+        .btn-action:disabled {
+            background: #334155;
+            color: #64748b;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
-        .screen { display: none; }
+        /* ===== SCREENS ===== */
+        .screen { display: none; animation: fadeUp 0.25s ease; }
         .screen.active { display: block; }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-        /* صفحه کارت‌های قرعه‌کشی */
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        /* ===== CARDS GRID (با سایز بزرگ و پرکننده) ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
         .draw-card {
             background: linear-gradient(145deg, #1e293b, #0f172a);
             border: 2px solid #38bdf8;
-            border-radius: 12px;
-            height: 85px;
+            border-radius: 20px;
+            height: clamp(120px, 26vw, 160px);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
+            font-size: clamp(32px, 7vw, 48px);
+            font-weight: 800;
             color: #38bdf8;
             cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.08);
         }
-        .draw-card.opened { background: #0f172a; border-color: #334155; color: #475569; cursor: not-allowed; opacity: 0.5; }
+        .draw-card:active:not(.opened) {
+            transform: scale(0.94);
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
+        }
+        .draw-card.opened {
+            background: #0f172a;
+            border-color: #334155;
+            color: #475569;
+            cursor: default;
+            opacity: 0.45;
+            transform: scale(0.95);
+            box-shadow: none;
+        }
 
-        /* مودال‌ها */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.92);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 20px;
-        }
-        .modal-card {
-            background: #1e293b;
-            border-radius: 16px;
-            padding: 25px 20px;
-            width: 100%;
-            max-width: 340px;
-            border: 1px solid #475569;
-            text-align: center;
-        }
-        .modal-role-title { font-size: 24px; font-weight: bold; margin: 12px 0 6px 0; padding: 10px; border-radius: 8px; }
-
-        /* صفحه گاد */
+        /* ===== GOD PANEL (اسم‌ها کشیده‌تر، اخطار جمع‌تر) ===== */
         .god-header-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #1e293b;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            margin-bottom: 10px;
+            background: #182235;
+            padding: 8px 12px;
+            border-radius: 14px;
+            border: 1px solid #2d3a4f;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .god-header-bar .title {
+            font-weight: 700;
+            font-size: clamp(13px, 2.5vw, 16px);
+            color: #e2e8f0;
         }
         .toggle-btn {
-            background: #334155;
+            background: #2d3a4f;
             color: #f8fafc;
             border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: clamp(10px, 2vw, 12px);
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
+            transition: background 0.15s;
         }
+        .toggle-btn:hover { background: #3b4a63; }
 
         .god-player-row {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 8px 10px;
-            margin-bottom: 8px;
+            background: #182235;
+            border: 1px solid #2d3a4f;
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 6px;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
         }
-        .god-player-row.dead { opacity: 0.45; background: #0f172a; }
+        .god-player-row.dead {
+            opacity: 0.4;
+            background: #0b0f19;
+            border-color: #1e293b;
+        }
 
-        .player-info { display: flex; align-items: center; gap: 6px; flex: 1; }
-        .player-num { font-size: 13px; font-weight: bold; color: #38bdf8; width: 16px; }
-        
-        /* کادر نام بزرگ‌تر و راحت‌تر برای تایپ */
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1 1 200px;
+            min-width: 0;
+        }
+        .player-num {
+            font-size: clamp(14px, 2.8vw, 18px);
+            font-weight: 800;
+            color: #38bdf8;
+            width: 26px;
+            text-align: center;
+            flex-shrink: 0;
+        }
         .player-name-input {
-            background: #0f172a;
-            border: 1px solid #334155;
+            background: #0b0f19;
+            border: 1px solid #2d3a4f;
             color: #f8fafc;
-            font-size: 12px;
-            padding: 5px 8px;
-            border-radius: 6px;
-            width: 110px;
+            font-size: clamp(12px, 2.2vw, 14px);
+            padding: 5px 10px;
+            border-radius: 8px;
+            width: clamp(150px, 38vw, 240px);
             outline: none;
             user-select: text;
             -webkit-user-select: text;
+            transition: border 0.2s;
+            flex-shrink: 1;
+            min-width: 80px;
         }
         .player-name-input:focus { border-color: #38bdf8; }
 
-        .player-role-text { font-size: 11px; font-weight: bold; flex: 1; }
+        .player-role-wrap {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1;
+        }
+        .player-role-text {
+            font-size: clamp(11px, 2vw, 13px);
+            font-weight: 600;
+            color: #cbd5e1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .player-card-num {
+            font-size: clamp(8px, 1.4vw, 10px);
+            color: #64748b;
+            margin-top: 1px;
+        }
 
-        .player-actions { display: flex; align-items: center; gap: 6px; }
-
+        .player-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
         .warning-control {
             display: flex;
             align-items: center;
             gap: 2px;
-            background: #0f172a;
-            padding: 2px 4px;
-            border-radius: 6px;
-            border: 1px solid #334155;
-            font-size: 10px;
+            background: #0b0f19;
+            padding: 2px 6px;
+            border-radius: 20px;
+            border: 1px solid #2d3a4f;
+            font-size: clamp(10px, 1.8vw, 12px);
+            font-weight: 600;
         }
         .warning-btn {
-            background: #334155;
-            color: #fff;
+            background: transparent;
+            color: #f59e0b;
             border: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .alive-checkbox {
             width: 20px;
             height: 20px;
+            border-radius: 20px;
+            font-size: clamp(13px, 2.2vw, 16px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+            line-height: 1;
+        }
+        .warning-btn:hover { background: #2d3a4f; }
+        .warning-count {
+            min-width: 16px;
+            text-align: center;
+            color: #f59e0b;
+            font-weight: 700;
+            font-size: clamp(11px, 1.8vw, 13px);
+        }
+        .alive-checkbox {
+            width: clamp(20px, 4vw, 26px);
+            height: clamp(20px, 4vw, 26px);
             accent-color: #22c55e;
             cursor: pointer;
+            border-radius: 4px;
+            flex-shrink: 0;
         }
 
-        /* آمار پایین صفحه گاد */
+        /* ===== GOD STATS (به حالت قبل: چند خط با اسم) ===== */
         .god-stats-panel {
             background: #0f172a;
             border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 12px;
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-top: 12px;
+            font-size: clamp(12px, 2.2vw, 14px);
         }
         .stats-row {
             display: flex;
@@ -283,130 +500,242 @@
             align-items: center;
             padding: 4px 0;
             border-bottom: 1px dashed #1e293b;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; text-align: center; }
-        .stat-box { background: #1e293b; padding: 6px; border-radius: 6px; border: 1px solid #334155; font-size: 11px; }
+        .stats-row:last-child { border-bottom: none; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .stat-box {
+            background: #182235;
+            padding: 6px 8px;
+            border-radius: 10px;
+            border: 1px solid #2d3a4f;
+            font-size: clamp(11px, 2vw, 13px);
+            text-align: center;
+            font-weight: 600;
+        }
+        .stat-box .num {
+            font-size: clamp(16px, 3vw, 22px);
+            display: block;
+            margin-top: 2px;
+        }
 
         .inquiry-control {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: #1e293b;
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid #334155;
+            gap: 4px;
+            background: #182235;
+            padding: 2px 8px;
+            border-radius: 30px;
+            border: 1px solid #2d3a4f;
         }
         .inquiry-btn {
             background: #ef4444;
             color: #fff;
             border: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 4px;
-            font-weight: bold;
+            width: 26px;
+            height: 26px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: clamp(15px, 2.8vw, 20px);
             cursor: pointer;
+            transition: background 0.15s;
+            line-height: 1;
+        }
+        .inquiry-btn.green { background: #10b981; }
+        .inquiry-btn:hover { opacity: 0.8; }
+        .inquiry-btn:active { transform: scale(0.92); }
+
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(6px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.96); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .modal-card {
+            background: #182235;
+            border-radius: 22px;
+            padding: clamp(20px, 4vw, 30px);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #2d3a4f;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .modal-role-title {
+            font-size: clamp(22px, 5vw, 30px);
+            font-weight: 800;
+            margin: 10px 0 4px 0;
+            padding: 10px;
+            border-radius: 14px;
+            background: #0b0f19;
         }
 
-        /* استایل گزارش نهایی */
         .report-textarea {
             width: 100%;
-            height: 200px;
-            background: #0f172a;
+            height: 180px;
+            background: #0b0f19;
             color: #e2e8f0;
-            border: 1px solid #334155;
-            border-radius: 10px;
+            border: 1px solid #2d3a4f;
+            border-radius: 14px;
             padding: 10px;
-            font-size: 11px;
+            font-size: clamp(11px, 2vw, 13px);
             line-height: 1.6;
             outline: none;
             user-select: text;
             -webkit-user-select: text;
             margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .report-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .report-actions .btn-action {
+            font-size: clamp(12px, 2.5vw, 15px);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .btn-copy { background: linear-gradient(135deg, #10b981, #059669) !important; }
+        .btn-download-txt { background: linear-gradient(135deg, #3b82f6, #2563eb) !important; }
+        .btn-download-html { background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important; }
+        .btn-back { background: #475569 !important; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            body { padding: 10px; padding-bottom: 85px; }
+            .roles-grid { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; }
+            .role-card { min-height: 64px; padding: 8px 4px; }
+            .role-card .role-name { font-size: 11px; }
+            .player-name-input { width: 110px; font-size: 11px; }
+            .god-player-row { padding: 6px 10px; }
+            .player-info { flex: 1 1 140px; }
+            .player-actions { gap: 4px; }
+            .warning-control { padding: 1px 4px; }
+            .warning-btn { width: 18px; height: 18px; font-size: 12px; }
+            .alive-checkbox { width: 18px; height: 18px; }
+            .cards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+            .draw-card { height: 100px; font-size: 28px; }
+            .god-stats-panel { padding: 10px; }
+        }
+
+        @media (max-width: 380px) {
+            .roles-grid { grid-template-columns: repeat(2, 1fr); }
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .player-info { flex: 1 1 100%; }
+            .player-name-input { width: 100%; }
+            .god-player-row { flex-direction: column; align-items: stretch; }
+            .player-actions { justify-content: space-between; margin-top: 4px; }
+        }
+
+        @media (min-width: 768px) {
+            .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .player-name-input { width: 190px; }
+        }
+
+        @media (min-width: 1024px) {
+            .roles-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            body { padding: 20px 36px; padding-bottom: 100px; }
+            .player-name-input { width: 230px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- هدر اختصاصی -->
+    <!-- ===== HEADER ===== -->
     <header class="app-header">
         <h1>🎩 دستیار و تقسیم نقش مافیا</h1>
         <p>طراحی و توسعه تخصصی: رضا پاکدل</p>
     </header>
 
-    <!-- صفحه ۱: انتخاب نقش‌ها -->
+    <!-- ===== SETUP SCREEN ===== -->
     <div id="setup-screen" class="screen active">
         <div class="setup-box">
-            <span style="font-size: 13px;">تعداد بازیکنان:</span>
-            <!-- غیرقابل تغییر دست‌ساز (خودکار اپدیت می‌شود) -->
+            <span style="font-size: clamp(13px, 2.5vw, 16px); font-weight: 600; color: #cbd5e1;">تعداد بازیکنان:</span>
             <input type="number" id="player-count" class="player-input" value="0" readonly>
-            <span style="font-size: 13px;">نفر</span>
+            <span style="font-size: clamp(13px, 2.5vw, 16px); font-weight: 600; color: #cbd5e1;">نفر</span>
         </div>
 
-        <!-- باکس سناریوها و ذخیره شخصی -->
         <div class="setup-box" style="flex-direction: column; gap: 8px; align-items: stretch;">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-size: 12px; color: #94a3b8;">انتخاب سناریو:</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap;">
+                <span style="font-size: clamp(12px, 2.2vw, 14px); color: #94a3b8; font-weight: 500;">انتخاب سناریو:</span>
                 <select id="scenario-select" class="select-custom" onchange="applyScenario()">
-                    <option value="custom">انتخاب دستی (دلخواه)</option>
+                    <option value="custom">✏️ انتخاب دستی (دلخواه)</option>
                     <optgroup label="⭐ سناریوهای شخصی شما" id="custom-scenarios-group"></optgroup>
                     <optgroup label="📜 سناریوهای پیش‌فرض">
-                        <option value="capo10">سناریو کاپو (۱۰ نفره)</option>
-                        <option value="capo12">سناریو کاپو (۱۲ نفره)</option>
-                        <option value="nato">سناریو ناتو (۱۰ نفره)</option>
-                        <option value="bazpors">سناریو بازپرس (۱۰ نفره)</option>
-                        <option value="zodiac">سناریو زودیاک (۱۲ نفره)</option>
+                        <option value="capo10">کاپو (۱۰ نفره)</option>
+                        <option value="capo12">کاپو (۱۲ نفره)</option>
+                        <option value="nato">ناتو (۱۰ نفره)</option>
+                        <option value="bazpors">بازپرس (۱۰ نفره)</option>
+                        <option value="zodiac">زودیاک (۱۲ نفره)</option>
                     </optgroup>
                 </select>
             </div>
-            
-            <div style="display: flex; gap: 6px;">
-                <button onclick="saveCurrentScenario()" style="flex: 1; background: #0284c7; color: #fff; border: none; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">
-                    💾 ذخیره این چیدمان به عنوان سناریو جدید
-                </button>
-                <button onclick="deleteCurrentScenario()" id="delete-scenario-btn" style="display: none; background: #991b1b; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">
-                    🗑️ حذف
-                </button>
+            <div class="scenario-actions">
+                <button class="save-btn" onclick="saveCurrentScenario()">💾 ذخیره این چیدمان</button>
+                <button class="del-btn" id="delete-scenario-btn" onclick="deleteCurrentScenario()">🗑️ حذف سناریو</button>
             </div>
         </div>
 
-        <div class="section-header bg-citizen" id="citizen-header">گروه شهروندی: ۰</div>
+        <div class="section-header bg-citizen" id="citizen-header">🟩 گروه شهروندی — ۰</div>
         <div class="roles-grid" id="citizen-grid"></div>
 
-        <div class="section-header bg-mafia" id="mafia-header">گروه مافیا: ۰</div>
+        <div class="section-header bg-mafia" id="mafia-header">🟥 گروه مافیا — ۰</div>
         <div class="roles-grid" id="mafia-grid"></div>
 
-        <div class="section-header bg-free" id="free-header">گروه مستقل: ۰</div>
+        <div class="section-header bg-free" id="free-header">🟧 گروه مستقل — ۰</div>
         <div class="roles-grid" id="free-grid"></div>
 
         <div class="bottom-bar">
             <button class="btn-action" id="start-btn" onclick="distributeRoles()">
-                <span>شروع و تقسیم نقش‌ها</span>
-                <span id="btn-count">(۰ نقش)</span>
+                <span>🚀 شروع و تقسیم نقش‌ها</span>
+                <span id="btn-count" style="background:#0b0f19aa; padding:2px 12px; border-radius:30px;">(۰ نقش)</span>
             </button>
         </div>
     </div>
 
-    <!-- صفحه ۲: انتخاب کارت‌ها توسط بازیکنان -->
+    <!-- ===== DRAW SCREEN ===== -->
     <div id="draw-screen" class="screen">
         <div class="setup-box" style="justify-content: center;">
-            <h2 style="font-size: 15px;">کارت شماره خود را انتخاب کنید</h2>
+            <h2 style="font-size: clamp(16px, 3.5vw, 22px); font-weight: 700; color: #f1f5f9;">🎴 کارت شماره خود را انتخاب کنید</h2>
         </div>
-        <p style="text-align: center; color: #94a3b8; font-size: 11px;">
+        <p style="text-align: center; color: #94a3b8; font-size: clamp(11px, 2vw, 14px); margin-top: -4px;">
             ترتیب شماره‌ها کاملاً تصادفی است. هر بازیکن شماره خود را باز کند.
         </p>
         <div class="cards-grid" id="cards-container"></div>
-        
+
         <div class="bottom-bar">
             <button class="btn-action" id="god-btn" style="display: none; background: linear-gradient(135deg, #059669, #047857);" onclick="showGodScreen()">
-                ورود به پنل گاد (گرداننده) 👑
+                👑 ورود به پنل گاد (گرداننده)
             </button>
         </div>
     </div>
 
-    <!-- صفحه ۳: پنل مدیریت گاد -->
+    <!-- ===== GOD SCREEN ===== -->
     <div id="god-screen" class="screen">
         <div class="god-header-bar">
-            <span style="font-weight: bold; font-size: 13px;">ترتیب نوبت و ثبت اسم</span>
+            <span class="title">👥 ترتیب نوبت و ثبت اسم</span>
             <button class="toggle-btn" onclick="toggleRolesVisibility()">
                 <span>🔄</span>
                 <span id="toggle-role-text">مخفی‌سازی نقش‌ها</span>
@@ -415,85 +744,73 @@
 
         <div id="god-players-container"></div>
 
-        <!-- خلاصه آمار بازی -->
         <div class="god-stats-panel">
             <div class="stats-row">
-                <span>افراد حاضر: <strong id="stat-alive-total" style="color:#38bdf8;">۱۰</strong></span>
-                <span>افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
+                <span>🧑‍🤝‍🧑 افراد حاضر: <strong id="stat-alive-total" style="color:#38bdf8;">۰</strong></span>
+                <span>💀 افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
             </div>
-
-            <div class="stats-row" style="margin-top: 6px;">
-                <span>استعلام وضعیت: <strong id="inquiry-count-text" style="color:#f59e0b;">۰</strong></span>
+            <div class="stats-row" style="margin-top: 4px;">
+                <span>🔍 استعلام وضعیت: <strong id="inquiry-count-text" style="color:#f59e0b;">۰</strong></span>
                 <div class="inquiry-control">
-                    <button class="inquiry-btn" onclick="changeInquiry(-1)">-</button>
-                    <button class="inquiry-btn" style="background:#10b981;" onclick="changeInquiry(1)">+</button>
+                    <button class="inquiry-btn" onclick="changeInquiry(-1)">−</button>
+                    <button class="inquiry-btn green" onclick="changeInquiry(1)">+</button>
                 </div>
             </div>
 
-            <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد خارج شده:</div>
+            <div style="margin-top: 10px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">💀 خارج‌شده‌ها</div>
             <div class="stats-grid">
-                <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-dead">۰</span></div>
-                <div class="stat-box" style="color: #fca5a5;">مافیا: <span id="stat-mafia-dead">۰</span></div>
-                <div class="stat-box" style="color: #fdba74;">مستقل: <span id="stat-free-dead">۰</span></div>
+                <div class="stat-box" style="color: #6ee7b7;">🟩 شهروند <span class="num" id="stat-citizen-dead">۰</span></div>
+                <div class="stat-box" style="color: #fca5a5;">🟥 مافیا <span class="num" id="stat-mafia-dead">۰</span></div>
+                <div class="stat-box" style="color: #fdba74;">🟧 مستقل <span class="num" id="stat-free-dead">۰</span></div>
             </div>
 
-            <div style="margin-top: 8px; font-size: 10px; color: #94a3b8; font-weight: bold;">افراد حاضر (زنده):</div>
+            <div style="margin-top: 10px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">🧑‍🤝‍🧑 حاضرین (زنده)</div>
             <div class="stats-grid">
-                <div class="stat-box" style="color: #6ee7b7;">شهروند: <span id="stat-citizen-alive">۰</span></div>
-                <div class="stat-box" style="color: #fca5a5;">مافیا: <span id="stat-mafia-alive">۰</span></div>
-                <div class="stat-box" style="color: #fdba74;">مستقل: <span id="stat-free-alive">۰</span></div>
+                <div class="stat-box" style="color: #6ee7b7;">🟩 شهروند <span class="num" id="stat-citizen-alive">۰</span></div>
+                <div class="stat-box" style="color: #fca5a5;">🟥 مافیا <span class="num" id="stat-mafia-alive">۰</span></div>
+                <div class="stat-box" style="color: #fdba74;">🟧 مستقل <span class="num" id="stat-free-alive">۰</span></div>
             </div>
         </div>
 
-        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px; padding-bottom: 8px;">
             <button class="btn-action" onclick="openReportModal()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
                 🏁 اتمام بازی و دریافت گزارش
             </button>
-            <button class="btn-action" onclick="resetApp()" style="background: #334155;">
-                شروع بازی جدید 🔄
+            <button class="btn-action" onclick="resetApp()" style="background: #334155; box-shadow: none;">
+                🔄 شروع بازی جدید
             </button>
         </div>
     </div>
 
-    <!-- مودال گزارش پایان بازی -->
-    <div class="modal-overlay" id="report-modal">
-        <div class="modal-card" style="max-width: 380px;">
-            <h3 style="font-size: 16px; color: #f87171; margin-bottom: 8px;">📊 گزارش نهایی نقش‌ها</h3>
-            <textarea readonly id="report-text-area" class="report-textarea"></textarea>
-            
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <button class="btn-action" style="background: #10b981; font-size: 12px; padding: 10px;" onclick="copyReportTxt()">
-                    📋 کپی گزارش متنی (TXT)
-                </button>
-                <button class="btn-action" style="background: #3b82f6; font-size: 12px; padding: 10px;" onclick="downloadReportTxt()">
-                    📥 دانلود فایل متنی (.txt)
-                </button>
-                <button class="btn-action" style="background: #8b5cf6; font-size: 12px; padding: 10px;" onclick="downloadReportHtml()">
-                    🌐 دانلود فایل وب رنگی (.html)
-                </button>
-                <button class="btn-action" style="background: #475569; font-size: 12px; padding: 10px;" onclick="closeReportModal()">
-                    ↩️ بازگشت به بازی
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- مودال نمایش محرمانه -->
+    <!-- ===== ROLE MODAL ===== -->
     <div class="modal-overlay" id="role-modal">
         <div class="modal-card">
-            <div style="color: #94a3b8; font-size: 13px;" id="modal-player-num">کارت شماره ۱</div>
-            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">نقش شما:</div>
-            
+            <div style="color: #94a3b8; font-size: clamp(13px, 2.5vw, 16px);" id="modal-player-num">کارت شماره ۱</div>
+            <div style="font-size: clamp(11px, 2vw, 14px); color: #64748b; margin-top: 4px;">نقش شما:</div>
             <div class="modal-role-title" id="modal-role-name">دکتر</div>
-            <div style="font-size: 12px; margin-bottom: 18px; font-weight: bold;" id="modal-team-name">گروه شهروندی</div>
-
-            <button class="btn-action" onclick="closeModal()">
-                تایید و مخفی‌سازی 🔒
+            <div style="font-size: clamp(12px, 2.2vw, 15px); margin-bottom: 16px; font-weight: 600;" id="modal-team-name">گروه شهروندی</div>
+            <button class="btn-action" onclick="closeModal()" style="background: #2d3a4f; box-shadow: none;">
+                🔒 تایید و مخفی‌سازی
             </button>
+        </div>
+    </div>
+
+    <!-- ===== REPORT MODAL ===== -->
+    <div class="modal-overlay" id="report-modal">
+        <div class="modal-card" style="max-width: 460px;">
+            <h3 style="font-size: clamp(16px, 3vw, 20px); color: #f87171; margin-bottom: 10px;">📊 گزارش نهایی نقش‌ها</h3>
+            <textarea readonly id="report-text-area" class="report-textarea"></textarea>
+            <div class="report-actions">
+                <button class="btn-action btn-copy" onclick="copyReportTxt()">📋 کپی گزارش (TXT)</button>
+                <button class="btn-action btn-download-txt" onclick="downloadReportTxt()">📥 دانلود فایل TXT</button>
+                <button class="btn-action btn-download-html" onclick="downloadReportHtml()">🌐 دانلود فایل HTML</button>
+                <button class="btn-action btn-back" onclick="closeReportModal()">↩️ بازگشت به بازی</button>
+            </div>
         </div>
     </div>
 
     <script>
+        // ===== تمام منطق بدون تغییر =====
         const ALL_ROLES = {
             citizen: [
                 { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
@@ -586,11 +903,7 @@
         };
 
         function getSavedScenarios() {
-            try {
-                return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]');
-            } catch(e) {
-                return [];
-            }
+            try { return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]'); } catch (e) { return []; }
         }
 
         function renderCustomScenariosOptions() {
@@ -660,7 +973,7 @@
             ['citizen', 'mafia', 'free'].forEach(team => {
                 const container = document.getElementById(`${team}-grid`);
                 container.innerHTML = '';
-                
+
                 ALL_ROLES[team].forEach(role => {
                     const card = document.createElement('div');
                     card.className = `role-card ${team}-card`;
@@ -668,19 +981,19 @@
 
                     if (role.isMultiple) {
                         card.innerHTML = `
-                            <span class="role-name">${role.name}</span>
-                            <div class="counter-controls">
-                                <button class="counter-btn" onclick="changeMultiple('${role.id}', -1, event)">-</button>
-                                <span id="count-${role.id}" style="font-weight:bold; color:#38bdf8; font-size:12px;">0</span>
-                                <button class="counter-btn" onclick="changeMultiple('${role.id}', 1, event)">+</button>
-                            </div>
-                        `;
+                                <span class="role-name">${role.name}</span>
+                                <div class="counter-controls">
+                                    <button class="counter-btn" onclick="changeMultiple('${role.id}', -1, event)">−</button>
+                                    <span class="counter-value" id="count-${role.id}">0</span>
+                                    <button class="counter-btn" onclick="changeMultiple('${role.id}', 1, event)">+</button>
+                                </div>
+                            `;
                     } else {
                         card.onclick = () => toggleRole(role.id, team);
                         card.innerHTML = `
-                            <span class="role-name">${role.name}</span>
-                            <span class="group-badge">${role.teamLabel}</span>
-                        `;
+                                <span class="role-name">${role.name}</span>
+                                <span class="group-badge">${role.teamLabel}</span>
+                            `;
                     }
                     container.appendChild(card);
                 });
@@ -688,11 +1001,8 @@
         }
 
         function toggleRole(roleId, team) {
-            if (selectedRoles[roleId]) {
-                delete selectedRoles[roleId];
-            } else {
-                selectedRoles[roleId] = 1;
-            }
+            if (selectedRoles[roleId]) delete selectedRoles[roleId];
+            else selectedRoles[roleId] = 1;
             updateUI();
         }
 
@@ -706,7 +1016,7 @@
             else selectedRoles[roleId] = current;
 
             const countEl = document.getElementById(`count-${roleId}`);
-            if(countEl) countEl.innerText = current;
+            if (countEl) countEl.innerText = current;
 
             updateUI();
         }
@@ -734,13 +1044,11 @@
             ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
             ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
 
-            document.getElementById('citizen-header').innerText = `گروه شهروندی: ${citizenCount}`;
-            document.getElementById('mafia-header').innerText = `گروه مافیا: ${mafiaCount}`;
-            document.getElementById('free-header').innerText = `گروه مستقل: ${freeCount}`;
+            document.getElementById('citizen-header').innerText = `🟩 گروه شهروندی — ${citizenCount}`;
+            document.getElementById('mafia-header').innerText = `🟥 گروه مافیا — ${mafiaCount}`;
+            document.getElementById('free-header').innerText = `🟧 گروه مستقل — ${freeCount}`;
 
             const totalSelected = citizenCount + mafiaCount + freeCount;
-
-            // محاسبه دقیق و همیشگی تعداد بازیکنان
             document.getElementById('player-count').value = totalSelected;
 
             const btn = document.getElementById('start-btn');
@@ -808,7 +1116,7 @@
 
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
-            
+
             let cardDisplayIndices = Array.from({ length: assignedCards.length }, (_, i) => i);
             for (let i = cardDisplayIndices.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -828,6 +1136,7 @@
         }
 
         let currentCardIndex = -1;
+
         function revealRole(index) {
             const cardEl = document.getElementById(`draw-card-${index}`);
             if (cardEl.classList.contains('opened')) return;
@@ -836,7 +1145,7 @@
             const roleData = assignedCards[index];
 
             document.getElementById('modal-player-num').innerText = `کارت شماره ${index + 1}`;
-            
+
             const roleTitle = document.getElementById('modal-role-name');
             roleTitle.innerText = roleData.name;
 
@@ -865,7 +1174,7 @@
                 if (!cardEl.classList.contains('opened')) {
                     cardEl.classList.add('opened');
                     cardEl.innerText = '✓';
-                    
+
                     pickedHistory.push({
                         pickOrder: pickedHistory.length + 1,
                         cardNumber: currentCardIndex + 1,
@@ -893,30 +1202,30 @@
                 const role = item.role;
                 const row = document.createElement('div');
                 row.className = `god-player-row ${role.isAlive ? '' : 'dead'}`;
-                
+
                 const roleDisplay = showRolesInGodView ? `${role.name} (${role.teamLabel})` : '••••••••';
 
                 row.innerHTML = `
-                    <div class="player-info">
-                        <span class="player-num">${item.pickOrder}</span>
-                        <input type="text" class="player-name-input" placeholder="نام..." value="${role.playerName || ''}" oninput="updatePlayerName(${idx}, this.value)">
-                        <div>
-                            <div class="player-role-text">${roleDisplay}</div>
-                            <div style="font-size:9px; color:#64748b;">کارت شماره ${item.cardNumber}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="player-actions">
-                        <div class="warning-control">
-                            <span>اخطار:</span>
-                            <button class="warning-btn" onclick="changeWarning(${idx}, -1)">-</button>
-                            <span style="font-weight:bold; color:#f59e0b;" id="warn-count-${idx}">${role.warnings || 0}</span>
-                            <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
+                        <div class="player-info">
+                            <span class="player-num">${item.pickOrder}</span>
+                            <input type="text" class="player-name-input" placeholder="نام..." value="${role.playerName || ''}" oninput="updatePlayerName(${idx}, this.value)">
+                            <div class="player-role-wrap">
+                                <div class="player-role-text">${roleDisplay}</div>
+                                <div class="player-card-num">کارت شماره ${item.cardNumber}</div>
+                            </div>
                         </div>
                         
-                        <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
-                    </div>
-                `;
+                        <div class="player-actions">
+                            <div class="warning-control">
+                                <span>⚠️</span>
+                                <button class="warning-btn" onclick="changeWarning(${idx}, -1)">−</button>
+                                <span class="warning-count" id="warn-count-${idx}">${role.warnings || 0}</span>
+                                <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
+                            </div>
+                            
+                            <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
+                        </div>
+                    `;
                 container.appendChild(row);
             });
 
@@ -977,7 +1286,6 @@
             document.getElementById('stat-free-dead').innerText = freeDead;
         }
 
-        /* تولید خروجی متنی دقیقاً در ۲ خط با جداکننده | */
         function generateRawReport() {
             let r = `====================================\n`;
             r += `       🎩 گزارش نهایی بازی مافیا 🎩      \n`;
@@ -987,7 +1295,7 @@
             pickedHistory.forEach(item => {
                 const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
-                
+
                 r += `#️⃣ نوبت ${item.pickOrder} | 👤 ${pName} | 🏷️ نقش: ${item.role.name}\n`;
                 r += `🎭 گروه: ${item.role.teamLabel} ${teamEmoji} | 🃏 کارت: شماره ${item.cardNumber}\n`;
                 r += `------------------------------------\n`;
@@ -997,50 +1305,48 @@
             return r;
         }
 
-        /* تولید گزارش HTML شیک، ریسپانسیو و بهینه برای گوشی در ۲ خط */
         function generateHtmlReport() {
             let rows = '';
             pickedHistory.forEach(item => {
                 const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
-                let teamBg = item.role.team === 'citizen' ? '#064e3b' : (item.role.team === 'mafia' ? '#7f1d1d' : '#7c2d12');
                 let teamColor = item.role.team === 'citizen' ? '#6ee7b7' : (item.role.team === 'mafia' ? '#fca5a5' : '#fdba74');
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
-                
+
                 rows += `
-                <div style="background:#1e293b; border:1px solid #334155; border-radius:10px; padding:10px 12px; margin-bottom:8px;">
-                    <div style="font-size:13px; font-weight:bold; color:#f8fafc; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <span>#️⃣ نوبت ${item.pickOrder} | 👤 ${pName}</span>
-                        <span>🏷️ نقش: <strong style="color:#38bdf8;">${item.role.name}</strong></span>
-                    </div>
-                    <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #334155; padding-top:6px;">
-                        <span>🎭 گروه: <strong style="color:${teamColor};">${item.role.teamLabel}</strong> ${teamEmoji}</span>
-                        <span>🃏 کارت: شماره <strong>${item.cardNumber}</strong></span>
-                    </div>
-                </div>`;
+                    <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:10px 12px; margin-bottom:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
+                        <div style="font-size:13px; font-weight:700; color:#f8fafc; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; flex-wrap:wrap; gap:4px;">
+                            <span>#️⃣ نوبت ${item.pickOrder} | 👤 ${pName}</span>
+                            <span>🏷️ نقش: <strong style="color:#38bdf8;">${item.role.name}</strong></span>
+                        </div>
+                        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #334155; padding-top:6px; flex-wrap:wrap; gap:4px;">
+                            <span>🎭 گروه: <strong style="color:${teamColor};">${item.role.teamLabel}</strong> ${teamEmoji}</span>
+                            <span>🃏 کارت: شماره <strong>${item.cardNumber}</strong></span>
+                        </div>
+                    </div>`;
             });
 
             return `<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>گزارش نهایی نقش‌ها - رضا پاکدل</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
-        body { background-color: #0b0f19; color: #f1f5f9; padding: 14px; max-width: 480px; margin: 0 auto; }
-        .header-box { background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 14px; }
-        h2 { color: #f87171; font-size: 17px; margin-bottom: 2px; font-weight: 700; }
-        p.sub { color: #94a3b8; font-size: 11px; }
-    </style>
-</head>
-<body>
-    <div class="header-box">
-        <h2>🏆 گزارش نهایی نقش‌های بازی</h2>
-        <p class="sub">طراحی و توسعه تخصصی: رضا پاکدل</p>
-    </div>
-    <div>${rows}</div>
-</body>
-</html>`;
+                <html lang="fa" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+                    <title>گزارش نهایی نقش‌ها - رضا پاکدل</title>
+                    <style>
+                        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Vazirmatn', sans-serif; -webkit-font-smoothing: antialiased; }
+                        body { background-color: #0b0f19; color: #f1f5f9; padding: 14px; max-width: 480px; margin: 0 auto; }
+                        .header-box { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #2d3a4f; border-radius: 18px; padding: 12px; text-align: center; margin-bottom: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+                        h2 { color: #f87171; font-size: 17px; margin-bottom: 2px; font-weight: 800; }
+                        p.sub { color: #94a3b8; font-size: 11px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header-box">
+                        <h2>🏆 گزارش نهایی نقش‌های بازی</h2>
+                        <p class="sub">طراحی و توسعه تخصصی: رضا پاکدل</p>
+                    </div>
+                    <div>${rows}</div>
+                </body>
+                </html>`;
         }
 
         function openReportModal() {
