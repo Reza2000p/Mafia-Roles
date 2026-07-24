@@ -509,7 +509,7 @@
             padding: 12px 14px;
             margin-top: 12px;
             font-size: clamp(12px, 2.2vw, 14px);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
         .stats-row {
             display: flex;
@@ -644,6 +644,28 @@
             flex: 1;
         }
 
+        /* ===== دکمه‌های ثابت پایین (استایل مثل قبل) ===== */
+        .god-fixed-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+            padding-bottom: 10px;
+        }
+        .god-fixed-buttons .btn-action {
+            width: 100%;
+            max-width: 100%;
+            font-size: clamp(16px, 3vw, 20px);
+            padding: 14px;
+        }
+        .god-fixed-buttons .btn-action.primary {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+        }
+        .god-fixed-buttons .btn-action.secondary {
+            background: #334155;
+            box-shadow: none;
+        }
+
         /* ===== MODALS ===== */
         .modal-overlay {
             position: fixed;
@@ -733,6 +755,7 @@
             .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
             .timer-display { font-size: 20px; min-width: 60px; }
             .music-name { max-width: 120px; font-size: 11px; min-width: 60px; padding: 2px 10px; min-height: 30px; }
+            .god-fixed-buttons .btn-action { padding: 12px; font-size: 14px; }
         }
 
         @media (max-width: 380px) {
@@ -761,10 +784,10 @@
         }
 
         .god-screen-padding {
-            padding-bottom: 220px;
+            padding-bottom: 180px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 240px; }
+            .god-screen-padding { padding-bottom: 200px; }
         }
     </style>
 </head>
@@ -881,13 +904,13 @@
             </div>
         </div>
 
-        <!-- دکمه‌های ثابت پایین صفحه - زیر آمار -->
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px; padding-bottom: 10px;">
-            <button class="god-full-btn primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
-            <button class="god-full-btn secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
+        <!-- دکمه‌های ثابت پایین (استایل مثل قبل) -->
+        <div class="god-fixed-buttons">
+            <button class="btn-action primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
+            <button class="btn-action secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
         </div>
 
-        <div style="height: 20px;"></div>
+        <div style="height: 10px;"></div>
     </div>
 
     <!-- ===== GOD BOTTOM BAR (فقط تایمر + استعلام + موزیک) ===== -->
@@ -911,7 +934,7 @@
             <button class="btn-sm green" onclick="changeInquiry(1)">+</button>
 
             <button class="btn-sm purple" id="music-btn" onclick="document.getElementById('audio-file-input').click()">🎵</button>
-            <input type="file" id="audio-file-input" accept="audio/*" style="display:none" onchange="loadAudio(event)">
+            <input type="file" id="audio-file-input" accept="*/*" style="display:none" onchange="loadAudio(event)">
             <button class="btn-sm" id="play-pause-btn" style="display:none;" onclick="togglePlayPause()">⏸️</button>
             <span class="music-name" id="music-file-name">انتخاب آهنگ</span>
         </div>
@@ -1628,8 +1651,8 @@
         function updateTimerModeUI() {
             const plusBtn = document.getElementById('timer-plus-btn');
             const minusBtn = document.getElementById('timer-minus-btn');
-            // در حالت عادی (up): دکمه‌ها فعال برای تنظیم زمان
-            // در حالت معکوس (down): دکمه‌ها غیرفعال
+            // حالت عادی (up): دکمه‌های +5s و -5s فعال هستند (برای تنظیم زمان اولیه)
+            // حالت معکوس (down): دکمه‌ها غیرفعال هستند (زمان از مقدار تعیین شده کم می‌شود)
             if (timerMode === 'up') {
                 plusBtn.disabled = false;
                 minusBtn.disabled = false;
@@ -1661,7 +1684,7 @@
         }
 
         function timerAdjust(seconds) {
-            // فقط در حالت عادی فعال است
+            // فقط در حالت عادی (up) فعال است
             if (timerMode === 'down') return;
             timerSeconds = Math.max(0, timerSeconds + seconds);
             updateTimerDisplay();
