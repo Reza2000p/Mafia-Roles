@@ -509,6 +509,7 @@
             padding: 12px 14px;
             margin-top: 12px;
             font-size: clamp(12px, 2.2vw, 14px);
+            margin-bottom: 20px;
         }
         .stats-row {
             display: flex;
@@ -541,7 +542,7 @@
             margin-top: 2px;
         }
 
-        /* ===== GOD BOTTOM BAR (new layout) ===== */
+        /* ===== GOD BOTTOM BAR ===== */
         .god-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -625,44 +626,22 @@
         }
 
         .music-name {
-            font-size: clamp(11px, 1.8vw, 14px);
-            color: #94a3b8;
-            max-width: 150px;
+            font-size: clamp(12px, 2vw, 15px);
+            color: #cbd5e1;
+            max-width: 220px;
+            min-width: 80px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: ltr;
             background: #0b0f19;
-            padding: 2px 10px;
+            padding: 4px 14px;
             border-radius: 20px;
             border: 1px solid #2d3a4f;
-            min-height: 32px;
+            min-height: 36px;
             display: inline-flex;
             align-items: center;
-        }
-
-        .god-full-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 14px;
-            border: none;
-            font-size: clamp(16px, 3vw, 20px);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            text-align: center;
-        }
-        .god-full-btn:active { transform: scale(0.97); }
-        .god-full-btn.primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; }
-        .god-full-btn.secondary { background: #334155; color: #e8edf5; box-shadow: none; }
-
-        .mode-indicator {
-            font-size: clamp(10px, 1.6vw, 13px);
-            background: #0b0f19;
-            padding: 2px 10px;
-            border-radius: 20px;
-            border: 1px solid #2d3a4f;
-            color: #94a3b8;
+            flex: 1;
         }
 
         /* ===== MODALS ===== */
@@ -753,8 +732,7 @@
             .god-bottom-row { gap: 6px; }
             .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
             .timer-display { font-size: 20px; min-width: 60px; }
-            .music-name { max-width: 80px; font-size: 10px; }
-            .god-full-btn { padding: 10px; font-size: 14px; }
+            .music-name { max-width: 120px; font-size: 11px; min-width: 60px; padding: 2px 10px; min-height: 30px; }
         }
 
         @media (max-width: 380px) {
@@ -764,12 +742,14 @@
             .player-name-input { width: 100%; }
             .god-player-row { flex-direction: column; align-items: stretch; }
             .player-actions { justify-content: space-between; margin-top: 4px; }
+            .music-name { max-width: 80px; font-size: 10px; }
         }
 
         @media (min-width: 768px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .player-name-input { width: 180px; }
+            .music-name { max-width: 300px; }
         }
 
         @media (min-width: 1024px) {
@@ -777,6 +757,7 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
             .player-name-input { width: 220px; }
+            .music-name { max-width: 400px; }
         }
 
         .god-screen-padding {
@@ -900,10 +881,16 @@
             </div>
         </div>
 
+        <!-- دکمه‌های ثابت پایین صفحه - زیر آمار -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px; padding-bottom: 10px;">
+            <button class="god-full-btn primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
+            <button class="god-full-btn secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
+        </div>
+
         <div style="height: 20px;"></div>
     </div>
 
-    <!-- ===== GOD BOTTOM BAR ===== -->
+    <!-- ===== GOD BOTTOM BAR (فقط تایمر + استعلام + موزیک) ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
         <!-- ردیف اول: تایمر + دکمه‌های آن -->
         <div class="god-bottom-row">
@@ -914,7 +901,6 @@
             <button class="btn-sm orange" onclick="timerReset()">↺</button>
             <button class="btn-sm green" id="timer-toggle-btn" onclick="timerToggle()">▶</button>
             <button class="btn-sm purple" id="timer-mode-btn" onclick="timerModeToggle()">🔄</button>
-            <span class="mode-indicator" id="timer-mode-label">⬆ عادی</span>
         </div>
 
         <!-- ردیف دوم: استعلام (با دکمه‌های + و -) + موزیک -->
@@ -925,16 +911,10 @@
             <button class="btn-sm green" onclick="changeInquiry(1)">+</button>
 
             <button class="btn-sm purple" id="music-btn" onclick="document.getElementById('audio-file-input').click()">🎵</button>
-            <input type="file" id="audio-file-input" accept="audio/*" capture style="display:none" onchange="loadAudio(event)">
+            <input type="file" id="audio-file-input" accept="audio/*" style="display:none" onchange="loadAudio(event)">
             <button class="btn-sm" id="play-pause-btn" style="display:none;" onclick="togglePlayPause()">⏸️</button>
             <span class="music-name" id="music-file-name">انتخاب آهنگ</span>
         </div>
-
-        <!-- ردیف سوم: اتمام بازی (تمام عرض) -->
-        <button class="god-full-btn primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
-
-        <!-- ردیف چهارم: شروع مجدد (تمام عرض) -->
-        <button class="god-full-btn secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
     </div>
 
     <!-- ===== ROLE MODAL ===== -->
@@ -1646,17 +1626,16 @@
         }
 
         function updateTimerModeUI() {
-            const label = document.getElementById('timer-mode-label');
             const plusBtn = document.getElementById('timer-plus-btn');
             const minusBtn = document.getElementById('timer-minus-btn');
+            // در حالت عادی (up): دکمه‌ها فعال برای تنظیم زمان
+            // در حالت معکوس (down): دکمه‌ها غیرفعال
             if (timerMode === 'up') {
-                label.innerText = '⬆ عادی';
                 plusBtn.disabled = false;
                 minusBtn.disabled = false;
                 plusBtn.style.opacity = '1';
                 minusBtn.style.opacity = '1';
             } else {
-                label.innerText = '⬇ معکوس';
                 plusBtn.disabled = true;
                 minusBtn.disabled = true;
                 plusBtn.style.opacity = '0.4';
@@ -1667,25 +1646,23 @@
         function timerModeToggle() {
             timerMode = (timerMode === 'up') ? 'down' : 'up';
             updateTimerModeUI();
-            // Reset timer when switching to down mode
-            if (timerMode === 'down') {
-                // If timer is running, stop it
-                if (timerRunning) {
-                    clearInterval(timerInterval);
-                    timerRunning = false;
-                    document.getElementById('timer-toggle-btn').innerText = '▶';
-                }
-                // If timer is at 0, set to 60 seconds default
-                if (timerSeconds === 0) {
-                    timerSeconds = 60;
-                    updateTimerDisplay();
-                }
+            // اگر به حالت معکوس رفتیم و تایمر در حال اجراست، متوقفش کن
+            if (timerMode === 'down' && timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            }
+            // اگر تایمر صفر است و حالت معکوس شد، 60 ثانیه تنظیم کن
+            if (timerMode === 'down' && timerSeconds === 0) {
+                timerSeconds = 60;
+                updateTimerDisplay();
             }
             saveState();
         }
 
         function timerAdjust(seconds) {
-            if (timerMode === 'down') return; // disabled in down mode
+            // فقط در حالت عادی فعال است
+            if (timerMode === 'down') return;
             timerSeconds = Math.max(0, timerSeconds + seconds);
             updateTimerDisplay();
             saveState();
@@ -1718,7 +1695,7 @@
             timerRunning = true;
             document.getElementById('timer-toggle-btn').innerText = '⏸';
 
-            // If down mode and timer is 0, set to 60
+            // اگر حالت معکوس است و تایمر صفر است، 60 ثانیه تنظیم کن
             if (timerMode === 'down' && timerSeconds === 0) {
                 timerSeconds = 60;
                 updateTimerDisplay();
@@ -1763,7 +1740,7 @@
                 audioFileLoaded = true;
                 document.getElementById('play-pause-btn').style.display = 'inline-block';
                 document.getElementById('play-pause-btn').innerText = '⏸️';
-                currentAudioName = file.name.length > 25 ? file.name.substring(0, 23) + '…' : file.name;
+                currentAudioName = file.name.length > 30 ? file.name.substring(0, 28) + '…' : file.name;
                 document.getElementById('music-file-name').innerText = currentAudioName;
                 saveState();
             }).catch(() => {
