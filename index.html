@@ -542,7 +542,7 @@
             margin-top: 2px;
         }
 
-        /* ===== GOD BOTTOM BAR - بزرگ و تمام عرض ===== */
+        /* ===== GOD BOTTOM BAR ===== */
         .god-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -928,7 +928,7 @@
         <div style="height: 6px;"></div>
     </div>
 
-    <!-- ===== GOD BOTTOM BAR (بزرگ و تمام عرض) ===== -->
+    <!-- ===== GOD BOTTOM BAR ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
         <!-- ردیف اول: تایمر + دکمه‌های آن -->
         <div class="god-bottom-row">
@@ -983,81 +983,107 @@
     </div>
 
     <script>
-        // ===== STATE =====
+        // ============================================================
+        // ALL_ROLES با نقش‌های جدید + حذف شده + مرتب‌سازی الفبایی
+        // ============================================================
         const ALL_ROLES = {
             citizen: [
-                { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
-                { id: 'c_doctor', name: 'دکتر', teamLabel: 'گروه شهروندی' },
-                { id: 'c_karagah', name: 'کارآگاه', teamLabel: 'گروه شهروندی' },
-                { id: 'c_sniper', name: 'اسنایپر', teamLabel: 'گروه شهروندی' },
-                { id: 'c_bazpors', name: 'بازپرس', teamLabel: 'گروه شهروندی' },
-                { id: 'c_mohaghegh', name: 'محقق', teamLabel: 'گروه شهروندی' },
-                { id: 'c_negahban', name: 'نگهبان', teamLabel: 'گروه شهروندی' },
-                { id: 'c_tofangdar', name: 'تفنگدار', teamLabel: 'گروه شهروندی' },
-                { id: 'c_takavar', name: 'تکاور', teamLabel: 'گروه شهروندی' },
-                { id: 'c_roointan', name: 'رویین‌تن', teamLabel: 'گروه شهروندی' },
-                { id: 'c_mohafez', name: 'محافظ', teamLabel: 'گروه شهروندی' },
-                { id: 'c_kashish', name: 'کشیش', teamLabel: 'گروه شهروندی' },
-                { id: 'c_bakere', name: 'باکره', teamLabel: 'گروه شهروندی' },
-                { id: 'c_ghazi', name: 'قاضی', teamLabel: 'گروه شهروندی' },
-                { id: 'c_bomber', name: 'بمبر', teamLabel: 'گروه شهروندی' },
-                { id: 'c_faramason', name: 'فراماسون', teamLabel: 'گروه شهروندی' },
-                { id: 'c_fadaei', name: 'فدایی', teamLabel: 'گروه شهروندی' },
-                { id: 'c_kalantar', name: 'کلانتر', teamLabel: 'گروه شهروندی' },
-                { id: 'c_cowboy', name: 'کابوی', teamLabel: 'گروه شهروندی' },
-                { id: 'c_hacker', name: 'هکر', teamLabel: 'گروه شهروندی' },
-                { id: 'c_nanva', name: 'نانوا', teamLabel: 'گروه شهروندی' },
-                { id: 'c_fereshte', name: 'فرشته', teamLabel: 'گروه شهروندی' },
-                { id: 'c_khabarnegar', name: 'خبرنگار', teamLabel: 'گروه شهروندی' },
-                { id: 'c_dastkaj', name: 'دست کج', teamLabel: 'گروه شهروندی' },
-                { id: 'c_shekarchi', name: 'شکارچی', teamLabel: 'گروه شهروندی' },
-                { id: 'c_zendanban', name: 'زندانبان', teamLabel: 'گروه شهروندی' },
-                { id: 'c_ghahreman', name: 'قهرمان', teamLabel: 'گروه شهروندی' },
-                { id: 'c_ocean', name: 'اوشن', teamLabel: 'گروه شهروندی' },
-                { id: 'c_herfehei', name: 'حرفه‌ای', teamLabel: 'گروه شهروندی' },
-                { id: 'c_maznoon', name: 'مظنون', teamLabel: 'گروه شهروندی' },
-                { id: 'c_zaresaz', name: 'زره‌ساز', teamLabel: 'گروه شهروندی' },
+                // شهروندی (مرتب‌سازی بر اساس نام فارسی)
                 { id: 'c_attar', name: 'عطار', teamLabel: 'گروه شهروندی' },
+                { id: 'c_bakere', name: 'باکره', teamLabel: 'گروه شهروندی' },
+                { id: 'c_bazpors', name: 'بازپرس', teamLabel: 'گروه شهروندی' },
+                { id: 'c_bomber', name: 'بمبر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_cowboy', name: 'کابوی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_dastkaj', name: 'دست کج', teamLabel: 'گروه شهروندی' },
+                { id: 'c_doctor', name: 'دکتر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_fadaei', name: 'فدایی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_faramason', name: 'فراماسون', teamLabel: 'گروه شهروندی' },
+                { id: 'c_fereshte', name: 'فرشته', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ghahreman', name: 'قهرمان', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ghazi', name: 'قاضی', teamLabel: 'گروه شهروندی' },
+                // حذف شد: کلانتر (c_kalantar)
+                { id: 'c_hacker', name: 'هکر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_herfehei', name: 'حرفه‌ای', teamLabel: 'گروه شهروندی' },
+                { id: 'c_kadkhoda', name: 'کدخدای شهر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_karagah', name: 'کارآگاه', teamLabel: 'گروه شهروندی' },
+                { id: 'c_kashish', name: 'کشیش', teamLabel: 'گروه شهروندی' },
+                { id: 'c_khabarnegar', name: 'خبرنگار', teamLabel: 'گروه شهروندی' },
+                { id: 'c_maznoon', name: 'مظنون', teamLabel: 'گروه شهروندی' },
+                { id: 'c_mohafez', name: 'محافظ', teamLabel: 'گروه شهروندی' },
+                { id: 'c_mohaghegh', name: 'محقق', teamLabel: 'گروه شهروندی' },
+                // حذف شد: نانوا (c_nanva)
+                { id: 'c_negahban', name: 'نگهبان', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ocean', name: 'اوشن', teamLabel: 'گروه شهروندی' },
+                { id: 'c_roointan', name: 'رویین‌تن', teamLabel: 'گروه شهروندی' },
+                { id: 'c_shekarchi', name: 'شکارچی', teamLabel: 'گروه شهروندی' },
+                { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
+                { id: 'c_sniper', name: 'اسنایپر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_takavar', name: 'تکاور', teamLabel: 'گروه شهروندی' },
+                { id: 'c_tofangdar', name: 'تفنگدار', teamLabel: 'گروه شهروندی' },
                 { id: 'c_vares', name: 'وارث', teamLabel: 'گروه شهروندی' },
-                { id: 'c_kadkhoda', name: 'کدخدای شهر', teamLabel: 'گروه شهروندی' }
-            ],
+                { id: 'c_zaresaz', name: 'زره‌ساز', teamLabel: 'گروه شهروندی' },
+                { id: 'c_zendanban', name: 'زندانبان', teamLabel: 'گروه شهروندی' },
+                // === نقش‌های جدید شهروندی ===
+                { id: 'c_fermandeh', name: 'فرمانده', teamLabel: 'گروه شهروندی' },
+                { id: 'c_roshanbin', name: 'روشن‌بین', teamLabel: 'گروه شهروندی' },
+                { id: 'c_saatsaz', name: 'ساعت‌ساز', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ankabut', name: 'عنکبوت', teamLabel: 'گروه شهروندی' },
+                { id: 'c_radgir', name: 'ردگیر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_tayler', name: 'تایلر', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ravanpezeshk', name: 'روانپزشک', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ravanshenas', name: 'روانشناس', teamLabel: 'گروه شهروندی' },
+                { id: 'c_ahangar', name: 'آهنگر', teamLabel: 'گروه شهروندی' }
+            ].sort((a, b) => a.name.localeCompare(b.name, 'fa')),
+
             mafia: [
-                { id: 'm_simple', name: 'مافیای ساده', teamLabel: 'گروه مافیا', isMultiple: true, count: 0 },
+                // مافیا (مرتب‌سازی بر اساس نام فارسی)
+                { id: 'm_afsangar', name: 'افسونگر', teamLabel: 'گروه مافیا' },
+                { id: 'm_bombgozar', name: 'بمب‌گذار', teamLabel: 'گروه مافیا' },
+                { id: 'm_dozd', name: 'دزد', teamLabel: 'گروه مافیا' },
+                { id: 'm_ghatle_herfehei', name: 'قاتل حرفه‌ای', teamLabel: 'گروه مافیا' },
                 { id: 'm_godfather', name: 'گادفادر', teamLabel: 'گروه مافیا' },
-                { id: 'm_nato', name: 'ناتو', teamLabel: 'گروه مافیا' },
                 { id: 'm_gorogangir', name: 'گروگانگیر', teamLabel: 'گروه مافیا' },
+                { id: 'm_jadoogar', name: 'جادوگر', teamLabel: 'گروه مافیا' },
+                { id: 'm_jalab', name: 'جلب', teamLabel: 'گروه مافیا' },
+                { id: 'm_jallad', name: 'جلاد', teamLabel: 'گروه مافیا' },
+                { id: 'm_jasoos', name: 'جاسوس', teamLabel: 'گروه مافیا' },
                 { id: 'm_khabarchein', name: 'خبرچین', teamLabel: 'گروه مافیا' },
+                { id: 'm_lecter', name: 'دکتر لکتر', teamLabel: 'گروه مافیا' },
+                { id: 'm_mardeghavi', name: 'مرد قوی', teamLabel: 'گروه مافیا' },
+                { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' },
+                { id: 'm_mozakere', name: 'مذاکره‌کننده', teamLabel: 'گروه مافیا' },
+                { id: 'm_nano', name: 'نانو', teamLabel: 'گروه مافیا' },
+                { id: 'm_nato', name: 'ناتو', teamLabel: 'گروه مافیا' },
+                { id: 'm_samsaz', name: 'سم ساز', teamLabel: 'گروه مافیا' },
                 { id: 'm_shaiad', name: 'شیاد', teamLabel: 'گروه مافیا' },
                 { id: 'm_shobadebaz', name: 'شعبده‌باز', teamLabel: 'گروه مافیا' },
-                { id: 'm_bombgozar', name: 'بمب‌گذار', teamLabel: 'گروه مافیا' },
-                { id: 'm_jadoogar', name: 'جادوگر', teamLabel: 'گروه مافیا' },
-                { id: 'm_jallad', name: 'جلاد', teamLabel: 'گروه مافیا' },
-                { id: 'm_mozakere', name: 'مذاکره‌کننده', teamLabel: 'گروه مافیا' },
-                { id: 'm_lecter', name: 'دکتر لکتر', teamLabel: 'گروه مافیا' },
                 { id: 'm_silencer', name: 'سايلنسر', teamLabel: 'گروه مافیا' },
-                { id: 'm_vakeel', name: 'وکیل', teamLabel: 'گروه مافیا' },
+                { id: 'm_simple', name: 'مافیای ساده', teamLabel: 'گروه مافیا', isMultiple: true, count: 0 },
                 { id: 'm_terorist', name: 'تروریست', teamLabel: 'گروه مافیا' },
-                { id: 'm_mardeghavi', name: 'مرد قوی', teamLabel: 'گروه مافیا' },
                 { id: 'm_tohamatzan', name: 'تهمت زن', teamLabel: 'گروه مافیا' },
-                { id: 'm_afsangar', name: 'افسونگر', teamLabel: 'گروه مافیا' },
-                { id: 'm_dozd', name: 'دزد', teamLabel: 'گروه مافیا' },
-                { id: 'm_jasoos', name: 'جاسوس', teamLabel: 'گروه مافیا' },
-                { id: 'm_samsaz', name: 'سم ساز', teamLabel: 'گروه مافیا' },
-                { id: 'm_nano', name: 'نانو', teamLabel: 'گروه مافیا' },
-                { id: 'm_ghatle_herfehei', name: 'قاتل حرفه‌ای', teamLabel: 'گروه مافیا' },
-                { id: 'm_jalab', name: 'جلب', teamLabel: 'گروه مافیا' },
-                { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' }
-            ],
+                { id: 'm_vakeel', name: 'وکیل', teamLabel: 'گروه مافیا' },
+                // === نقش‌های جدید مافیا ===
+                { id: 'm_kharabkar', name: 'خرابکار', teamLabel: 'گروه مافیا' },
+                { id: 'm_marde_ravani', name: 'مرد روانی', teamLabel: 'گروه مافیا' },
+                { id: 'm_natasha', name: 'ناتاشا', teamLabel: 'گروه مافیا' },
+                { id: 'm_dinamit', name: 'دینامیت', teamLabel: 'گروه مافیا' }
+            ].sort((a, b) => a.name.localeCompare(b.name, 'fa')),
+
             free: [
-                { id: 'f_zodiac', name: 'زودیاک', teamLabel: 'گروه مستقل' },
-                { id: 'f_killer', name: 'قاتل (کیلر)', teamLabel: 'گروه مستقل' },
-                { id: 'f_joker', name: 'جوکر', teamLabel: 'گروه مستقل' },
+                // مستقل (مرتب‌سازی بر اساس نام فارسی)
                 { id: 'f_delroba', name: 'دلربا', teamLabel: 'گروه مستقل' },
-                { id: 'f_sandika', name: 'سندیکا', teamLabel: 'گروه مستقل' },
                 { id: 'f_gorgnama', name: 'گرگ‌نما', teamLabel: 'گروه مستقل' },
-                { id: 'f_hezarchehre', name: 'هزارچهره', teamLabel: 'گروه مستقل' }
-            ]
+                { id: 'f_hezarchehre', name: 'هزارچهره', teamLabel: 'گروه مستقل' },
+                { id: 'f_joker', name: 'جوکر', teamLabel: 'گروه مستقل' },
+                { id: 'f_killer', name: 'قاتل (کیلر)', teamLabel: 'گروه مستقل' },
+                { id: 'f_sandika', name: 'سندیکا', teamLabel: 'گروه مستقل' },
+                // حذف شد: زودیاک (f_zodiac)
+            ].sort((a, b) => a.name.localeCompare(b.name, 'fa'))
         };
+
+        // ============================================================
+        // باقی کد کاملاً بدون تغییر (منطق، توابع، state و ...)
+        // ============================================================
 
         // ===== VARIABLES =====
         let selectedRoles = {};
@@ -1362,7 +1388,9 @@
                 } else if (val === 'bazpors') {
                     selectedRoles = { 'm_godfather': 1, 'm_nato': 1, 'm_shaiad': 1, 'c_mohaghegh': 1, 'c_roointan': 1, 'c_bazpors': 1, 'c_doctor': 1, 'c_karagah': 1, 'c_simple': 2 };
                 } else if (val === 'zodiac') {
-                    selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'f_zodiac': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
+                    // سناریو زودیاک با نقش‌های جدید و حذف‌شده تطبیق داده شد
+                    selectedRoles = { 'm_godfather': 1, 'm_shobadebaz': 1, 'm_bombgozar': 1, 'c_mohafez': 1, 'c_ocean': 1, 'c_tofangdar': 1, 'c_herfehei': 1, 'c_karagah': 1, 'c_doctor': 1, 'c_simple': 2 };
+                    // زودیاک حذف شد → با نقش جدید جایگزین نشد، فقط حذف شد
                 }
             }
 
@@ -1718,7 +1746,6 @@
                 timerRunning = false;
                 document.getElementById('timer-toggle-btn').innerText = '▶';
             } else {
-                // مقدار پیش‌فرض 30 ثانیه به جای 60
                 if (timerMode === 'normal' && timerSeconds === 0) {
                     timerSeconds = 30;
                     timerInitialSeconds = 30;
