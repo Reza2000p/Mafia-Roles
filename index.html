@@ -231,6 +231,13 @@
         }
         .player-name-select:focus { border-color:#38bdf8; }
         .player-name-select option { background:#0b0f19; color:#f8fafc; }
+        .player-name-input {
+            background:#0b0f19; border:1px solid #2d3a4f; color:#f8fafc;
+            font-size:clamp(12px,2.2vw,14px); padding:5px 10px; border-radius:8px;
+            width:clamp(130px,35vw,220px); outline:none;
+            transition:border .2s; flex-shrink:1; min-width:70px;
+        }
+        .player-name-input:focus { border-color:#38bdf8; }
         .player-role-wrap {
             display:flex; flex-direction:column; min-width:0; flex:1;
         }
@@ -582,7 +589,7 @@
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px}
             .role-card{min-height:64px;padding:8px 4px}
             .role-card .role-name{font-size:11px}
-            .player-name-select{width:100px;font-size:11px}
+            .player-name-select,.player-name-input{width:100px;font-size:11px}
             .god-player-row{padding:6px 8px}
             .player-info{flex:1 1 120px}
             .stats-column{gap:2px}
@@ -614,7 +621,7 @@
             .roles-grid{grid-template-columns:repeat(2,1fr)}
             .cards-grid{grid-template-columns:repeat(2,1fr)}
             .player-info{flex:1 1 100%}
-            .player-name-select{width:100%}
+            .player-name-select,.player-name-input{width:100%}
             .god-player-row{flex-direction:column;align-items:stretch}
             .player-actions{justify-content:space-between;margin-top:4px}
             .music-name{max-width:80px;font-size:11px}
@@ -626,7 +633,7 @@
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
             .cards-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-            .player-name-select{width:180px}
+            .player-name-select,.player-name-input{width:180px}
             .music-name{max-width:350px}
             .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:52px}
         }
@@ -634,7 +641,7 @@
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             .cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             body{padding:20px 36px;padding-bottom:100px}
-            .player-name-select{width:220px}
+            .player-name-select,.player-name-input{width:220px}
             .music-name{max-width:450px}
             .god-bottom-row .btn-sm{padding:14px 32px;font-size:20px;min-height:56px}
         }
@@ -1098,6 +1105,7 @@
     let selectedPlayerIds = [];
     let selectedPlayerNames = [];
     let enablePlayerSelect = true;
+    let usePlayerSelectForGame = true; // مقدار ثابت برای بازی جاری
 
     // Timer
     let timerSeconds = 0;
@@ -1152,6 +1160,7 @@
             selectedPlayerNames,
             selectedPlayerIds,
             enablePlayerSelect,
+            usePlayerSelectForGame,
             currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
         };
         try { localStorage.setItem(stateKey, JSON.stringify(state)); } catch(e) {}
@@ -1176,6 +1185,7 @@
             selectedPlayerNames = state.selectedPlayerNames || [];
             selectedPlayerIds = state.selectedPlayerIds || [];
             enablePlayerSelect = state.enablePlayerSelect !== undefined ? state.enablePlayerSelect : true;
+            usePlayerSelectForGame = state.usePlayerSelectForGame !== undefined ? state.usePlayerSelectForGame : true;
 
             const cb = document.getElementById('enable-player-select');
             if (cb) cb.checked = enablePlayerSelect;
@@ -1409,23 +1419,24 @@
     }
 
     // ================================================================
-    // 7. START GAME (تابع جدید برای رفع خطا)
+    // 7. START GAME
     // ================================================================
     function startGame() {
         enablePlayerSelect = document.getElementById('enable-player-select').checked;
+        usePlayerSelectForGame = enablePlayerSelect; // ذخیره برای بازی جاری
         const total = parseInt(document.getElementById('player-count').value) || 0;
         if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
 
-        // ریست کردن انتخاب‌های قبلی
         selectedPlayerIds = [];
         selectedPlayerNames = [];
 
-        if(enablePlayerSelect) {
+        if(usePlayerSelectForGame) {
             showScreen('player-select-screen');
             renderPlayerSelect();
         } else {
             doDistributeRoles([]);
         }
+        saveState();
     }
 
     // ================================================================
@@ -1710,7 +1721,7 @@
     }
 
     // ================================================================
-    // 12. GOD SCREEN
+    // 12. GOD SCREEN (با استفاده از usePlayerSelectForGame)
     // ================================================================
     function showGodScreen() {
         renderGodList();
@@ -1724,6 +1735,7 @@
         const container = document.getElementById('god-players-container');
         container.innerHTML = '';
 
+        const useDropdown = usePlayerSelectForGame;
         const allNames = PlayerManager.getNames();
         const usedNames = pickedHistory.map(h => h.role.playerName).filter(n => n);
 
@@ -1735,22 +1747,33 @@
             const roleDisplay = showRolesInGodView ? `${role.name} (${role.teamLabel})` : '••••••••';
             const currentName = role.playerName || '';
 
-            let options = `<option value="">— انتخاب نام —</option>`;
-            const availableNames = allNames.filter(n => !usedNames.includes(n) || n === currentName);
-            availableNames.forEach(name => {
-                const sel = (name === currentName) ? 'selected' : '';
-                options += `<option value="${name}" ${sel}>${name}</option>`;
-            });
-            if (currentName && !allNames.includes(currentName)) {
-                options += `<option value="${currentName}" selected>${currentName}</option>`;
+            let nameField = '';
+            if (useDropdown) {
+                let options = `<option value="">— انتخاب نام —</option>`;
+                const availableNames = allNames.filter(n => !usedNames.includes(n) || n === currentName);
+                availableNames.forEach(name => {
+                    const sel = (name === currentName) ? 'selected' : '';
+                    options += `<option value="${name}" ${sel}>${name}</option>`;
+                });
+                if (currentName && !allNames.includes(currentName)) {
+                    options += `<option value="${currentName}" selected>${currentName}</option>`;
+                }
+                nameField = `
+                    <select class="player-name-select" onchange="updatePlayerNameFromSelect(${idx}, this.value)">
+                        ${options}
+                    </select>
+                `;
+            } else {
+                nameField = `
+                    <input type="text" class="player-name-input" placeholder="نام..." value="${currentName}" 
+                           oninput="updatePlayerNameFromInput(${idx}, this.value)">
+                `;
             }
 
             row.innerHTML = `
                 <div class="player-info">
                     <span class="player-num">${item.pickOrder}</span>
-                    <select class="player-name-select" onchange="updatePlayerNameFromSelect(${idx}, this.value)">
-                        ${options}
-                    </select>
+                    ${nameField}
                     <div class="player-role-wrap">
                         <div class="player-role-text">${roleDisplay}</div>
                         <div class="player-card-num">کارت شماره ${item.cardNumber}</div>
@@ -1795,6 +1818,11 @@
         pickedHistory[idx].role.playerName = val;
         saveState();
         renderGodList();
+    }
+
+    function updatePlayerNameFromInput(idx, val) {
+        pickedHistory[idx].role.playerName = val;
+        saveState();
     }
 
     function togglePlayerAlive(idx) {
