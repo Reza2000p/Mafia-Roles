@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تقسیم نقش و دستیار مافیا - رضا پاکدل</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎩</text></svg>">
-    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%AA%D9%82%D8%B3%DB%8C%D9%85%20%D9%86%D9%82%D8%B4%20%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22short_name%22%3A%22%D9%85%D8%A7%D9%81%DB%8C%D8%A7%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0f19%22%2C%22theme_color%22%3A%22%23dc2626%22%7D">
     <meta name="theme-color" content="#dc2626">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
@@ -370,12 +370,12 @@
             background: #182235;
             border: 1px solid #2d3a4f;
             border-radius: 12px;
-            padding: 8px 12px;
+            padding: 8px 10px;
             margin-bottom: 6px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.2s;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             flex-wrap: wrap;
@@ -408,13 +408,13 @@
             font-size: clamp(12px, 2.2vw, 14px);
             padding: 5px 10px;
             border-radius: 8px;
-            width: clamp(150px, 38vw, 240px);
+            width: clamp(130px, 35vw, 220px);
             outline: none;
             user-select: text;
             -webkit-user-select: text;
             transition: border 0.2s;
             flex-shrink: 1;
-            min-width: 80px;
+            min-width: 70px;
         }
         .player-name-input:focus { border-color: #38bdf8; }
 
@@ -438,47 +438,52 @@
             margin-top: 1px;
         }
 
+        /* ===== ستون عمودی برای امتیاز و اخطار ===== */
         .player-actions {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
             flex-shrink: 0;
-            flex-wrap: wrap;
+            min-width: 70px;
         }
-        .warning-control, .score-control {
+        .badge-row {
             display: flex;
             align-items: center;
-            gap: 2px;
-            background: #0b0f19;
-            padding: 2px 6px;
-            border-radius: 20px;
-            border: 1px solid #2d3a4f;
+            gap: 4px;
             font-size: clamp(10px, 1.8vw, 12px);
             font-weight: 600;
+            background: #0b0f19;
+            padding: 1px 6px;
+            border-radius: 16px;
+            border: 1px solid #2d3a4f;
+            width: 100%;
+            justify-content: space-between;
         }
-        .warning-btn, .score-btn {
+        .badge-row .label { color: #94a3b8; }
+        .badge-row .value {
+            min-width: 18px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .badge-row .value.warning { color: #f59e0b; }
+        .badge-row .value.score { color: #60a5fa; }
+        .badge-row .btn-sm {
             background: transparent;
             border: none;
             width: 20px;
             height: 20px;
             border-radius: 20px;
-            font-size: clamp(13px, 2.2vw, 16px);
+            font-size: clamp(12px, 2vw, 15px);
             font-weight: 700;
             cursor: pointer;
             transition: background 0.15s;
             line-height: 1;
+            color: #cbd5e1;
         }
-        .warning-btn { color: #f59e0b; }
-        .score-btn { color: #60a5fa; }
-        .warning-btn:hover, .score-btn:hover { background: #2d3a4f; }
-        .warning-count, .score-count {
-            min-width: 16px;
-            text-align: center;
-            font-weight: 700;
-            font-size: clamp(11px, 1.8vw, 13px);
-        }
-        .warning-count { color: #f59e0b; }
-        .score-count { color: #60a5fa; }
+        .badge-row .btn-sm:hover { background: #2d3a4f; }
+        .badge-row .btn-sm.warning-btn { color: #f59e0b; }
+        .badge-row .btn-sm.score-btn { color: #60a5fa; }
 
         .alive-checkbox {
             width: clamp(20px, 4vw, 26px);
@@ -487,9 +492,10 @@
             cursor: pointer;
             border-radius: 4px;
             flex-shrink: 0;
+            margin-top: 2px;
         }
 
-        /* ===== GOD STATS ===== */
+        /* ===== GOD STATS (بدون inquiry) ===== */
         .god-stats-panel {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -555,13 +561,13 @@
         .god-bottom-row .left-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .god-bottom-row .right-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .god-bottom-row .btn-sm {
@@ -593,6 +599,43 @@
             min-width: 60px;
             text-align: center;
             font-variant-numeric: tabular-nums;
+            direction: ltr;
+        }
+        .timer-icon {
+            font-size: clamp(18px, 3.5vw, 26px);
+            line-height: 1;
+        }
+
+        /* نمایش اسم آهنگ */
+        .music-name {
+            font-size: clamp(9px, 1.5vw, 11px);
+            color: #94a3b8;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            direction: ltr;
+        }
+
+        /* دکمه‌های تمام عرض در پایین گاد */
+        .god-full-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 12px;
+            border: none;
+            font-size: clamp(14px, 2.8vw, 17px);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+        }
+        .god-full-btn:active { transform: scale(0.97); }
+        .god-full-btn.primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; }
+        .god-full-btn.secondary { background: #334155; color: #e8edf5; box-shadow: none; }
+
+        .god-bottom-row .btn-full {
+            flex: 1;
+            min-width: 0;
         }
 
         /* ===== MODALS ===== */
@@ -670,18 +713,19 @@
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; }
             .role-card { min-height: 64px; padding: 8px 4px; }
             .role-card .role-name { font-size: 11px; }
-            .player-name-input { width: 110px; font-size: 11px; }
-            .god-player-row { padding: 6px 10px; }
-            .player-info { flex: 1 1 140px; }
-            .player-actions { gap: 4px; }
-            .warning-control, .score-control { padding: 1px 4px; }
-            .warning-btn, .score-btn { width: 18px; height: 18px; font-size: 12px; }
-            .alive-checkbox { width: 18px; height: 18px; }
+            .player-name-input { width: 100px; font-size: 11px; }
+            .god-player-row { padding: 6px 8px; }
+            .player-info { flex: 1 1 120px; }
+            .player-actions { min-width: 60px; }
+            .badge-row { font-size: 9px; padding: 1px 4px; }
+            .badge-row .btn-sm { width: 16px; height: 16px; font-size: 11px; }
+            .alive-checkbox { width: 16px; height: 16px; }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
             .draw-card { height: 100px; font-size: 28px; }
             .god-stats-panel { padding: 10px; }
             .god-bottom-row { flex-direction: column; align-items: stretch; }
             .god-bottom-row .left-group, .god-bottom-row .right-group { justify-content: center; }
+            .music-name { max-width: 70px; }
         }
 
         @media (max-width: 380px) {
@@ -690,28 +734,28 @@
             .player-info { flex: 1 1 100%; }
             .player-name-input { width: 100%; }
             .god-player-row { flex-direction: column; align-items: stretch; }
-            .player-actions { justify-content: space-between; margin-top: 4px; }
+            .player-actions { flex-direction: row; justify-content: space-between; margin-top: 4px; }
+            .player-actions .badge-row { width: auto; flex: 1; }
         }
 
         @media (min-width: 768px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .player-name-input { width: 190px; }
+            .player-name-input { width: 180px; }
         }
 
         @media (min-width: 1024px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
-            .player-name-input { width: 230px; }
+            .player-name-input { width: 220px; }
         }
 
-        /* برای نمایش بهتر در صفحه گاد */
         .god-screen-padding {
-            padding-bottom: 140px;
+            padding-bottom: 180px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 160px; }
+            .god-screen-padding { padding-bottom: 200px; }
         }
     </style>
 </head>
@@ -779,7 +823,6 @@
         </p>
         <div class="cards-grid" id="cards-container"></div>
 
-        <!-- دکمه‌های ریست و برگشت در صفحه قرعه‌کشی -->
         <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
             <button class="btn-action" style="max-width: 200px; background: #f59e0b; box-shadow: none; font-size: 14px;" onclick="resetDraw()">
                 🔄 ریست نقش‌ها
@@ -813,13 +856,6 @@
                 <span>🧑‍🤝‍🧑 افراد حاضر: <strong id="stat-alive-total" style="color:#38bdf8;">۰</strong></span>
                 <span>💀 افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
             </div>
-            <div class="stats-row" style="margin-top: 4px;">
-                <span>🔍 استعلام وضعیت: <strong id="inquiry-count-text" style="color:#f59e0b;">۰</strong></span>
-                <div class="inquiry-control">
-                    <button class="inquiry-btn" onclick="changeInquiry(-1)">−</button>
-                    <button class="inquiry-btn green" onclick="changeInquiry(1)">+</button>
-                </div>
-            </div>
 
             <div style="margin-top: 10px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">💀 خارج‌شده‌ها</div>
             <div class="stats-grid">
@@ -836,23 +872,20 @@
             </div>
         </div>
 
-        <!-- فضای خالی برای پایین صفحه -->
         <div style="height: 20px;"></div>
     </div>
 
     <!-- ===== NEW BOTTOM BAR FOR GOD SCREEN ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
-        <!-- ردیف اول: استعلام + تایمر + آهنگ -->
+        <!-- ردیف اول: استعلام (عدد) + تایمر + آهنگ -->
         <div class="god-bottom-row">
             <div class="left-group">
-                <!-- استعلام -->
+                <!-- استعلام (فقط عدد، بدون دکمه) -->
                 <span style="font-weight: 600; font-size: clamp(12px,2vw,14px); color:#94a3b8;">🔍</span>
                 <span style="font-weight: 700; color:#f59e0b; min-width:20px; text-align:center;" id="god-inquiry-display">0</span>
-                <button class="btn-sm red" onclick="changeInquiry(-1)">−</button>
-                <button class="btn-sm green" onclick="changeInquiry(1)">+</button>
 
-                <!-- تایمر -->
-                <span style="font-weight: 600; font-size: clamp(12px,2vw,14px); color:#94a3b8;">⏱️</span>
+                <!-- تایمر با آیکون ساعت -->
+                <span class="timer-icon">⏱️</span>
                 <span class="timer-display" id="timer-display">00:00</span>
                 <button class="btn-sm blue" onclick="timerAdjust(-60)">−1m</button>
                 <button class="btn-sm blue" onclick="timerAdjust(60)">+1m</button>
@@ -860,21 +893,19 @@
                 <button class="btn-sm green" id="timer-toggle-btn" onclick="timerToggle()">▶</button>
             </div>
             <div class="right-group">
-                <!-- دکمه آهنگ -->
+                <!-- دکمه آهنگ با نمایش اسم فایل -->
                 <button class="btn-sm" id="music-btn" onclick="document.getElementById('audio-file-input').click()">🎵</button>
                 <input type="file" id="audio-file-input" accept="audio/*" style="display:none" onchange="loadAudio(event)">
                 <button class="btn-sm" id="play-pause-btn" style="display:none;" onclick="togglePlayPause()">⏸️</button>
+                <span class="music-name" id="music-file-name"></span>
             </div>
         </div>
-        <!-- ردیف دوم: اتمام بازی و شروع مجدد -->
-        <div class="god-bottom-row">
-            <button class="btn-action" style="max-width: 200px; padding: 8px 12px; font-size: clamp(12px,2vw,14px); background: linear-gradient(135deg, #0284c7, #0369a1);" onclick="openReportModal()">
-                🏁 اتمام بازی
-            </button>
-            <button class="btn-action" style="max-width: 200px; padding: 8px 12px; font-size: clamp(12px,2vw,14px); background: #334155; box-shadow: none;" onclick="resetApp()">
-                🔄 شروع مجدد
-            </button>
-        </div>
+
+        <!-- ردیف دوم: اتمام بازی (تمام عرض) -->
+        <button class="god-full-btn primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
+
+        <!-- ردیف سوم: شروع مجدد (تمام عرض) -->
+        <button class="god-full-btn secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
     </div>
 
     <!-- ===== ROLE MODAL ===== -->
@@ -997,6 +1028,7 @@
         // Audio
         let audioPlayer = null;
         let audioFileLoaded = false;
+        let currentAudioName = '';
 
         // ===== DOM REFS =====
         const stateKey = 'mafia_assistant_state';
@@ -1024,7 +1056,7 @@
                 inquiryCount,
                 timerSeconds,
                 timerRunning,
-                // audio state not saved (file can't be persisted)
+                currentAudioName,
                 currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
             };
             try {
@@ -1045,6 +1077,7 @@
                 inquiryCount = state.inquiryCount || 0;
                 timerSeconds = state.timerSeconds || 0;
                 timerRunning = state.timerRunning || false;
+                currentAudioName = state.currentAudioName || '';
 
                 // restore UI
                 if (state.currentScreen === 'draw-screen') {
@@ -1076,11 +1109,15 @@
                 }
 
                 // inquiry
-                document.getElementById('inquiry-count-text').innerText = inquiryCount;
                 document.getElementById('god-inquiry-display').innerText = inquiryCount;
 
                 // roles visibility toggle text
                 document.getElementById('toggle-role-text').innerText = showRolesInGodView ? 'مخفی‌سازی نقش‌ها' : 'نمایش نقش‌ها';
+
+                // audio name
+                if (currentAudioName) {
+                    document.getElementById('music-file-name').innerText = currentAudioName;
+                }
 
             } catch (e) { /* ignore */ }
         }
@@ -1312,7 +1349,6 @@
 
             renderDrawCards();
 
-            document.getElementById('inquiry-count-text').innerText = inquiryCount;
             document.getElementById('god-inquiry-display').innerText = inquiryCount;
             document.getElementById('god-btn').style.display = 'none';
 
@@ -1335,7 +1371,6 @@
                 card.className = 'draw-card';
                 card.id = `draw-card-${cardIndex}`;
                 card.innerText = cardIndex + 1;
-                // اگر قبلاً باز شده بود
                 const found = pickedHistory.find(p => p.cardNumber === cardIndex + 1);
                 if (found) {
                     card.classList.add('opened');
@@ -1345,7 +1380,6 @@
                 container.appendChild(card);
             });
 
-            // به‌روزرسانی دکمه گاد
             if (openedCount === assignedCards.length && assignedCards.length > 0) {
                 document.getElementById('god-btn').style.display = 'block';
             } else {
@@ -1394,7 +1428,6 @@
                     cardEl.classList.add('opened');
                     cardEl.innerText = '✓';
 
-                    // اضافه کردن به history با score و warnings
                     const role = assignedCards[currentCardIndex];
                     pickedHistory.push({
                         pickOrder: pickedHistory.length + 1,
@@ -1414,14 +1447,10 @@
         // ===== RESET DRAW / BACK TO SETUP =====
         function resetDraw() {
             if (!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
-            // تمام کارت‌ها را بسته می‌کنیم و تاریخچه را پاک می‌کنیم، اما نقش‌ها را دوباره توزیع می‌کنیم
-            // دوباره توزیع با همان نقش‌ها
-            // ابتدا باید نقش‌های فعلی را استخراج کنیم
             const rolePool = [];
             assignedCards.forEach(card => {
                 rolePool.push({ ...card });
             });
-            // شافل مجدد
             for (let i = rolePool.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
@@ -1431,7 +1460,6 @@
             openedCount = 0;
             inquiryCount = 0;
 
-            document.getElementById('inquiry-count-text').innerText = inquiryCount;
             document.getElementById('god-inquiry-display').innerText = inquiryCount;
             document.getElementById('god-btn').style.display = 'none';
 
@@ -1441,7 +1469,6 @@
 
         function backToSetup() {
             if (!confirm('آیا از بازگشت به صفحه تنظیمات مطمئن هستید؟ اطلاعات فعلی بازی از دست خواهد رفت.')) return;
-            // پاک کردن وضعیت بازی
             assignedCards = [];
             pickedHistory = [];
             openedCount = 0;
@@ -1483,17 +1510,17 @@
                         </div>
                         
                         <div class="player-actions">
-                            <div class="warning-control">
-                                <span>⚠️</span>
-                                <button class="warning-btn" onclick="changeWarning(${idx}, -1)">−</button>
-                                <span class="warning-count" id="warn-count-${idx}">${role.warnings || 0}</span>
-                                <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
+                            <div class="badge-row">
+                                <span class="label">⚠️</span>
+                                <button class="btn-sm warning-btn" onclick="changeWarning(${idx}, -1)">−</button>
+                                <span class="value warning" id="warn-count-${idx}">${role.warnings || 0}</span>
+                                <button class="btn-sm warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
                             </div>
-                            <div class="score-control">
-                                <span>⭐</span>
-                                <button class="score-btn" onclick="changeScore(${idx}, -1)">−</button>
-                                <span class="score-count" id="score-count-${idx}">${role.score || 0}</span>
-                                <button class="score-btn" onclick="changeScore(${idx}, 1)">+</button>
+                            <div class="badge-row">
+                                <span class="label">⭐</span>
+                                <button class="btn-sm score-btn" onclick="changeScore(${idx}, -1)">−</button>
+                                <span class="value score" id="score-count-${idx}">${role.score || 0}</span>
+                                <button class="btn-sm score-btn" onclick="changeScore(${idx}, 1)">+</button>
                             </div>
                             <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
                         </div>
@@ -1531,14 +1558,6 @@
             if (current < 0) current = 0;
             pickedHistory[historyIndex].role.score = current;
             document.getElementById(`score-count-${historyIndex}`).innerText = current;
-            saveState();
-        }
-
-        function changeInquiry(delta) {
-            inquiryCount += delta;
-            if (inquiryCount < 0) inquiryCount = 0;
-            document.getElementById('inquiry-count-text').innerText = inquiryCount;
-            document.getElementById('god-inquiry-display').innerText = inquiryCount;
             saveState();
         }
 
@@ -1640,10 +1659,12 @@
                 audioFileLoaded = true;
                 document.getElementById('play-pause-btn').style.display = 'inline-block';
                 document.getElementById('play-pause-btn').innerText = '⏸️';
+                currentAudioName = file.name.length > 20 ? file.name.substring(0, 18) + '…' : file.name;
+                document.getElementById('music-file-name').innerText = currentAudioName;
+                saveState();
             }).catch(() => {
                 // user might need to interact
             });
-            saveState();
         }
 
         function togglePlayPause() {
@@ -1780,7 +1801,6 @@
 
         function resetApp() {
             if (!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
-            // ریست کامل
             selectedRoles = {};
             assignedCards = [];
             pickedHistory = [];
@@ -1798,11 +1818,12 @@
                 audioPlayer = null;
                 audioFileLoaded = false;
                 document.getElementById('play-pause-btn').style.display = 'none';
+                document.getElementById('music-file-name').innerText = '';
+                currentAudioName = '';
             }
             document.getElementById('god-btn').style.display = 'none';
             document.getElementById('god-bottom-bar').style.display = 'none';
             document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
-            document.getElementById('inquiry-count-text').innerText = '0';
             document.getElementById('god-inquiry-display').innerText = '0';
             updateUI();
             showScreen('setup-screen');
