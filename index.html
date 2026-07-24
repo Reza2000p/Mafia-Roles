@@ -160,7 +160,7 @@
             border: 1px solid #f97316;
         }
 
-        /* ===== ROLES GRID (همانند قبل – جمع و مناسب) ===== */
+        /* ===== ROLES GRID ===== */
         .roles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
@@ -296,7 +296,7 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== CARDS GRID (با سایز بزرگ و پرکننده) ===== */
+        /* ===== CARDS GRID (DRAW) ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -332,7 +332,7 @@
             box-shadow: none;
         }
 
-        /* ===== GOD PANEL (اسم‌ها کشیده‌تر، اخطار جمع‌تر) ===== */
+        /* ===== GOD PANEL ===== */
         .god-header-bar {
             display: flex;
             justify-content: space-between;
@@ -443,8 +443,9 @@
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
+            flex-wrap: wrap;
         }
-        .warning-control {
+        .warning-control, .score-control {
             display: flex;
             align-items: center;
             gap: 2px;
@@ -455,9 +456,8 @@
             font-size: clamp(10px, 1.8vw, 12px);
             font-weight: 600;
         }
-        .warning-btn {
+        .warning-btn, .score-btn {
             background: transparent;
-            color: #f59e0b;
             border: none;
             width: 20px;
             height: 20px;
@@ -468,14 +468,18 @@
             transition: background 0.15s;
             line-height: 1;
         }
-        .warning-btn:hover { background: #2d3a4f; }
-        .warning-count {
+        .warning-btn { color: #f59e0b; }
+        .score-btn { color: #60a5fa; }
+        .warning-btn:hover, .score-btn:hover { background: #2d3a4f; }
+        .warning-count, .score-count {
             min-width: 16px;
             text-align: center;
-            color: #f59e0b;
             font-weight: 700;
             font-size: clamp(11px, 1.8vw, 13px);
         }
+        .warning-count { color: #f59e0b; }
+        .score-count { color: #60a5fa; }
+
         .alive-checkbox {
             width: clamp(20px, 4vw, 26px);
             height: clamp(20px, 4vw, 26px);
@@ -485,7 +489,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== GOD STATS (به حالت قبل: چند خط با اسم) ===== */
+        /* ===== GOD STATS ===== */
         .god-stats-panel {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -525,31 +529,71 @@
             margin-top: 2px;
         }
 
-        .inquiry-control {
+        /* ===== NEW BOTTOM BAR FOR GOD SCREEN ===== */
+        .god-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172aee;
+            backdrop-filter: blur(8px);
+            border-top: 1px solid #1e293b;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 50;
+            box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
+        }
+        .god-bottom-row {
             display: flex;
             align-items: center;
-            gap: 4px;
-            background: #182235;
-            padding: 2px 8px;
-            border-radius: 30px;
-            border: 1px solid #2d3a4f;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        .inquiry-btn {
-            background: #ef4444;
-            color: #fff;
+        .god-bottom-row .left-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .god-bottom-row .right-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .god-bottom-row .btn-sm {
+            background: #2d3a4f;
             border: none;
-            width: 26px;
-            height: 26px;
+            color: #f8fafc;
+            padding: 4px 10px;
             border-radius: 30px;
-            font-weight: 700;
-            font-size: clamp(15px, 2.8vw, 20px);
+            font-size: clamp(11px, 2vw, 13px);
+            font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
-            line-height: 1;
+            white-space: nowrap;
         }
-        .inquiry-btn.green { background: #10b981; }
-        .inquiry-btn:hover { opacity: 0.8; }
-        .inquiry-btn:active { transform: scale(0.92); }
+        .god-bottom-row .btn-sm:hover { background: #3b4a63; }
+        .god-bottom-row .btn-sm.green { background: #10b981; }
+        .god-bottom-row .btn-sm.green:hover { background: #059669; }
+        .god-bottom-row .btn-sm.red { background: #ef4444; }
+        .god-bottom-row .btn-sm.red:hover { background: #dc2626; }
+        .god-bottom-row .btn-sm.blue { background: #3b82f6; }
+        .god-bottom-row .btn-sm.blue:hover { background: #2563eb; }
+        .god-bottom-row .btn-sm.orange { background: #f59e0b; }
+        .god-bottom-row .btn-sm.orange:hover { background: #d97706; }
+
+        .timer-display {
+            font-size: clamp(16px, 3vw, 22px);
+            font-weight: 700;
+            color: #38bdf8;
+            min-width: 60px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
 
         /* ===== MODALS ===== */
         .modal-overlay {
@@ -630,12 +674,14 @@
             .god-player-row { padding: 6px 10px; }
             .player-info { flex: 1 1 140px; }
             .player-actions { gap: 4px; }
-            .warning-control { padding: 1px 4px; }
-            .warning-btn { width: 18px; height: 18px; font-size: 12px; }
+            .warning-control, .score-control { padding: 1px 4px; }
+            .warning-btn, .score-btn { width: 18px; height: 18px; font-size: 12px; }
             .alive-checkbox { width: 18px; height: 18px; }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
             .draw-card { height: 100px; font-size: 28px; }
             .god-stats-panel { padding: 10px; }
+            .god-bottom-row { flex-direction: column; align-items: stretch; }
+            .god-bottom-row .left-group, .god-bottom-row .right-group { justify-content: center; }
         }
 
         @media (max-width: 380px) {
@@ -658,6 +704,14 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
             .player-name-input { width: 230px; }
+        }
+
+        /* برای نمایش بهتر در صفحه گاد */
+        .god-screen-padding {
+            padding-bottom: 140px;
+        }
+        @media (max-width: 480px) {
+            .god-screen-padding { padding-bottom: 160px; }
         }
     </style>
 </head>
@@ -725,6 +779,16 @@
         </p>
         <div class="cards-grid" id="cards-container"></div>
 
+        <!-- دکمه‌های ریست و برگشت در صفحه قرعه‌کشی -->
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center;">
+            <button class="btn-action" style="max-width: 200px; background: #f59e0b; box-shadow: none; font-size: 14px;" onclick="resetDraw()">
+                🔄 ریست نقش‌ها
+            </button>
+            <button class="btn-action" style="max-width: 200px; background: #475569; box-shadow: none; font-size: 14px;" onclick="backToSetup()">
+                ↩️ برگشت به تنظیمات
+            </button>
+        </div>
+
         <div class="bottom-bar">
             <button class="btn-action" id="god-btn" style="display: none; background: linear-gradient(135deg, #059669, #047857);" onclick="showGodScreen()">
                 👑 ورود به پنل گاد (گرداننده)
@@ -733,7 +797,7 @@
     </div>
 
     <!-- ===== GOD SCREEN ===== -->
-    <div id="god-screen" class="screen">
+    <div id="god-screen" class="screen god-screen-padding">
         <div class="god-header-bar">
             <span class="title">👥 ترتیب نوبت و ثبت اسم</span>
             <button class="toggle-btn" onclick="toggleRolesVisibility()">
@@ -772,12 +836,43 @@
             </div>
         </div>
 
-        <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px; padding-bottom: 8px;">
-            <button class="btn-action" onclick="openReportModal()" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-                🏁 اتمام بازی و دریافت گزارش
+        <!-- فضای خالی برای پایین صفحه -->
+        <div style="height: 20px;"></div>
+    </div>
+
+    <!-- ===== NEW BOTTOM BAR FOR GOD SCREEN ===== -->
+    <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
+        <!-- ردیف اول: استعلام + تایمر + آهنگ -->
+        <div class="god-bottom-row">
+            <div class="left-group">
+                <!-- استعلام -->
+                <span style="font-weight: 600; font-size: clamp(12px,2vw,14px); color:#94a3b8;">🔍</span>
+                <span style="font-weight: 700; color:#f59e0b; min-width:20px; text-align:center;" id="god-inquiry-display">0</span>
+                <button class="btn-sm red" onclick="changeInquiry(-1)">−</button>
+                <button class="btn-sm green" onclick="changeInquiry(1)">+</button>
+
+                <!-- تایمر -->
+                <span style="font-weight: 600; font-size: clamp(12px,2vw,14px); color:#94a3b8;">⏱️</span>
+                <span class="timer-display" id="timer-display">00:00</span>
+                <button class="btn-sm blue" onclick="timerAdjust(-60)">−1m</button>
+                <button class="btn-sm blue" onclick="timerAdjust(60)">+1m</button>
+                <button class="btn-sm orange" onclick="timerReset()">↺</button>
+                <button class="btn-sm green" id="timer-toggle-btn" onclick="timerToggle()">▶</button>
+            </div>
+            <div class="right-group">
+                <!-- دکمه آهنگ -->
+                <button class="btn-sm" id="music-btn" onclick="document.getElementById('audio-file-input').click()">🎵</button>
+                <input type="file" id="audio-file-input" accept="audio/*" style="display:none" onchange="loadAudio(event)">
+                <button class="btn-sm" id="play-pause-btn" style="display:none;" onclick="togglePlayPause()">⏸️</button>
+            </div>
+        </div>
+        <!-- ردیف دوم: اتمام بازی و شروع مجدد -->
+        <div class="god-bottom-row">
+            <button class="btn-action" style="max-width: 200px; padding: 8px 12px; font-size: clamp(12px,2vw,14px); background: linear-gradient(135deg, #0284c7, #0369a1);" onclick="openReportModal()">
+                🏁 اتمام بازی
             </button>
-            <button class="btn-action" onclick="resetApp()" style="background: #334155; box-shadow: none;">
-                🔄 شروع بازی جدید
+            <button class="btn-action" style="max-width: 200px; padding: 8px 12px; font-size: clamp(12px,2vw,14px); background: #334155; box-shadow: none;" onclick="resetApp()">
+                🔄 شروع مجدد
             </button>
         </div>
     </div>
@@ -810,7 +905,7 @@
     </div>
 
     <script>
-        // ===== تمام منطق بدون تغییر =====
+        // ===== STATE =====
         const ALL_ROLES = {
             citizen: [
                 { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
@@ -886,6 +981,7 @@
             ]
         };
 
+        // ===== VARIABLES =====
         let selectedRoles = {};
         let assignedCards = [];
         let pickedHistory = [];
@@ -893,15 +989,103 @@
         let showRolesInGodView = true;
         let inquiryCount = 0;
 
+        // Timer
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let timerRunning = false;
+
+        // Audio
+        let audioPlayer = null;
+        let audioFileLoaded = false;
+
+        // ===== DOM REFS =====
+        const stateKey = 'mafia_assistant_state';
+
+        // ===== INIT =====
         window.onload = () => {
+            loadState();
             renderCustomScenariosOptions();
             renderRoles();
             updateCounts();
+            updateGodBottomBar();
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW register skipped:', err));
             }
         };
 
+        // ===== STATE MANAGEMENT =====
+        function saveState() {
+            const state = {
+                selectedRoles,
+                assignedCards,
+                pickedHistory,
+                openedCount,
+                showRolesInGodView,
+                inquiryCount,
+                timerSeconds,
+                timerRunning,
+                // audio state not saved (file can't be persisted)
+                currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
+            };
+            try {
+                localStorage.setItem(stateKey, JSON.stringify(state));
+            } catch (e) { /* ignore */ }
+        }
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(stateKey);
+                if (!raw) return;
+                const state = JSON.parse(raw);
+                selectedRoles = state.selectedRoles || {};
+                assignedCards = state.assignedCards || [];
+                pickedHistory = state.pickedHistory || [];
+                openedCount = state.openedCount || 0;
+                showRolesInGodView = state.showRolesInGodView !== undefined ? state.showRolesInGodView : true;
+                inquiryCount = state.inquiryCount || 0;
+                timerSeconds = state.timerSeconds || 0;
+                timerRunning = state.timerRunning || false;
+
+                // restore UI
+                if (state.currentScreen === 'draw-screen') {
+                    showScreen('draw-screen', false);
+                    renderDrawCards();
+                    if (openedCount === assignedCards.length && assignedCards.length > 0) {
+                        document.getElementById('god-btn').style.display = 'block';
+                    }
+                } else if (state.currentScreen === 'god-screen') {
+                    showScreen('god-screen', false);
+                    renderGodList();
+                    document.getElementById('god-bottom-bar').style.display = 'flex';
+                    updateGodBottomBar();
+                } else {
+                    showScreen('setup-screen', false);
+                }
+
+                // update role counters
+                Object.keys(selectedRoles).forEach(id => {
+                    const el = document.getElementById(`count-${id}`);
+                    if (el) el.innerText = selectedRoles[id];
+                });
+                updateUI();
+
+                // timer
+                updateTimerDisplay();
+                if (timerRunning) {
+                    startTimer();
+                }
+
+                // inquiry
+                document.getElementById('inquiry-count-text').innerText = inquiryCount;
+                document.getElementById('god-inquiry-display').innerText = inquiryCount;
+
+                // roles visibility toggle text
+                document.getElementById('toggle-role-text').innerText = showRolesInGodView ? 'مخفی‌سازی نقش‌ها' : 'نمایش نقش‌ها';
+
+            } catch (e) { /* ignore */ }
+        }
+
+        // ===== HELPERS =====
         function getSavedScenarios() {
             try { return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]'); } catch (e) { return []; }
         }
@@ -953,6 +1137,7 @@
             document.getElementById('scenario-select').value = `user_${newScenario.id}`;
             applyScenario();
             alert(`سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`);
+            saveState();
         }
 
         function deleteCurrentScenario() {
@@ -966,6 +1151,7 @@
                 renderCustomScenariosOptions();
                 document.getElementById('scenario-select').value = 'custom';
                 applyScenario();
+                saveState();
             }
         }
 
@@ -1004,6 +1190,7 @@
             if (selectedRoles[roleId]) delete selectedRoles[roleId];
             else selectedRoles[roleId] = 1;
             updateUI();
+            saveState();
         }
 
         function changeMultiple(roleId, delta, event) {
@@ -1019,6 +1206,7 @@
             if (countEl) countEl.innerText = current;
 
             updateUI();
+            saveState();
         }
 
         function updateUI() {
@@ -1091,19 +1279,27 @@
             });
 
             updateUI();
+            saveState();
         }
 
+        // ===== DISTRIBUTE ROLES =====
         function distributeRoles() {
             let rolePool = [];
             ['citizen', 'mafia', 'free'].forEach(team => {
                 ALL_ROLES[team].forEach(role => {
                     const count = selectedRoles[role.id] || 0;
                     for (let i = 0; i < count; i++) {
-                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0, playerName: '' });
+                        rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0, score: 0, playerName: '' });
                     }
                 });
             });
 
+            if (rolePool.length === 0) {
+                alert('لطفاً حداقل یک نقش انتخاب کنید.');
+                return;
+            }
+
+            // shuffle
             for (let i = rolePool.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
@@ -1114,6 +1310,17 @@
             openedCount = 0;
             inquiryCount = 0;
 
+            renderDrawCards();
+
+            document.getElementById('inquiry-count-text').innerText = inquiryCount;
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            document.getElementById('god-btn').style.display = 'none';
+
+            showScreen('draw-screen');
+            saveState();
+        }
+
+        function renderDrawCards() {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
@@ -1128,13 +1335,25 @@
                 card.className = 'draw-card';
                 card.id = `draw-card-${cardIndex}`;
                 card.innerText = cardIndex + 1;
+                // اگر قبلاً باز شده بود
+                const found = pickedHistory.find(p => p.cardNumber === cardIndex + 1);
+                if (found) {
+                    card.classList.add('opened');
+                    card.innerText = '✓';
+                }
                 card.onclick = () => revealRole(cardIndex);
                 container.appendChild(card);
             });
 
-            showScreen('draw-screen');
+            // به‌روزرسانی دکمه گاد
+            if (openedCount === assignedCards.length && assignedCards.length > 0) {
+                document.getElementById('god-btn').style.display = 'block';
+            } else {
+                document.getElementById('god-btn').style.display = 'none';
+            }
         }
 
+        // ===== REVEAL ROLE =====
         let currentCardIndex = -1;
 
         function revealRole(index) {
@@ -1175,23 +1394,71 @@
                     cardEl.classList.add('opened');
                     cardEl.innerText = '✓';
 
+                    // اضافه کردن به history با score و warnings
+                    const role = assignedCards[currentCardIndex];
                     pickedHistory.push({
                         pickOrder: pickedHistory.length + 1,
                         cardNumber: currentCardIndex + 1,
-                        role: assignedCards[currentCardIndex]
+                        role: { ...role }
                     });
 
                     openedCount++;
                     if (openedCount === assignedCards.length) {
                         document.getElementById('god-btn').style.display = 'block';
                     }
+                    saveState();
                 }
             }
         }
 
+        // ===== RESET DRAW / BACK TO SETUP =====
+        function resetDraw() {
+            if (!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
+            // تمام کارت‌ها را بسته می‌کنیم و تاریخچه را پاک می‌کنیم، اما نقش‌ها را دوباره توزیع می‌کنیم
+            // دوباره توزیع با همان نقش‌ها
+            // ابتدا باید نقش‌های فعلی را استخراج کنیم
+            const rolePool = [];
+            assignedCards.forEach(card => {
+                rolePool.push({ ...card });
+            });
+            // شافل مجدد
+            for (let i = rolePool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
+            }
+            assignedCards = rolePool;
+            pickedHistory = [];
+            openedCount = 0;
+            inquiryCount = 0;
+
+            document.getElementById('inquiry-count-text').innerText = inquiryCount;
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            document.getElementById('god-btn').style.display = 'none';
+
+            renderDrawCards();
+            saveState();
+        }
+
+        function backToSetup() {
+            if (!confirm('آیا از بازگشت به صفحه تنظیمات مطمئن هستید؟ اطلاعات فعلی بازی از دست خواهد رفت.')) return;
+            // پاک کردن وضعیت بازی
+            assignedCards = [];
+            pickedHistory = [];
+            openedCount = 0;
+            inquiryCount = 0;
+            document.getElementById('god-btn').style.display = 'none';
+            document.getElementById('god-bottom-bar').style.display = 'none';
+            showScreen('setup-screen');
+            saveState();
+        }
+
+        // ===== GOD SCREEN =====
         function showGodScreen() {
             renderGodList();
             showScreen('god-screen');
+            document.getElementById('god-bottom-bar').style.display = 'flex';
+            updateGodBottomBar();
+            saveState();
         }
 
         function renderGodList() {
@@ -1222,7 +1489,12 @@
                                 <span class="warning-count" id="warn-count-${idx}">${role.warnings || 0}</span>
                                 <button class="warning-btn" onclick="changeWarning(${idx}, 1)">+</button>
                             </div>
-                            
+                            <div class="score-control">
+                                <span>⭐</span>
+                                <button class="score-btn" onclick="changeScore(${idx}, -1)">−</button>
+                                <span class="score-count" id="score-count-${idx}">${role.score || 0}</span>
+                                <button class="score-btn" onclick="changeScore(${idx}, 1)">+</button>
+                            </div>
                             <input type="checkbox" class="alive-checkbox" ${role.isAlive ? 'checked' : ''} onchange="togglePlayerAlive(${idx})">
                         </div>
                     `;
@@ -1230,15 +1502,18 @@
             });
 
             updateGodStats();
+            saveState();
         }
 
         function updatePlayerName(historyIndex, val) {
             pickedHistory[historyIndex].role.playerName = val;
+            saveState();
         }
 
         function togglePlayerAlive(historyIndex) {
             pickedHistory[historyIndex].role.isAlive = !pickedHistory[historyIndex].role.isAlive;
             renderGodList();
+            saveState();
         }
 
         function changeWarning(historyIndex, delta) {
@@ -1247,18 +1522,31 @@
             if (current < 0) current = 0;
             pickedHistory[historyIndex].role.warnings = current;
             document.getElementById(`warn-count-${historyIndex}`).innerText = current;
+            saveState();
+        }
+
+        function changeScore(historyIndex, delta) {
+            let current = pickedHistory[historyIndex].role.score || 0;
+            current += delta;
+            if (current < 0) current = 0;
+            pickedHistory[historyIndex].role.score = current;
+            document.getElementById(`score-count-${historyIndex}`).innerText = current;
+            saveState();
         }
 
         function changeInquiry(delta) {
             inquiryCount += delta;
             if (inquiryCount < 0) inquiryCount = 0;
             document.getElementById('inquiry-count-text').innerText = inquiryCount;
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            saveState();
         }
 
         function toggleRolesVisibility() {
             showRolesInGodView = !showRolesInGodView;
             document.getElementById('toggle-role-text').innerText = showRolesInGodView ? 'مخفی‌سازی نقش‌ها' : 'نمایش نقش‌ها';
             renderGodList();
+            saveState();
         }
 
         function updateGodStats() {
@@ -1286,6 +1574,101 @@
             document.getElementById('stat-free-dead').innerText = freeDead;
         }
 
+        // ===== TIMER =====
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer-display').innerText =
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function timerAdjust(seconds) {
+            timerSeconds = Math.max(0, timerSeconds + seconds);
+            updateTimerDisplay();
+            saveState();
+        }
+
+        function timerReset() {
+            timerSeconds = 0;
+            updateTimerDisplay();
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            }
+            saveState();
+        }
+
+        function timerToggle() {
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            } else {
+                startTimer();
+            }
+            saveState();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerRunning = true;
+            document.getElementById('timer-toggle-btn').innerText = '⏸';
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+                saveState();
+            }, 1000);
+        }
+
+        // ===== AUDIO =====
+        function loadAudio(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            if (audioPlayer) {
+                audioPlayer.pause();
+                audioPlayer.src = url;
+            } else {
+                audioPlayer = new Audio(url);
+                audioPlayer.addEventListener('ended', () => {
+                    document.getElementById('play-pause-btn').innerText = '▶️';
+                });
+            }
+            audioPlayer.load();
+            audioPlayer.play().then(() => {
+                audioFileLoaded = true;
+                document.getElementById('play-pause-btn').style.display = 'inline-block';
+                document.getElementById('play-pause-btn').innerText = '⏸️';
+            }).catch(() => {
+                // user might need to interact
+            });
+            saveState();
+        }
+
+        function togglePlayPause() {
+            if (!audioPlayer) return;
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                document.getElementById('play-pause-btn').innerText = '⏸️';
+            } else {
+                audioPlayer.pause();
+                document.getElementById('play-pause-btn').innerText = '▶️';
+            }
+        }
+
+        // ===== UPDATE GOD BOTTOM BAR =====
+        function updateGodBottomBar() {
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            updateTimerDisplay();
+            if (timerRunning) {
+                document.getElementById('timer-toggle-btn').innerText = '⏸';
+            } else {
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            }
+        }
+
+        // ===== REPORT =====
         function generateRawReport() {
             let r = `====================================\n`;
             r += `       🎩 گزارش نهایی بازی مافیا 🎩      \n`;
@@ -1295,9 +1678,12 @@
             pickedHistory.forEach(item => {
                 const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
+                const score = item.role.score || 0;
+                const warnings = item.role.warnings || 0;
 
                 r += `#️⃣ نوبت ${item.pickOrder} | 👤 ${pName} | 🏷️ نقش: ${item.role.name}\n`;
                 r += `🎭 گروه: ${item.role.teamLabel} ${teamEmoji} | 🃏 کارت: شماره ${item.cardNumber}\n`;
+                r += `⭐ امتیاز: ${score} | ⚠️ اخطار: ${warnings}\n`;
                 r += `------------------------------------\n`;
             });
 
@@ -1311,6 +1697,8 @@
                 const pName = item.role.playerName ? `${item.role.playerName}` : `بازیکن نوبت ${item.pickOrder}`;
                 let teamColor = item.role.team === 'citizen' ? '#6ee7b7' : (item.role.team === 'mafia' ? '#fca5a5' : '#fdba74');
                 let teamEmoji = item.role.team === 'citizen' ? '🟩' : (item.role.team === 'mafia' ? '🟥' : '🟧');
+                const score = item.role.score || 0;
+                const warnings = item.role.warnings || 0;
 
                 rows += `
                     <div style="background:#1e293b; border:1px solid #334155; border-radius:14px; padding:10px 12px; margin-bottom:8px; box-shadow:0 4px 12px rgba(0,0,0,0.2);">
@@ -1321,6 +1709,8 @@
                         <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #334155; padding-top:6px; flex-wrap:wrap; gap:4px;">
                             <span>🎭 گروه: <strong style="color:${teamColor};">${item.role.teamLabel}</strong> ${teamEmoji}</span>
                             <span>🃏 کارت: شماره <strong>${item.cardNumber}</strong></span>
+                            <span>⭐ امتیاز: <strong>${score}</strong></span>
+                            <span>⚠️ اخطار: <strong>${warnings}</strong></span>
                         </div>
                     </div>`;
             });
@@ -1380,16 +1770,49 @@
             link.click();
         }
 
-        function showScreen(screenId) {
+        // ===== SCREEN MANAGEMENT =====
+        function showScreen(screenId, save = true) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            if (save) saveState();
             window.scrollTo(0, 0);
         }
 
         function resetApp() {
+            if (!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
+            // ریست کامل
+            selectedRoles = {};
+            assignedCards = [];
+            pickedHistory = [];
+            openedCount = 0;
+            inquiryCount = 0;
+            timerSeconds = 0;
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            }
+            updateTimerDisplay();
+            if (audioPlayer) {
+                audioPlayer.pause();
+                audioPlayer = null;
+                audioFileLoaded = false;
+                document.getElementById('play-pause-btn').style.display = 'none';
+            }
             document.getElementById('god-btn').style.display = 'none';
+            document.getElementById('god-bottom-bar').style.display = 'none';
+            document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
+            document.getElementById('inquiry-count-text').innerText = '0';
+            document.getElementById('god-inquiry-display').innerText = '0';
+            updateUI();
             showScreen('setup-screen');
+            localStorage.removeItem(stateKey);
         }
+
+        // ===== AUTO SAVE ON PAGE UNLOAD =====
+        window.addEventListener('beforeunload', () => {
+            saveState();
+        });
     </script>
 </body>
 </html>
