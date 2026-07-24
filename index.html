@@ -366,7 +366,6 @@
         }
         .toggle-btn:hover { background: #3b4a63; }
 
-        /* ===== هر ردیف بازیکن ===== */
         .god-player-row {
             background: #182235;
             border: 1px solid #2d3a4f;
@@ -439,7 +438,6 @@
             margin-top: 1px;
         }
 
-        /* ===== ردیف عمودی امتیاز/اخطار + چک‌باکس در کنار ===== */
         .player-actions {
             display: flex;
             align-items: center;
@@ -591,6 +589,13 @@
         .god-bottom-row .btn-sm.blue:hover { background: #2563eb; }
         .god-bottom-row .btn-sm.orange { background: #f59e0b; }
         .god-bottom-row .btn-sm.orange:hover { background: #d97706; }
+        .god-bottom-row .btn-sm.purple { background: #8b5cf6; }
+        .god-bottom-row .btn-sm.purple:hover { background: #7c3aed; }
+        .god-bottom-row .btn-sm:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .timer-display {
             font-size: clamp(22px, 4vw, 32px);
@@ -622,11 +627,18 @@
         .music-name {
             font-size: clamp(11px, 1.8vw, 14px);
             color: #94a3b8;
-            max-width: 120px;
+            max-width: 150px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: ltr;
+            background: #0b0f19;
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid #2d3a4f;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .god-full-btn {
@@ -643,6 +655,15 @@
         .god-full-btn:active { transform: scale(0.97); }
         .god-full-btn.primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; }
         .god-full-btn.secondary { background: #334155; color: #e8edf5; box-shadow: none; }
+
+        .mode-indicator {
+            font-size: clamp(10px, 1.6vw, 13px);
+            background: #0b0f19;
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid #2d3a4f;
+            color: #94a3b8;
+        }
 
         /* ===== MODALS ===== */
         .modal-overlay {
@@ -732,7 +753,7 @@
             .god-bottom-row { gap: 6px; }
             .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
             .timer-display { font-size: 20px; min-width: 60px; }
-            .music-name { max-width: 70px; font-size: 10px; }
+            .music-name { max-width: 80px; font-size: 10px; }
             .god-full-btn { padding: 10px; font-size: 14px; }
         }
 
@@ -759,10 +780,10 @@
         }
 
         .god-screen-padding {
-            padding-bottom: 200px;
+            padding-bottom: 220px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 220px; }
+            .god-screen-padding { padding-bottom: 240px; }
         }
     </style>
 </head>
@@ -882,27 +903,31 @@
         <div style="height: 20px;"></div>
     </div>
 
-    <!-- ===== GOD BOTTOM BAR (new layout) ===== -->
+    <!-- ===== GOD BOTTOM BAR ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
-        <!-- ردیف اول: تایمر + دکمه‌های آن (بزرگ‌تر) -->
+        <!-- ردیف اول: تایمر + دکمه‌های آن -->
         <div class="god-bottom-row">
             <span class="timer-icon">⏱️</span>
             <span class="timer-display" id="timer-display">00:00</span>
-            <button class="btn-sm blue" onclick="timerAdjust(60)">+1m</button>
-            <button class="btn-sm blue" onclick="timerAdjust(-60)">−1m</button>
+            <button class="btn-sm blue" id="timer-plus-btn" onclick="timerAdjust(5)">+5s</button>
+            <button class="btn-sm blue" id="timer-minus-btn" onclick="timerAdjust(-5)">−5s</button>
             <button class="btn-sm orange" onclick="timerReset()">↺</button>
             <button class="btn-sm green" id="timer-toggle-btn" onclick="timerToggle()">▶</button>
+            <button class="btn-sm purple" id="timer-mode-btn" onclick="timerModeToggle()">🔄</button>
+            <span class="mode-indicator" id="timer-mode-label">⬆ عادی</span>
         </div>
 
-        <!-- ردیف دوم: استعلام + موزیک -->
+        <!-- ردیف دوم: استعلام (با دکمه‌های + و -) + موزیک -->
         <div class="god-bottom-row">
             <span class="inquiry-label">🔍</span>
+            <button class="btn-sm red" onclick="changeInquiry(-1)">−</button>
             <span class="inquiry-display" id="god-inquiry-display">0</span>
+            <button class="btn-sm green" onclick="changeInquiry(1)">+</button>
 
-            <button class="btn-sm" id="music-btn" onclick="document.getElementById('audio-file-input').click()" style="background:#8b5cf6;">🎵</button>
-            <input type="file" id="audio-file-input" accept="audio/*" style="display:none" onchange="loadAudio(event)">
+            <button class="btn-sm purple" id="music-btn" onclick="document.getElementById('audio-file-input').click()">🎵</button>
+            <input type="file" id="audio-file-input" accept="audio/*" capture style="display:none" onchange="loadAudio(event)">
             <button class="btn-sm" id="play-pause-btn" style="display:none;" onclick="togglePlayPause()">⏸️</button>
-            <span class="music-name" id="music-file-name"></span>
+            <span class="music-name" id="music-file-name">انتخاب آهنگ</span>
         </div>
 
         <!-- ردیف سوم: اتمام بازی (تمام عرض) -->
@@ -1028,6 +1053,7 @@
         let timerSeconds = 0;
         let timerInterval = null;
         let timerRunning = false;
+        let timerMode = 'up'; // 'up' or 'down'
 
         // Audio
         let audioPlayer = null;
@@ -1060,6 +1086,7 @@
                 inquiryCount,
                 timerSeconds,
                 timerRunning,
+                timerMode,
                 currentAudioName,
                 currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
             };
@@ -1081,6 +1108,7 @@
                 inquiryCount = state.inquiryCount || 0;
                 timerSeconds = state.timerSeconds || 0;
                 timerRunning = state.timerRunning || false;
+                timerMode = state.timerMode || 'up';
                 currentAudioName = state.currentAudioName || '';
 
                 // restore UI
@@ -1108,6 +1136,7 @@
 
                 // timer
                 updateTimerDisplay();
+                updateTimerModeUI();
                 if (timerRunning) {
                     startTimer();
                 }
@@ -1121,6 +1150,8 @@
                 // audio name
                 if (currentAudioName) {
                     document.getElementById('music-file-name').innerText = currentAudioName;
+                } else {
+                    document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
                 }
 
             } catch (e) { /* ignore */ }
@@ -1567,6 +1598,13 @@
             saveState();
         }
 
+        function changeInquiry(delta) {
+            inquiryCount += delta;
+            if (inquiryCount < 0) inquiryCount = 0;
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            saveState();
+        }
+
         function toggleRolesVisibility() {
             showRolesInGodView = !showRolesInGodView;
             document.getElementById('toggle-role-text').innerText = showRolesInGodView ? 'مخفی‌سازی نقش‌ها' : 'نمایش نقش‌ها';
@@ -1607,7 +1645,47 @@
                 `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
+        function updateTimerModeUI() {
+            const label = document.getElementById('timer-mode-label');
+            const plusBtn = document.getElementById('timer-plus-btn');
+            const minusBtn = document.getElementById('timer-minus-btn');
+            if (timerMode === 'up') {
+                label.innerText = '⬆ عادی';
+                plusBtn.disabled = false;
+                minusBtn.disabled = false;
+                plusBtn.style.opacity = '1';
+                minusBtn.style.opacity = '1';
+            } else {
+                label.innerText = '⬇ معکوس';
+                plusBtn.disabled = true;
+                minusBtn.disabled = true;
+                plusBtn.style.opacity = '0.4';
+                minusBtn.style.opacity = '0.4';
+            }
+        }
+
+        function timerModeToggle() {
+            timerMode = (timerMode === 'up') ? 'down' : 'up';
+            updateTimerModeUI();
+            // Reset timer when switching to down mode
+            if (timerMode === 'down') {
+                // If timer is running, stop it
+                if (timerRunning) {
+                    clearInterval(timerInterval);
+                    timerRunning = false;
+                    document.getElementById('timer-toggle-btn').innerText = '▶';
+                }
+                // If timer is at 0, set to 60 seconds default
+                if (timerSeconds === 0) {
+                    timerSeconds = 60;
+                    updateTimerDisplay();
+                }
+            }
+            saveState();
+        }
+
         function timerAdjust(seconds) {
+            if (timerMode === 'down') return; // disabled in down mode
             timerSeconds = Math.max(0, timerSeconds + seconds);
             updateTimerDisplay();
             saveState();
@@ -1639,8 +1717,28 @@
             if (timerInterval) clearInterval(timerInterval);
             timerRunning = true;
             document.getElementById('timer-toggle-btn').innerText = '⏸';
+
+            // If down mode and timer is 0, set to 60
+            if (timerMode === 'down' && timerSeconds === 0) {
+                timerSeconds = 60;
+                updateTimerDisplay();
+            }
+
             timerInterval = setInterval(() => {
-                timerSeconds++;
+                if (timerMode === 'up') {
+                    timerSeconds++;
+                } else {
+                    timerSeconds--;
+                    if (timerSeconds <= 0) {
+                        timerSeconds = 0;
+                        updateTimerDisplay();
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        document.getElementById('timer-toggle-btn').innerText = '▶';
+                        saveState();
+                        return;
+                    }
+                }
                 updateTimerDisplay();
                 saveState();
             }, 1000);
@@ -1665,7 +1763,7 @@
                 audioFileLoaded = true;
                 document.getElementById('play-pause-btn').style.display = 'inline-block';
                 document.getElementById('play-pause-btn').innerText = '⏸️';
-                currentAudioName = file.name.length > 20 ? file.name.substring(0, 18) + '…' : file.name;
+                currentAudioName = file.name.length > 25 ? file.name.substring(0, 23) + '…' : file.name;
                 document.getElementById('music-file-name').innerText = currentAudioName;
                 saveState();
             }).catch(() => {
@@ -1688,6 +1786,7 @@
         function updateGodBottomBar() {
             document.getElementById('god-inquiry-display').innerText = inquiryCount;
             updateTimerDisplay();
+            updateTimerModeUI();
             if (timerRunning) {
                 document.getElementById('timer-toggle-btn').innerText = '⏸';
             } else {
@@ -1813,18 +1912,20 @@
             openedCount = 0;
             inquiryCount = 0;
             timerSeconds = 0;
+            timerMode = 'up';
             if (timerRunning) {
                 clearInterval(timerInterval);
                 timerRunning = false;
                 document.getElementById('timer-toggle-btn').innerText = '▶';
             }
             updateTimerDisplay();
+            updateTimerModeUI();
             if (audioPlayer) {
                 audioPlayer.pause();
                 audioPlayer = null;
                 audioFileLoaded = false;
                 document.getElementById('play-pause-btn').style.display = 'none';
-                document.getElementById('music-file-name').innerText = '';
+                document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
                 currentAudioName = '';
             }
             document.getElementById('god-btn').style.display = 'none';
