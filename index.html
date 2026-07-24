@@ -542,7 +542,7 @@
             margin-top: 2px;
         }
 
-        /* ===== GOD BOTTOM BAR ===== */
+        /* ===== GOD BOTTOM BAR (سایز بزرگتر مثل قبل) ===== */
         .god-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -551,10 +551,10 @@
             background: #0f172aee;
             backdrop-filter: blur(8px);
             border-top: 1px solid #1e293b;
-            padding: 8px 12px;
+            padding: 10px 14px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
             z-index: 50;
             box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
         }
@@ -563,20 +563,20 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
         .god-bottom-row .btn-sm {
             background: #2d3a4f;
             border: none;
             color: #f8fafc;
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 30px;
-            font-size: clamp(13px, 2.2vw, 16px);
+            font-size: clamp(14px, 2.5vw, 17px);
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
             white-space: nowrap;
-            min-height: 36px;
+            min-height: 40px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -599,46 +599,46 @@
         }
 
         .timer-display {
-            font-size: clamp(20px, 3.5vw, 28px);
+            font-size: clamp(22px, 4vw, 32px);
             font-weight: 700;
             color: #38bdf8;
-            min-width: 70px;
+            min-width: 80px;
             text-align: center;
             font-variant-numeric: tabular-nums;
             direction: ltr;
         }
         .timer-icon {
-            font-size: clamp(22px, 3.5vw, 30px);
+            font-size: clamp(24px, 4vw, 34px);
             line-height: 1;
         }
 
         .inquiry-display {
-            font-size: clamp(18px, 3.2vw, 26px);
+            font-size: clamp(20px, 3.8vw, 30px);
             font-weight: 700;
             color: #f59e0b;
-            min-width: 26px;
+            min-width: 30px;
             text-align: center;
         }
         .inquiry-label {
             font-weight: 600;
-            font-size: clamp(13px, 2vw, 16px);
+            font-size: clamp(14px, 2.2vw, 18px);
             color: #94a3b8;
         }
 
         .music-name {
-            font-size: clamp(11px, 1.8vw, 14px);
+            font-size: clamp(12px, 2vw, 15px);
             color: #cbd5e1;
-            max-width: 200px;
-            min-width: 70px;
+            max-width: 220px;
+            min-width: 80px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: ltr;
             background: #0b0f19;
-            padding: 3px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
             border: 1px solid #2d3a4f;
-            min-height: 32px;
+            min-height: 36px;
             display: inline-flex;
             align-items: center;
             flex: 1;
@@ -751,12 +751,12 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
             .draw-card { height: 100px; font-size: 28px; }
             .god-stats-panel { padding: 10px; }
-            .god-bottom-row { gap: 4px; }
-            .god-bottom-row .btn-sm { padding: 5px 10px; font-size: 11px; min-height: 30px; }
-            .timer-display { font-size: 18px; min-width: 60px; }
-            .music-name { max-width: 100px; font-size: 10px; min-width: 50px; padding: 2px 8px; min-height: 26px; }
+            .god-bottom-row { gap: 6px; }
+            .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
+            .timer-display { font-size: 20px; min-width: 60px; }
+            .music-name { max-width: 120px; font-size: 11px; min-width: 60px; padding: 2px 10px; min-height: 30px; }
             .god-fixed-buttons .btn-action { padding: 10px; font-size: 13px; }
-            .god-bottom-bar { padding: 6px 10px; gap: 4px; }
+            .god-bottom-bar { padding: 8px 10px; gap: 6px; }
         }
 
         @media (max-width: 380px) {
@@ -766,14 +766,14 @@
             .player-name-input { width: 100%; }
             .god-player-row { flex-direction: column; align-items: stretch; }
             .player-actions { justify-content: space-between; margin-top: 4px; }
-            .music-name { max-width: 70px; font-size: 9px; }
+            .music-name { max-width: 80px; font-size: 10px; }
         }
 
         @media (min-width: 768px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .player-name-input { width: 180px; }
-            .music-name { max-width: 280px; }
+            .music-name { max-width: 300px; }
         }
 
         @media (min-width: 1024px) {
@@ -781,14 +781,14 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
             .player-name-input { width: 220px; }
-            .music-name { max-width: 360px; }
+            .music-name { max-width: 400px; }
         }
 
         .god-screen-padding {
-            padding-bottom: 150px;
+            padding-bottom: 170px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 160px; }
+            .god-screen-padding { padding-bottom: 190px; }
         }
     </style>
 </head>
@@ -914,7 +914,7 @@
         <div style="height: 6px;"></div>
     </div>
 
-    <!-- ===== GOD BOTTOM BAR (فقط تایمر + استعلام + موزیک) ===== -->
+    <!-- ===== GOD BOTTOM BAR (سایز بزرگتر مثل قبل) ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
         <!-- ردیف اول: تایمر + دکمه‌های آن -->
         <div class="god-bottom-row">
@@ -1055,9 +1055,10 @@
 
         // Timer
         let timerSeconds = 0;
+        let timerInitialSeconds = 0; // مقدار اولیه برای ریست
         let timerInterval = null;
         let timerRunning = false;
-        let timerMode = 'normal'; // 'normal' => +5s/-5s فعال, تایمر شمارش معکوس (کم‌شونده) | 'reverse' => دکمه‌ها غیرفعال, تایمر افزایشی
+        let timerMode = 'normal'; // 'normal' => countdown (decreasing), 'reverse' => increasing
 
         // Audio
         let audioPlayer = null;
@@ -1089,6 +1090,7 @@
                 showRolesInGodView,
                 inquiryCount,
                 timerSeconds,
+                timerInitialSeconds,
                 timerRunning,
                 timerMode,
                 currentAudioName,
@@ -1111,6 +1113,7 @@
                 showRolesInGodView = state.showRolesInGodView !== undefined ? state.showRolesInGodView : true;
                 inquiryCount = state.inquiryCount || 0;
                 timerSeconds = state.timerSeconds || 0;
+                timerInitialSeconds = state.timerInitialSeconds || 0;
                 timerRunning = state.timerRunning || false;
                 timerMode = state.timerMode || 'normal';
                 currentAudioName = state.currentAudioName || '';
@@ -1683,12 +1686,14 @@
             // فقط در حالت normal فعال است (برای تنظیم زمان اولیه)
             if (timerMode === 'reverse') return;
             timerSeconds = Math.max(0, timerSeconds + seconds);
+            timerInitialSeconds = timerSeconds; // ذخیره مقدار اولیه
             updateTimerDisplay();
             saveState();
         }
 
         function timerReset() {
-            timerSeconds = 0;
+            // ریست به مقدار اولیه (همان مقداری که قبل از شروع تنظیم شده بود)
+            timerSeconds = timerInitialSeconds;
             updateTimerDisplay();
             if (timerRunning) {
                 clearInterval(timerInterval);
@@ -1704,6 +1709,12 @@
                 timerRunning = false;
                 document.getElementById('timer-toggle-btn').innerText = '▶';
             } else {
+                // اگر تایمر صفر است و حالت normal است، مقدار پیش‌فرض 60 بگذار
+                if (timerMode === 'normal' && timerSeconds === 0) {
+                    timerSeconds = 60;
+                    timerInitialSeconds = 60;
+                    updateTimerDisplay();
+                }
                 startTimer();
             }
             saveState();
@@ -1904,6 +1915,7 @@
             openedCount = 0;
             inquiryCount = 0;
             timerSeconds = 0;
+            timerInitialSeconds = 0;
             timerMode = 'normal';
             if (timerRunning) {
                 clearInterval(timerInterval);
