@@ -509,7 +509,7 @@
             padding: 12px 14px;
             margin-top: 12px;
             font-size: clamp(12px, 2.2vw, 14px);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .stats-row {
             display: flex;
@@ -551,10 +551,10 @@
             background: #0f172aee;
             backdrop-filter: blur(8px);
             border-top: 1px solid #1e293b;
-            padding: 10px 14px;
+            padding: 8px 12px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             z-index: 50;
             box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
         }
@@ -563,20 +563,20 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
         .god-bottom-row .btn-sm {
             background: #2d3a4f;
             border: none;
             color: #f8fafc;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 30px;
-            font-size: clamp(14px, 2.5vw, 17px);
+            font-size: clamp(13px, 2.2vw, 16px);
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
             white-space: nowrap;
-            min-height: 40px;
+            min-height: 36px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -599,64 +599,64 @@
         }
 
         .timer-display {
-            font-size: clamp(22px, 4vw, 32px);
+            font-size: clamp(20px, 3.5vw, 28px);
             font-weight: 700;
             color: #38bdf8;
-            min-width: 80px;
+            min-width: 70px;
             text-align: center;
             font-variant-numeric: tabular-nums;
             direction: ltr;
         }
         .timer-icon {
-            font-size: clamp(24px, 4vw, 34px);
+            font-size: clamp(22px, 3.5vw, 30px);
             line-height: 1;
         }
 
         .inquiry-display {
-            font-size: clamp(20px, 3.8vw, 30px);
+            font-size: clamp(18px, 3.2vw, 26px);
             font-weight: 700;
             color: #f59e0b;
-            min-width: 30px;
+            min-width: 26px;
             text-align: center;
         }
         .inquiry-label {
             font-weight: 600;
-            font-size: clamp(14px, 2.2vw, 18px);
+            font-size: clamp(13px, 2vw, 16px);
             color: #94a3b8;
         }
 
         .music-name {
-            font-size: clamp(12px, 2vw, 15px);
+            font-size: clamp(11px, 1.8vw, 14px);
             color: #cbd5e1;
-            max-width: 220px;
-            min-width: 80px;
+            max-width: 200px;
+            min-width: 70px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: ltr;
             background: #0b0f19;
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: 20px;
             border: 1px solid #2d3a4f;
-            min-height: 36px;
+            min-height: 32px;
             display: inline-flex;
             align-items: center;
             flex: 1;
         }
 
-        /* ===== دکمه‌های ثابت پایین (استایل مثل قبل) ===== */
+        /* ===== دکمه‌های ثابت پایین ===== */
         .god-fixed-buttons {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 8px;
-            padding-bottom: 10px;
+            gap: 8px;
+            margin-top: 6px;
+            padding-bottom: 4px;
         }
         .god-fixed-buttons .btn-action {
             width: 100%;
             max-width: 100%;
-            font-size: clamp(16px, 3vw, 20px);
-            padding: 14px;
+            font-size: clamp(15px, 2.8vw, 18px);
+            padding: 12px;
         }
         .god-fixed-buttons .btn-action.primary {
             background: linear-gradient(135deg, #0284c7, #0369a1);
@@ -751,11 +751,12 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
             .draw-card { height: 100px; font-size: 28px; }
             .god-stats-panel { padding: 10px; }
-            .god-bottom-row { gap: 6px; }
-            .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
-            .timer-display { font-size: 20px; min-width: 60px; }
-            .music-name { max-width: 120px; font-size: 11px; min-width: 60px; padding: 2px 10px; min-height: 30px; }
-            .god-fixed-buttons .btn-action { padding: 12px; font-size: 14px; }
+            .god-bottom-row { gap: 4px; }
+            .god-bottom-row .btn-sm { padding: 5px 10px; font-size: 11px; min-height: 30px; }
+            .timer-display { font-size: 18px; min-width: 60px; }
+            .music-name { max-width: 100px; font-size: 10px; min-width: 50px; padding: 2px 8px; min-height: 26px; }
+            .god-fixed-buttons .btn-action { padding: 10px; font-size: 13px; }
+            .god-bottom-bar { padding: 6px 10px; gap: 4px; }
         }
 
         @media (max-width: 380px) {
@@ -765,14 +766,14 @@
             .player-name-input { width: 100%; }
             .god-player-row { flex-direction: column; align-items: stretch; }
             .player-actions { justify-content: space-between; margin-top: 4px; }
-            .music-name { max-width: 80px; font-size: 10px; }
+            .music-name { max-width: 70px; font-size: 9px; }
         }
 
         @media (min-width: 768px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .player-name-input { width: 180px; }
-            .music-name { max-width: 300px; }
+            .music-name { max-width: 280px; }
         }
 
         @media (min-width: 1024px) {
@@ -780,14 +781,14 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
             .player-name-input { width: 220px; }
-            .music-name { max-width: 400px; }
+            .music-name { max-width: 360px; }
         }
 
         .god-screen-padding {
-            padding-bottom: 180px;
+            padding-bottom: 150px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 200px; }
+            .god-screen-padding { padding-bottom: 160px; }
         }
     </style>
 </head>
@@ -889,14 +890,14 @@
                 <span>💀 افراد خارج شده: <strong id="stat-dead-total" style="color:#ef4444;">۰</strong></span>
             </div>
 
-            <div style="margin-top: 10px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">💀 خارج‌شده‌ها</div>
+            <div style="margin-top: 8px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">💀 خارج‌شده‌ها</div>
             <div class="stats-grid">
                 <div class="stat-box" style="color: #6ee7b7;">🟩 شهروند <span class="num" id="stat-citizen-dead">۰</span></div>
                 <div class="stat-box" style="color: #fca5a5;">🟥 مافیا <span class="num" id="stat-mafia-dead">۰</span></div>
                 <div class="stat-box" style="color: #fdba74;">🟧 مستقل <span class="num" id="stat-free-dead">۰</span></div>
             </div>
 
-            <div style="margin-top: 10px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">🧑‍🤝‍🧑 حاضرین (زنده)</div>
+            <div style="margin-top: 8px; font-size: clamp(10px, 1.8vw, 12px); color: #94a3b8; font-weight: 600;">🧑‍🤝‍🧑 حاضرین (زنده)</div>
             <div class="stats-grid">
                 <div class="stat-box" style="color: #6ee7b7;">🟩 شهروند <span class="num" id="stat-citizen-alive">۰</span></div>
                 <div class="stat-box" style="color: #fca5a5;">🟥 مافیا <span class="num" id="stat-mafia-alive">۰</span></div>
@@ -904,13 +905,13 @@
             </div>
         </div>
 
-        <!-- دکمه‌های ثابت پایین (استایل مثل قبل) -->
+        <!-- دکمه‌های ثابت پایین -->
         <div class="god-fixed-buttons">
             <button class="btn-action primary" onclick="openReportModal()">🏁 اتمام بازی و دریافت گزارش</button>
             <button class="btn-action secondary" onclick="resetApp()">🔄 شروع بازی جدید</button>
         </div>
 
-        <div style="height: 10px;"></div>
+        <div style="height: 6px;"></div>
     </div>
 
     <!-- ===== GOD BOTTOM BAR (فقط تایمر + استعلام + موزیک) ===== -->
@@ -1056,7 +1057,7 @@
         let timerSeconds = 0;
         let timerInterval = null;
         let timerRunning = false;
-        let timerMode = 'up'; // 'up' or 'down'
+        let timerMode = 'normal'; // 'normal' => +5s/-5s فعال, تایمر شمارش معکوس (کم‌شونده) | 'reverse' => دکمه‌ها غیرفعال, تایمر افزایشی
 
         // Audio
         let audioPlayer = null;
@@ -1111,7 +1112,7 @@
                 inquiryCount = state.inquiryCount || 0;
                 timerSeconds = state.timerSeconds || 0;
                 timerRunning = state.timerRunning || false;
-                timerMode = state.timerMode || 'up';
+                timerMode = state.timerMode || 'normal';
                 currentAudioName = state.currentAudioName || '';
 
                 // restore UI
@@ -1651,9 +1652,9 @@
         function updateTimerModeUI() {
             const plusBtn = document.getElementById('timer-plus-btn');
             const minusBtn = document.getElementById('timer-minus-btn');
-            // حالت عادی (up): دکمه‌های +5s و -5s فعال هستند (برای تنظیم زمان اولیه)
-            // حالت معکوس (down): دکمه‌ها غیرفعال هستند (زمان از مقدار تعیین شده کم می‌شود)
-            if (timerMode === 'up') {
+            // حالت normal: دکمه‌ها فعال هستند (برای تنظیم زمان اولیه)
+            // حالت reverse: دکمه‌ها غیرفعال هستند
+            if (timerMode === 'normal') {
                 plusBtn.disabled = false;
                 minusBtn.disabled = false;
                 plusBtn.style.opacity = '1';
@@ -1667,25 +1668,20 @@
         }
 
         function timerModeToggle() {
-            timerMode = (timerMode === 'up') ? 'down' : 'up';
+            timerMode = (timerMode === 'normal') ? 'reverse' : 'normal';
             updateTimerModeUI();
-            // اگر به حالت معکوس رفتیم و تایمر در حال اجراست، متوقفش کن
-            if (timerMode === 'down' && timerRunning) {
+            // اگر به حالت reverse رفتیم و تایمر در حال اجراست، متوقفش کن
+            if (timerMode === 'reverse' && timerRunning) {
                 clearInterval(timerInterval);
                 timerRunning = false;
                 document.getElementById('timer-toggle-btn').innerText = '▶';
-            }
-            // اگر تایمر صفر است و حالت معکوس شد، 60 ثانیه تنظیم کن
-            if (timerMode === 'down' && timerSeconds === 0) {
-                timerSeconds = 60;
-                updateTimerDisplay();
             }
             saveState();
         }
 
         function timerAdjust(seconds) {
-            // فقط در حالت عادی (up) فعال است
-            if (timerMode === 'down') return;
+            // فقط در حالت normal فعال است (برای تنظیم زمان اولیه)
+            if (timerMode === 'reverse') return;
             timerSeconds = Math.max(0, timerSeconds + seconds);
             updateTimerDisplay();
             saveState();
@@ -1718,16 +1714,9 @@
             timerRunning = true;
             document.getElementById('timer-toggle-btn').innerText = '⏸';
 
-            // اگر حالت معکوس است و تایمر صفر است، 60 ثانیه تنظیم کن
-            if (timerMode === 'down' && timerSeconds === 0) {
-                timerSeconds = 60;
-                updateTimerDisplay();
-            }
-
             timerInterval = setInterval(() => {
-                if (timerMode === 'up') {
-                    timerSeconds++;
-                } else {
+                if (timerMode === 'normal') {
+                    // حالت عادی: تایمر کم می‌شود (شمارش معکوس)
                     timerSeconds--;
                     if (timerSeconds <= 0) {
                         timerSeconds = 0;
@@ -1738,6 +1727,9 @@
                         saveState();
                         return;
                     }
+                } else {
+                    // حالت reverse: تایمر زیاد می‌شود (شمارش رو به جلو)
+                    timerSeconds++;
                 }
                 updateTimerDisplay();
                 saveState();
@@ -1912,7 +1904,7 @@
             openedCount = 0;
             inquiryCount = 0;
             timerSeconds = 0;
-            timerMode = 'up';
+            timerMode = 'normal';
             if (timerRunning) {
                 clearInterval(timerInterval);
                 timerRunning = false;
