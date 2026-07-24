@@ -480,7 +480,7 @@
         }
         .player-mgmt-add button:hover { background:#2563eb; }
 
-        /* ===== PLAYER SELECTION SCREEN (چک‌باکس + جستجو) ===== */
+        /* ===== PLAYER SELECTION SCREEN ===== */
         .player-select-container {
             background:#0f172a; border:1px solid #2d3a4f; border-radius:14px;
             padding:16px; margin-top:12px;
@@ -520,7 +520,6 @@
             transition:background .15s;
         }
         .player-select-item:last-child { border-bottom:none; }
-        .player-select-item:hover { background:#182235; }
         .player-select-item .checkbox {
             width:20px; height:20px; accent-color:#22c55e; cursor:pointer;
             flex-shrink:0;
@@ -713,7 +712,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 2: PLAYER SELECTION (چک‌باکس + جستجو) ===== -->
+    <!-- ===== SCREEN 2: PLAYER SELECTION ===== -->
     <!-- ============================================================ -->
     <div id="player-select-screen" class="screen">
         <div class="setup-box" style="justify-content:center;">
@@ -873,7 +872,7 @@
     <!-- ============================================================ -->
     <script>
     // ================================================================
-    // 1. ALL_ROLES (با نقش‌های جدید و حذف‌شده)
+    // 1. ALL_ROLES
     // ================================================================
     const ALL_ROLES = {
         citizen: [
@@ -1096,6 +1095,7 @@
     let openedCount = 0;
     let showRolesInGodView = true;
     let inquiryCount = 0;
+    let selectedPlayerIds = [];
     let selectedPlayerNames = [];
     let enablePlayerSelect = true;
 
@@ -1150,6 +1150,7 @@
             timerMode,
             currentAudioName,
             selectedPlayerNames,
+            selectedPlayerIds,
             enablePlayerSelect,
             currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
         };
@@ -1173,6 +1174,7 @@
             timerMode = state.timerMode || 'normal';
             currentAudioName = state.currentAudioName || '';
             selectedPlayerNames = state.selectedPlayerNames || [];
+            selectedPlayerIds = state.selectedPlayerIds || [];
             enablePlayerSelect = state.enablePlayerSelect !== undefined ? state.enablePlayerSelect : true;
 
             const cb = document.getElementById('enable-player-select');
@@ -1407,10 +1409,28 @@
     }
 
     // ================================================================
-    // 7. PLAYER SELECTION (چک‌باکس + جستجو)
+    // 7. START GAME (تابع جدید برای رفع خطا)
     // ================================================================
-    let selectedPlayerIds = [];
+    function startGame() {
+        enablePlayerSelect = document.getElementById('enable-player-select').checked;
+        const total = parseInt(document.getElementById('player-count').value) || 0;
+        if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
 
+        // ریست کردن انتخاب‌های قبلی
+        selectedPlayerIds = [];
+        selectedPlayerNames = [];
+
+        if(enablePlayerSelect) {
+            showScreen('player-select-screen');
+            renderPlayerSelect();
+        } else {
+            doDistributeRoles([]);
+        }
+    }
+
+    // ================================================================
+    // 8. PLAYER SELECTION
+    // ================================================================
     function renderPlayerSelect() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
         const container = document.getElementById('player-select-container');
@@ -1453,7 +1473,6 @@
         html += `</div>`;
         container.innerHTML = html;
 
-        // به‌روزرسانی دکمه تایید
         const confirmBtn = document.getElementById('confirm-players-btn');
         confirmBtn.disabled = (selectedCount !== total);
         saveState();
@@ -1494,7 +1513,6 @@
         const result = PlayerManager.add(val);
         if (result.success) {
             input.value = '';
-            // اگر تعداد انتخاب‌شده کمتر از تعداد نقش‌ها بود، بازیکن جدید را به‌طور خودکار انتخاب کن
             const total = parseInt(document.getElementById('player-count').value) || 0;
             if (selectedPlayerIds.length < total) {
                 selectedPlayerIds.push(result.data.id);
@@ -1511,7 +1529,6 @@
             alert(`تعداد انتخاب‌شده (${selectedPlayerIds.length}) با تعداد نقش‌ها (${total}) برابر نیست.`);
             return;
         }
-        // گرفتن نام‌ها به ترتیب انتخاب (با توجه به ترتیب در لیست)
         const allPlayers = PlayerManager.getAll();
         const names = selectedPlayerIds.map(id => {
             const p = allPlayers.find(p => p.id === id);
@@ -1527,7 +1544,7 @@
     }
 
     // ================================================================
-    // 8. DISTRIBUTE ROLES
+    // 9. DISTRIBUTE ROLES
     // ================================================================
     function doDistributeRoles(playerNames) {
         let rolePool = [];
@@ -1545,7 +1562,6 @@
             return;
         }
 
-        // shuffle
         for(let i=rolePool.length-1; i>0; i--) {
             const j = Math.floor(Math.random() * (i+1));
             [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
@@ -1603,7 +1619,7 @@
     }
 
     // ================================================================
-    // 9. REVEAL ROLE
+    // 10. REVEAL ROLE
     // ================================================================
     let currentCardIndex = -1;
 
@@ -1659,7 +1675,7 @@
     }
 
     // ================================================================
-    // 10. RESET DRAW / BACK
+    // 11. RESET DRAW / BACK
     // ================================================================
     function resetDraw() {
         if(!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
@@ -1694,7 +1710,7 @@
     }
 
     // ================================================================
-    // 11. GOD SCREEN (با dropdown همه اسامی + اعتبارسنجی تکراری)
+    // 12. GOD SCREEN
     // ================================================================
     function showGodScreen() {
         renderGodList();
@@ -1709,7 +1725,6 @@
         container.innerHTML = '';
 
         const allNames = PlayerManager.getNames();
-        // اسامی انتخاب‌شده در حال حاضر (برای جلوگیری از تکراری)
         const usedNames = pickedHistory.map(h => h.role.playerName).filter(n => n);
 
         pickedHistory.forEach((item, idx) => {
@@ -1720,15 +1735,12 @@
             const roleDisplay = showRolesInGodView ? `${role.name} (${role.teamLabel})` : '••••••••';
             const currentName = role.playerName || '';
 
-            // لیست اسامی: تمام اسامی + یک گزینه خالی
             let options = `<option value="">— انتخاب نام —</option>`;
-            // ابتدا اسامی موجود را اضافه کن
             const availableNames = allNames.filter(n => !usedNames.includes(n) || n === currentName);
             availableNames.forEach(name => {
                 const sel = (name === currentName) ? 'selected' : '';
                 options += `<option value="${name}" ${sel}>${name}</option>`;
             });
-            // اگر اسم فعلی در لیست نبود، آن را اضافه کن
             if (currentName && !allNames.includes(currentName)) {
                 options += `<option value="${currentName}" selected>${currentName}</option>`;
             }
@@ -1770,11 +1782,9 @@
     }
 
     function updatePlayerNameFromSelect(idx, val) {
-        // بررسی تکراری بودن
         const usedNames = pickedHistory.map((h, i) => (i !== idx) ? h.role.playerName : null).filter(n => n);
         if (val && usedNames.includes(val)) {
             alert(`نام "${val}" قبلاً انتخاب شده است. لطفاً نام دیگری انتخاب کنید.`);
-            // بازگرداندن به مقدار قبلی
             const prevName = pickedHistory[idx].role.playerName || '';
             const select = document.querySelector(`.god-player-row:nth-child(${idx+1}) .player-name-select`);
             if (select) {
@@ -1784,7 +1794,6 @@
         }
         pickedHistory[idx].role.playerName = val;
         saveState();
-        // بعد از تغییر، دوباره render می‌کنیم تا dropdownها به‌روز شوند
         renderGodList();
     }
 
@@ -1850,7 +1859,7 @@
     }
 
     // ================================================================
-    // 12. TIMER (همانند قبل)
+    // 13. TIMER
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -1946,7 +1955,7 @@
     }
 
     // ================================================================
-    // 13. AUDIO (همانند قبل)
+    // 14. AUDIO
     // ================================================================
     function loadAudio(event) {
         const file = event.target.files[0];
@@ -1984,7 +1993,7 @@
     }
 
     // ================================================================
-    // 14. REPORT (همانند قبل)
+    // 15. REPORT
     // ================================================================
     function generateRawReport() {
         let r = `====================================\n`;
@@ -2067,7 +2076,7 @@
     }
 
     // ================================================================
-    // 15. SAVE GAME RESULTS
+    // 16. SAVE GAME RESULTS
     // ================================================================
     function saveGameResults() {
         let savedCount = 0;
@@ -2096,7 +2105,7 @@
     }
 
     // ================================================================
-    // 16. LEADERBOARD PANEL (با ریست فقط امتیازها)
+    // 17. LEADERBOARD PANEL
     // ================================================================
     function openLeaderboard() {
         document.getElementById('leaderboard-panel').classList.add('active');
@@ -2167,7 +2176,7 @@
         let html = `
             <div class="player-mgmt">
                 <div class="player-mgmt-search">
-                    <input type="text" id="player-search-input" placeholder="جستجوی نام..." oninput="filterPlayerListMgmt()">
+                    <input type="text" id="player-search-input-mgmt" placeholder="جستجوی نام..." oninput="filterPlayerListMgmt()">
                     <button onclick="filterPlayerListMgmt()">🔍 جستجو</button>
                 </div>
                 <div class="player-mgmt-add">
@@ -2201,7 +2210,7 @@
     }
 
     function filterPlayerListMgmt() {
-        const query = document.getElementById('player-search-input')?.value || '';
+        const query = document.getElementById('player-search-input-mgmt')?.value || '';
         const container = document.getElementById('player-mgmt-list');
         if(!container) return;
         const items = container.querySelectorAll('.player-mgmt-item');
@@ -2248,7 +2257,6 @@
         }
     }
 
-    // ریست فقط امتیازها (نه حذف نام‌ها)
     function resetScoresOnly() {
         if(confirm('آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟')) {
             if(confirm('این عمل غیرقابل بازگشت است. ادامه دهید؟')) {
@@ -2260,7 +2268,7 @@
     }
 
     // ================================================================
-    // 17. LEADERBOARD EXPORTS
+    // 18. LEADERBOARD EXPORTS
     // ================================================================
     function getLeaderboardData() {
         return PlayerManager.getLeaderboard(0);
@@ -2343,7 +2351,7 @@
     }
 
     // ================================================================
-    // 18. SCREEN MANAGEMENT
+    // 19. SCREEN MANAGEMENT
     // ================================================================
     function showScreen(screenId, save = true) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2400,7 +2408,7 @@
     }
 
     // ================================================================
-    // 19. AUTO SAVE
+    // 20. AUTO SAVE
     // ================================================================
     window.addEventListener('beforeunload', () => {
         saveState();
