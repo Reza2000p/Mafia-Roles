@@ -542,7 +542,7 @@
             margin-top: 2px;
         }
 
-        /* ===== GOD BOTTOM BAR (سایز بزرگتر مثل قبل) ===== */
+        /* ===== GOD BOTTOM BAR - بزرگ و تمام عرض ===== */
         .god-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -551,10 +551,10 @@
             background: #0f172aee;
             backdrop-filter: blur(8px);
             border-top: 1px solid #1e293b;
-            padding: 10px 14px;
+            padding: 12px 16px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             z-index: 50;
             box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.5);
         }
@@ -563,23 +563,26 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
+            width: 100%;
         }
         .god-bottom-row .btn-sm {
             background: #2d3a4f;
             border: none;
             color: #f8fafc;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 30px;
-            font-size: clamp(14px, 2.5vw, 17px);
-            font-weight: 600;
+            font-size: clamp(16px, 2.8vw, 20px);
+            font-weight: 700;
             cursor: pointer;
             transition: background 0.15s;
             white-space: nowrap;
-            min-height: 40px;
+            min-height: 48px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            flex: 1 0 auto;
+            min-width: 50px;
         }
         .god-bottom-row .btn-sm:hover { background: #3b4a63; }
         .god-bottom-row .btn-sm.green { background: #10b981; }
@@ -599,49 +602,50 @@
         }
 
         .timer-display {
-            font-size: clamp(22px, 4vw, 32px);
+            font-size: clamp(28px, 5vw, 40px);
             font-weight: 700;
             color: #38bdf8;
-            min-width: 80px;
+            min-width: 100px;
             text-align: center;
             font-variant-numeric: tabular-nums;
             direction: ltr;
+            padding: 0 8px;
         }
         .timer-icon {
-            font-size: clamp(24px, 4vw, 34px);
+            font-size: clamp(30px, 5vw, 44px);
             line-height: 1;
         }
 
         .inquiry-display {
-            font-size: clamp(20px, 3.8vw, 30px);
+            font-size: clamp(26px, 4.5vw, 38px);
             font-weight: 700;
             color: #f59e0b;
-            min-width: 30px;
+            min-width: 40px;
             text-align: center;
         }
         .inquiry-label {
-            font-weight: 600;
-            font-size: clamp(14px, 2.2vw, 18px);
+            font-weight: 700;
+            font-size: clamp(18px, 3vw, 26px);
             color: #94a3b8;
         }
 
         .music-name {
-            font-size: clamp(12px, 2vw, 15px);
+            font-size: clamp(14px, 2.2vw, 18px);
             color: #cbd5e1;
-            max-width: 220px;
-            min-width: 80px;
+            max-width: 260px;
+            min-width: 100px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             direction: ltr;
             background: #0b0f19;
-            padding: 4px 14px;
-            border-radius: 20px;
+            padding: 6px 18px;
+            border-radius: 30px;
             border: 1px solid #2d3a4f;
-            min-height: 36px;
+            min-height: 44px;
             display: inline-flex;
             align-items: center;
-            flex: 1;
+            flex: 2;
         }
 
         /* ===== دکمه‌های ثابت پایین ===== */
@@ -752,11 +756,14 @@
             .draw-card { height: 100px; font-size: 28px; }
             .god-stats-panel { padding: 10px; }
             .god-bottom-row { gap: 6px; }
-            .god-bottom-row .btn-sm { padding: 6px 12px; font-size: 12px; min-height: 34px; }
-            .timer-display { font-size: 20px; min-width: 60px; }
-            .music-name { max-width: 120px; font-size: 11px; min-width: 60px; padding: 2px 10px; min-height: 30px; }
+            .god-bottom-row .btn-sm { padding: 8px 12px; font-size: 13px; min-height: 38px; min-width: 40px; }
+            .timer-display { font-size: 24px; min-width: 70px; }
+            .timer-icon { font-size: 26px; }
+            .music-name { max-width: 120px; font-size: 12px; min-width: 60px; padding: 4px 12px; min-height: 34px; }
             .god-fixed-buttons .btn-action { padding: 10px; font-size: 13px; }
-            .god-bottom-bar { padding: 8px 10px; gap: 6px; }
+            .god-bottom-bar { padding: 10px 12px; gap: 8px; }
+            .inquiry-display { font-size: 22px; min-width: 30px; }
+            .inquiry-label { font-size: 16px; }
         }
 
         @media (max-width: 380px) {
@@ -766,14 +773,17 @@
             .player-name-input { width: 100%; }
             .god-player-row { flex-direction: column; align-items: stretch; }
             .player-actions { justify-content: space-between; margin-top: 4px; }
-            .music-name { max-width: 80px; font-size: 10px; }
+            .music-name { max-width: 80px; font-size: 11px; }
+            .god-bottom-row .btn-sm { padding: 6px 10px; font-size: 12px; min-height: 34px; min-width: 34px; }
+            .timer-display { font-size: 20px; min-width: 60px; }
         }
 
         @media (min-width: 768px) {
             .roles-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .player-name-input { width: 180px; }
-            .music-name { max-width: 300px; }
+            .music-name { max-width: 350px; }
+            .god-bottom-row .btn-sm { padding: 12px 26px; font-size: 18px; min-height: 52px; }
         }
 
         @media (min-width: 1024px) {
@@ -781,14 +791,18 @@
             .cards-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             body { padding: 20px 36px; padding-bottom: 100px; }
             .player-name-input { width: 220px; }
-            .music-name { max-width: 400px; }
+            .music-name { max-width: 450px; }
+            .god-bottom-row .btn-sm { padding: 14px 32px; font-size: 20px; min-height: 56px; }
         }
 
         .god-screen-padding {
-            padding-bottom: 170px;
+            padding-bottom: 190px;
         }
         @media (max-width: 480px) {
-            .god-screen-padding { padding-bottom: 190px; }
+            .god-screen-padding { padding-bottom: 210px; }
+        }
+        @media (max-width: 380px) {
+            .god-screen-padding { padding-bottom: 230px; }
         }
     </style>
 </head>
@@ -914,7 +928,7 @@
         <div style="height: 6px;"></div>
     </div>
 
-    <!-- ===== GOD BOTTOM BAR (سایز بزرگتر مثل قبل) ===== -->
+    <!-- ===== GOD BOTTOM BAR (بزرگ و تمام عرض) ===== -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display: none;">
         <!-- ردیف اول: تایمر + دکمه‌های آن -->
         <div class="god-bottom-row">
@@ -1055,10 +1069,10 @@
 
         // Timer
         let timerSeconds = 0;
-        let timerInitialSeconds = 0; // مقدار اولیه برای ریست
+        let timerInitialSeconds = 0;
         let timerInterval = null;
         let timerRunning = false;
-        let timerMode = 'normal'; // 'normal' => countdown (decreasing), 'reverse' => increasing
+        let timerMode = 'normal';
 
         // Audio
         let audioPlayer = null;
@@ -1655,8 +1669,6 @@
         function updateTimerModeUI() {
             const plusBtn = document.getElementById('timer-plus-btn');
             const minusBtn = document.getElementById('timer-minus-btn');
-            // حالت normal: دکمه‌ها فعال هستند (برای تنظیم زمان اولیه)
-            // حالت reverse: دکمه‌ها غیرفعال هستند
             if (timerMode === 'normal') {
                 plusBtn.disabled = false;
                 minusBtn.disabled = false;
@@ -1673,7 +1685,6 @@
         function timerModeToggle() {
             timerMode = (timerMode === 'normal') ? 'reverse' : 'normal';
             updateTimerModeUI();
-            // اگر به حالت reverse رفتیم و تایمر در حال اجراست، متوقفش کن
             if (timerMode === 'reverse' && timerRunning) {
                 clearInterval(timerInterval);
                 timerRunning = false;
@@ -1683,16 +1694,14 @@
         }
 
         function timerAdjust(seconds) {
-            // فقط در حالت normal فعال است (برای تنظیم زمان اولیه)
             if (timerMode === 'reverse') return;
             timerSeconds = Math.max(0, timerSeconds + seconds);
-            timerInitialSeconds = timerSeconds; // ذخیره مقدار اولیه
+            timerInitialSeconds = timerSeconds;
             updateTimerDisplay();
             saveState();
         }
 
         function timerReset() {
-            // ریست به مقدار اولیه (همان مقداری که قبل از شروع تنظیم شده بود)
             timerSeconds = timerInitialSeconds;
             updateTimerDisplay();
             if (timerRunning) {
@@ -1709,10 +1718,10 @@
                 timerRunning = false;
                 document.getElementById('timer-toggle-btn').innerText = '▶';
             } else {
-                // اگر تایمر صفر است و حالت normal است، مقدار پیش‌فرض 60 بگذار
+                // مقدار پیش‌فرض 30 ثانیه به جای 60
                 if (timerMode === 'normal' && timerSeconds === 0) {
-                    timerSeconds = 60;
-                    timerInitialSeconds = 60;
+                    timerSeconds = 30;
+                    timerInitialSeconds = 30;
                     updateTimerDisplay();
                 }
                 startTimer();
@@ -1727,7 +1736,6 @@
 
             timerInterval = setInterval(() => {
                 if (timerMode === 'normal') {
-                    // حالت عادی: تایمر کم می‌شود (شمارش معکوس)
                     timerSeconds--;
                     if (timerSeconds <= 0) {
                         timerSeconds = 0;
@@ -1739,7 +1747,6 @@
                         return;
                     }
                 } else {
-                    // حالت reverse: تایمر زیاد می‌شود (شمارش رو به جلو)
                     timerSeconds++;
                 }
                 updateTimerDisplay();
