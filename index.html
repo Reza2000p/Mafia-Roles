@@ -223,13 +223,6 @@
             font-size:clamp(14px,2.8vw,18px); font-weight:800; color:#38bdf8;
             width:26px; text-align:center; flex-shrink:0;
         }
-        .player-name-input {
-            background:#0b0f19; border:1px solid #2d3a4f; color:#f8fafc;
-            font-size:clamp(12px,2.2vw,14px); padding:5px 10px; border-radius:8px;
-            width:clamp(130px,35vw,220px); outline:none; user-select:text;
-            -webkit-user-select:text; transition:border .2s; flex-shrink:1; min-width:70px;
-        }
-        .player-name-input:focus { border-color:#38bdf8; }
         .player-name-select {
             background:#0b0f19; border:1px solid #2d3a4f; color:#f8fafc;
             font-size:clamp(12px,2.2vw,14px); padding:5px 10px; border-radius:8px;
@@ -487,44 +480,64 @@
         }
         .player-mgmt-add button:hover { background:#2563eb; }
 
-        /* ===== PLAYER SELECTION SCREEN ===== */
-        .player-select-grid {
-            display:grid; grid-template-columns:1fr; gap:10px; margin-top:16px;
+        /* ===== PLAYER SELECTION SCREEN (چک‌باکس + جستجو) ===== */
+        .player-select-container {
+            background:#0f172a; border:1px solid #2d3a4f; border-radius:14px;
+            padding:16px; margin-top:12px;
         }
-        .player-select-row {
-            display:flex; align-items:center; gap:10px; background:#182235;
-            padding:8px 12px; border-radius:12px; border:1px solid #2d3a4f;
-            flex-wrap:wrap;
+        .player-select-stats {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:8px 12px; background:#182235; border-radius:10px;
+            margin-bottom:12px; flex-wrap:wrap; gap:8px;
         }
-        .player-select-row .num {
-            font-weight:700; color:#38bdf8; min-width:40px;
+        .player-select-stats .count {
+            font-size:clamp(14px,2.5vw,18px); font-weight:700; color:#38bdf8;
         }
-        .player-select-row select {
-            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
-            color:#f8fafc; padding:6px 10px; border-radius:8px; font-size:14px;
-            outline:none; cursor:pointer;
+        .player-select-stats .count .selected { color:#10b981; }
+        .player-select-stats .count .total { color:#94a3b8; }
+        .player-select-toolbar {
+            display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;
         }
-        .player-select-row select:focus { border-color:#38bdf8; }
-        .player-select-row input {
-            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
-            color:#f8fafc; padding:6px 10px; border-radius:8px; font-size:14px;
+        .player-select-toolbar input[type="text"] {
+            flex:1; min-width:120px; background:#0b0f19; border:1px solid #2d3a4f;
+            color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:14px;
             outline:none;
         }
-        .player-select-row input:focus { border-color:#38bdf8; }
-        .player-select-row .add-btn {
-            background:#10b981; border:none; color:#fff; padding:6px 14px;
-            border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;
+        .player-select-toolbar input[type="text"]:focus { border-color:#38bdf8; }
+        .player-select-toolbar .add-btn {
+            background:#10b981; border:none; color:#fff; padding:8px 16px;
+            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
+            transition:background .15s; white-space:nowrap;
+        }
+        .player-select-toolbar .add-btn:hover { background:#059669; }
+        .player-select-list {
+            max-height:350px; overflow-y:auto; border:1px solid #2d3a4f;
+            border-radius:10px; background:#0b0f19;
+        }
+        .player-select-item {
+            display:flex; align-items:center; gap:10px; padding:8px 12px;
+            border-bottom:1px solid #1e293b; cursor:pointer;
             transition:background .15s;
         }
-        .player-select-row .add-btn:hover { background:#059669; }
-        .player-select-row .remove-btn {
-            background:transparent; border:none; color:#ef4444; font-size:20px;
-            cursor:pointer; padding:0 6px;
+        .player-select-item:last-child { border-bottom:none; }
+        .player-select-item:hover { background:#182235; }
+        .player-select-item .checkbox {
+            width:20px; height:20px; accent-color:#22c55e; cursor:pointer;
+            flex-shrink:0;
         }
-        .player-select-row .remove-btn:hover { color:#dc2626; }
+        .player-select-item .checkbox:disabled { accent-color:#475569; cursor:not-allowed; }
+        .player-select-item .pname {
+            font-size:clamp(13px,2.2vw,16px); color:#e8edf5; flex:1;
+        }
+        .player-select-item.selected {
+            background:#064e3b; border-color:#10b981;
+        }
+        .player-select-item.selected .pname { color:#6ee7b7; }
         .player-select-actions {
-            display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;
-            justify-content:center;
+            display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; justify-content:center;
+        }
+        .player-select-actions .btn-action {
+            max-width:200px; font-size:14px; padding:10px;
         }
 
         /* ===== MODALS ===== */
@@ -570,7 +583,7 @@
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px}
             .role-card{min-height:64px;padding:8px 4px}
             .role-card .role-name{font-size:11px}
-            .player-name-input,.player-name-select{width:100px;font-size:11px}
+            .player-name-select{width:100px;font-size:11px}
             .god-player-row{padding:6px 8px}
             .player-info{flex:1 1 120px}
             .stats-column{gap:2px}
@@ -593,24 +606,28 @@
             .lb-table{font-size:11px}
             .lb-table th,.lb-table td{padding:6px 8px}
             .leaderboard-panel{padding:12px}
-            .player-select-row select,.player-select-row input{min-width:100px;font-size:12px}
+            .player-select-item{padding:6px 10px}
+            .player-select-item .pname{font-size:12px}
+            .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
+            .player-select-stats .count{font-size:12px}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
             .cards-grid{grid-template-columns:repeat(2,1fr)}
             .player-info{flex:1 1 100%}
-            .player-name-input,.player-name-select{width:100%}
+            .player-name-select{width:100%}
             .god-player-row{flex-direction:column;align-items:stretch}
             .player-actions{justify-content:space-between;margin-top:4px}
             .music-name{max-width:80px;font-size:11px}
             .god-bottom-row .btn-sm{padding:6px 10px;font-size:12px;min-height:34px;min-width:34px}
             .timer-display{font-size:20px;min-width:60px}
             .god-screen-padding{padding-bottom:230px}
+            .player-select-item .pname{font-size:11px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
             .cards-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-            .player-name-input,.player-name-select{width:180px}
+            .player-name-select{width:180px}
             .music-name{max-width:350px}
             .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:52px}
         }
@@ -618,7 +635,7 @@
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             .cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             body{padding:20px 36px;padding-bottom:100px}
-            .player-name-input,.player-name-select{width:220px}
+            .player-name-select{width:220px}
             .music-name{max-width:450px}
             .god-bottom-row .btn-sm{padding:14px 32px;font-size:20px;min-height:56px}
         }
@@ -696,7 +713,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 2: PLAYER SELECTION (قبل از توزیع) ===== -->
+    <!-- ===== SCREEN 2: PLAYER SELECTION (چک‌باکس + جستجو) ===== -->
     <!-- ============================================================ -->
     <div id="player-select-screen" class="screen">
         <div class="setup-box" style="justify-content:center;">
@@ -705,9 +722,9 @@
         <p style="text-align:center;color:#94a3b8;font-size:clamp(12px,2vw,14px);">
             به تعداد نقش‌ها، بازیکنان را انتخاب کنید. ترتیب انتخاب = ترتیب نوبت
         </p>
-        <div id="player-select-container" class="player-select-grid"></div>
+        <div id="player-select-container" class="player-select-container"></div>
         <div class="player-select-actions">
-            <button class="btn-action" style="max-width:200px;background:linear-gradient(135deg,#10b981,#059669);font-size:14px;padding:10px;" onclick="confirmPlayers()">
+            <button class="btn-action" style="max-width:200px;background:linear-gradient(135deg,#10b981,#059669);font-size:14px;padding:10px;" id="confirm-players-btn" onclick="confirmPlayers()" disabled>
                 ✅ تایید و توزیع نقش‌ها
             </button>
             <button class="btn-action" style="max-width:200px;background:#475569;font-size:14px;padding:10px;box-shadow:none;" onclick="backToSetup()">
@@ -951,7 +968,7 @@
     };
 
     // ================================================================
-    // 2. PLAYER MANAGER (ذخیره‌سازی در localStorage)
+    // 2. PLAYER MANAGER
     // ================================================================
     const PlayerManager = {
         getKey() { return 'mafia_players_data'; },
@@ -1023,7 +1040,6 @@
         },
         getLeaderboard(limit = 0) {
             const players = this.getAll();
-            // امتیاز مؤثر = totalScore - totalWarnings (هر اخطار یک امتیاز منفی)
             const scored = players.map(p => ({
                 ...p,
                 effectiveScore: p.totalScore - p.totalWarnings
@@ -1039,7 +1055,6 @@
             const players = this.getAll();
             const p = players.find(p => p.name === playerName);
             if (!p) return { success: false, message: 'بازیکن یافت نشد.' };
-            // اگر امتیاز صفر باشد، ۱ امتیاز پیش‌فرض می‌دهیم
             const finalScore = score > 0 ? score : 1;
             p.totalScore += finalScore;
             p.totalWarnings += warnings;
@@ -1051,6 +1066,17 @@
             });
             this.save(players);
             return { success: true, data: p };
+        },
+        resetScores() {
+            const players = this.getAll();
+            players.forEach(p => {
+                p.totalScore = 0;
+                p.totalWarnings = 0;
+                p.gamesPlayed = 0;
+                p.history = [];
+            });
+            this.save(players);
+            return { success: true };
         },
         resetAll() {
             this.save([]);
@@ -1071,7 +1097,7 @@
     let showRolesInGodView = true;
     let inquiryCount = 0;
     let selectedPlayerNames = [];
-    let enablePlayerSelect = true; // از checkbox می‌خوانیم
+    let enablePlayerSelect = true;
 
     // Timer
     let timerSeconds = 0;
@@ -1097,7 +1123,6 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW register skipped:', err));
         }
-        // تنظیم enablePlayerSelect از checkbox
         const cb = document.getElementById('enable-player-select');
         enablePlayerSelect = cb.checked;
         cb.addEventListener('change', function() {
@@ -1150,7 +1175,6 @@
             selectedPlayerNames = state.selectedPlayerNames || [];
             enablePlayerSelect = state.enablePlayerSelect !== undefined ? state.enablePlayerSelect : true;
 
-            // همگام‌سازی checkbox
             const cb = document.getElementById('enable-player-select');
             if (cb) cb.checked = enablePlayerSelect;
 
@@ -1361,7 +1385,6 @@
             } else if(val === 'bazpors') {
                 selectedRoles = { 'm_godfather':1, 'm_nato':1, 'm_shaiad':1, 'c_mohaghegh':1, 'c_roointan':1, 'c_bazpors':1, 'c_doctor':1, 'c_karagah':1, 'c_simple':2 };
             } else if(val === 'mozakere') {
-                // مذاکره ۱۰ نفره
                 selectedRoles = {
                     'm_godfather':1, 'm_mozakere':1, 'm_simple':1,
                     'c_simple':2, 'c_doctor':1, 'c_roointan':1,
@@ -1384,152 +1407,120 @@
     }
 
     // ================================================================
-    // 7. START GAME (با ورود اسامی)
+    // 7. PLAYER SELECTION (چک‌باکس + جستجو)
     // ================================================================
-    function startGame() {
-        enablePlayerSelect = document.getElementById('enable-player-select').checked;
-        const total = parseInt(document.getElementById('player-count').value) || 0;
-        if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
-
-        if(enablePlayerSelect) {
-            // نمایش صفحه انتخاب بازیکنان
-            selectedPlayerNames = [];
-            showScreen('player-select-screen');
-            renderPlayerSelect();
-        } else {
-            // توزیع مستقیم بدون ورود اسامی
-            doDistributeRoles([]);
-        }
-    }
+    let selectedPlayerIds = [];
 
     function renderPlayerSelect() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
         const container = document.getElementById('player-select-container');
-        container.innerHTML = '';
-        const allNames = PlayerManager.getNames();
-        // اسامی انتخاب‌شده در ردیف‌های قبلی
-        const selectedInRows = [];
-        for(let i=0; i<total; i++) {
-            if(selectedPlayerNames[i]) selectedInRows.push(selectedPlayerNames[i]);
-        }
+        const allPlayers = PlayerManager.getAll();
+        const selectedCount = selectedPlayerIds.length;
+        const needCount = total - selectedCount;
 
-        for(let i=0; i<total; i++) {
-            const row = document.createElement('div');
-            row.className = 'player-select-row';
-            // لیست اسامی موجود (غیرتکراری)
-            const availableNames = allNames.filter(n => !selectedInRows.includes(n) || n === selectedPlayerNames[i]);
-            let options = `<option value="">— انتخاب —</option>`;
-            availableNames.forEach(name => {
-                const sel = (name === selectedPlayerNames[i]) ? 'selected' : '';
-                options += `<option value="${name}" ${sel}>${name}</option>`;
-            });
-            row.innerHTML = `
-                <span class="num">#${i+1}</span>
-                <select id="player-select-${i}" onchange="onPlayerSelectChange(${i}, this.value)">
-                    ${options}
-                </select>
-                <input type="text" id="player-input-${i}" placeholder="نام جدید..." 
-                       onkeydown="if(event.key==='Enter') addNewPlayerFromSelect(${i})">
-                <button class="add-btn" onclick="addNewPlayerFromSelect(${i})">➕</button>
-                <button class="remove-btn" onclick="clearPlayerSelect(${i})">✕</button>
-            `;
-            container.appendChild(row);
-            // اگر اسم قبلاً انتخاب شده بود، select را تنظیم کن
-            if(selectedPlayerNames[i]) {
-                const sel = document.getElementById(`player-select-${i}`);
-                if(sel) sel.value = selectedPlayerNames[i];
-            }
-        }
-        saveState();
-    }
+        let html = `
+            <div class="player-select-stats">
+                <span class="count">✅ <span class="selected">${selectedCount}</span> از <span class="total">${total}</span> بازیکن انتخاب شدند</span>
+                <span style="color:#94a3b8;font-size:14px;">${needCount > 0 ? `نیاز به ${needCount} نفر دیگر` : 'همه انتخاب شدند ✅'}</span>
+            </div>
+            <div class="player-select-toolbar">
+                <input type="text" id="player-search-input" placeholder="جستجوی نام..." oninput="filterPlayerList()">
+                <input type="text" id="new-player-name" placeholder="نام جدید..." onkeydown="if(event.key==='Enter') addNewPlayerFromSelect()">
+                <button class="add-btn" onclick="addNewPlayerFromSelect()">➕ افزودن</button>
+            </div>
+            <div class="player-select-list" id="player-select-list">
+        `;
 
-    function onPlayerSelectChange(idx, val) {
-        if(val) {
-            selectedPlayerNames[idx] = val;
-            // به‌روزرسانی سایر dropdownها
-            updatePlayerSelectOptions();
+        if (allPlayers.length === 0) {
+            html += `<div style="padding:20px;text-align:center;color:#94a3b8;">هیچ بازیکنی ثبت نشده است. لطفاً یک بازیکن جدید اضافه کنید.</div>`;
         } else {
-            selectedPlayerNames[idx] = '';
+            allPlayers.forEach(p => {
+                const isSelected = selectedPlayerIds.includes(p.id);
+                const disabled = (!isSelected && selectedCount >= total);
+                const checked = isSelected ? 'checked' : '';
+                const disabledAttr = disabled ? 'disabled' : '';
+                const selectedClass = isSelected ? 'selected' : '';
+                html += `
+                    <div class="player-select-item ${selectedClass}" data-id="${p.id}">
+                        <input type="checkbox" class="checkbox" ${checked} ${disabledAttr} 
+                               onchange="togglePlayerSelect('${p.id}', this.checked)">
+                        <span class="pname">${p.name}</span>
+                    </div>
+                `;
+            });
         }
+
+        html += `</div>`;
+        container.innerHTML = html;
+
+        // به‌روزرسانی دکمه تایید
+        const confirmBtn = document.getElementById('confirm-players-btn');
+        confirmBtn.disabled = (selectedCount !== total);
         saveState();
     }
 
-    function updatePlayerSelectOptions() {
-        const total = parseInt(document.getElementById('player-count').value) || 0;
-        const allNames = PlayerManager.getNames();
-        const selectedInRows = selectedPlayerNames.filter(n => n);
-        for(let i=0; i<total; i++) {
-            const sel = document.getElementById(`player-select-${i}`);
-            if(!sel) continue;
-            const currentVal = selectedPlayerNames[i] || '';
-            const availableNames = allNames.filter(n => !selectedInRows.includes(n) || n === currentVal);
-            let options = `<option value="">— انتخاب —</option>`;
-            availableNames.forEach(name => {
-                const selected = (name === currentVal) ? 'selected' : '';
-                options += `<option value="${name}" ${selected}>${name}</option>`;
-            });
-            sel.innerHTML = options;
-            if(currentVal) sel.value = currentVal;
-        }
+    function filterPlayerList() {
+        const query = document.getElementById('player-search-input')?.value || '';
+        const items = document.querySelectorAll('.player-select-item');
+        items.forEach(item => {
+            const name = item.querySelector('.pname')?.textContent || '';
+            item.style.display = name.includes(query) ? 'flex' : 'none';
+        });
     }
 
-    function addNewPlayerFromSelect(idx) {
-        const input = document.getElementById(`player-input-${idx}`);
-        if(!input) return;
-        const val = input.value.trim();
-        if(!val) return;
-        // بررسی تکراری در ردیف‌های دیگر
-        const selectedInRows = selectedPlayerNames.filter((n,i) => i!==idx && n);
-        if(selectedInRows.includes(val)) {
-            alert(`این نام قبلاً در ردیف دیگری انتخاب شده است.`);
-            input.value = '';
-            return;
-        }
-        // اضافه کردن به دیتابیس
-        const existing = PlayerManager.getByName(val);
-        if(!existing) {
-            const result = PlayerManager.add(val);
-            if(!result.success) {
-                alert(result.message);
-                input.value = '';
+    function togglePlayerSelect(id, checked) {
+        const total = parseInt(document.getElementById('player-count').value) || 0;
+        if (checked) {
+            if (selectedPlayerIds.length >= total) {
+                alert('تعداد انتخاب‌شده از تعداد نقش‌ها بیشتر است.');
+                const cb = document.querySelector(`.player-select-item[data-id="${id}"] .checkbox`);
+                if (cb) cb.checked = false;
                 return;
             }
+            if (!selectedPlayerIds.includes(id)) {
+                selectedPlayerIds.push(id);
+            }
+        } else {
+            selectedPlayerIds = selectedPlayerIds.filter(pid => pid !== id);
         }
-        selectedPlayerNames[idx] = val;
-        input.value = '';
-        updatePlayerSelectOptions();
-        saveState();
-        // focus به ردیف بعدی
-        const nextSelect = document.getElementById(`player-select-${idx+1}`);
-        if(nextSelect) nextSelect.focus();
+        renderPlayerSelect();
     }
 
-    function clearPlayerSelect(idx) {
-        selectedPlayerNames[idx] = '';
-        const sel = document.getElementById(`player-select-${idx}`);
-        if(sel) sel.value = '';
-        updatePlayerSelectOptions();
-        saveState();
+    function addNewPlayerFromSelect() {
+        const input = document.getElementById('new-player-name');
+        if (!input) return;
+        const val = input.value.trim();
+        if (!val) { alert('لطفاً نام را وارد کنید.'); return; }
+        const result = PlayerManager.add(val);
+        if (result.success) {
+            input.value = '';
+            // اگر تعداد انتخاب‌شده کمتر از تعداد نقش‌ها بود، بازیکن جدید را به‌طور خودکار انتخاب کن
+            const total = parseInt(document.getElementById('player-count').value) || 0;
+            if (selectedPlayerIds.length < total) {
+                selectedPlayerIds.push(result.data.id);
+            }
+            renderPlayerSelect();
+        } else {
+            alert(result.message);
+        }
     }
 
     function confirmPlayers() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
-        const names = [];
-        for(let i=0; i<total; i++) {
-            const val = selectedPlayerNames[i] || '';
-            if(!val) {
-                alert(`لطفاً ردیف ${i+1} را پر کنید.`);
-                const sel = document.getElementById(`player-select-${i}`);
-                if(sel) sel.focus();
-                return;
-            }
-            if(names.includes(val)) {
-                alert(`نام "${val}" تکراری است.`);
-                return;
-            }
-            names.push(val);
+        if (selectedPlayerIds.length !== total) {
+            alert(`تعداد انتخاب‌شده (${selectedPlayerIds.length}) با تعداد نقش‌ها (${total}) برابر نیست.`);
+            return;
         }
-        // همه چیز درست است
+        // گرفتن نام‌ها به ترتیب انتخاب (با توجه به ترتیب در لیست)
+        const allPlayers = PlayerManager.getAll();
+        const names = selectedPlayerIds.map(id => {
+            const p = allPlayers.find(p => p.id === id);
+            return p ? p.name : '';
+        }).filter(n => n);
+        if (names.length !== total) {
+            alert('خطا در دریافت اسامی بازیکنان.');
+            return;
+        }
         selectedPlayerNames = names;
         saveState();
         doDistributeRoles(names);
@@ -1560,7 +1551,6 @@
             [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
         }
 
-        // اگر اسامی وارد شده‌اند، آنها را به نقش‌ها نسبت بده
         if(playerNames && playerNames.length === rolePool.length) {
             for(let i=0; i<rolePool.length; i++) {
                 rolePool[i].playerName = playerNames[i];
@@ -1695,6 +1685,8 @@
         pickedHistory = [];
         openedCount = 0;
         inquiryCount = 0;
+        selectedPlayerIds = [];
+        selectedPlayerNames = [];
         document.getElementById('god-btn').style.display = 'none';
         document.getElementById('god-bottom-bar').style.display = 'none';
         showScreen('setup-screen');
@@ -1702,7 +1694,7 @@
     }
 
     // ================================================================
-    // 11. GOD SCREEN
+    // 11. GOD SCREEN (با dropdown همه اسامی + اعتبارسنجی تکراری)
     // ================================================================
     function showGodScreen() {
         renderGodList();
@@ -1716,10 +1708,8 @@
         const container = document.getElementById('god-players-container');
         container.innerHTML = '';
 
-        // اگر ورود اسامی فعال باشد، از dropdown استفاده می‌کنیم
-        const useDropdown = enablePlayerSelect;
         const allNames = PlayerManager.getNames();
-        // اسامی که قبلاً در pickedHistory انتخاب شده‌اند (برای جلوگیری از تکراری)
+        // اسامی انتخاب‌شده در حال حاضر (برای جلوگیری از تکراری)
         const usedNames = pickedHistory.map(h => h.role.playerName).filter(n => n);
 
         pickedHistory.forEach((item, idx) => {
@@ -1730,31 +1720,25 @@
             const roleDisplay = showRolesInGodView ? `${role.name} (${role.teamLabel})` : '••••••••';
             const currentName = role.playerName || '';
 
-            let nameField = '';
-            if(useDropdown) {
-                // لیست اسامی موجود: اسامی که قبلاً استفاده نشده‌اند + اسم خود این ردیف
-                const availableNames = allNames.filter(n => !usedNames.includes(n) || n === currentName);
-                let options = `<option value="">— انتخاب نام —</option>`;
-                availableNames.forEach(name => {
-                    const sel = (name === currentName) ? 'selected' : '';
-                    options += `<option value="${name}" ${sel}>${name}</option>`;
-                });
-                nameField = `
-                    <select class="player-name-select" onchange="updatePlayerNameFromSelect(${idx}, this.value)">
-                        ${options}
-                    </select>
-                `;
-            } else {
-                nameField = `
-                    <input type="text" class="player-name-input" placeholder="نام..." value="${currentName}" 
-                           oninput="updatePlayerNameFromSelect(${idx}, this.value)">
-                `;
+            // لیست اسامی: تمام اسامی + یک گزینه خالی
+            let options = `<option value="">— انتخاب نام —</option>`;
+            // ابتدا اسامی موجود را اضافه کن
+            const availableNames = allNames.filter(n => !usedNames.includes(n) || n === currentName);
+            availableNames.forEach(name => {
+                const sel = (name === currentName) ? 'selected' : '';
+                options += `<option value="${name}" ${sel}>${name}</option>`;
+            });
+            // اگر اسم فعلی در لیست نبود، آن را اضافه کن
+            if (currentName && !allNames.includes(currentName)) {
+                options += `<option value="${currentName}" selected>${currentName}</option>`;
             }
 
             row.innerHTML = `
                 <div class="player-info">
                     <span class="player-num">${item.pickOrder}</span>
-                    ${nameField}
+                    <select class="player-name-select" onchange="updatePlayerNameFromSelect(${idx}, this.value)">
+                        ${options}
+                    </select>
                     <div class="player-role-wrap">
                         <div class="player-role-text">${roleDisplay}</div>
                         <div class="player-card-num">کارت شماره ${item.cardNumber}</div>
@@ -1786,13 +1770,22 @@
     }
 
     function updatePlayerNameFromSelect(idx, val) {
-        pickedHistory[idx].role.playerName = val;
-        // اگر ورود اسامی فعال باشد و اسم تغییر کند، باید dropdownهای دیگر را به‌روز کنیم
-        if(enablePlayerSelect) {
-            // بعد از تغییر اسم، دوباره render می‌کنیم تا dropdownها به‌روز شوند
-            renderGodList();
+        // بررسی تکراری بودن
+        const usedNames = pickedHistory.map((h, i) => (i !== idx) ? h.role.playerName : null).filter(n => n);
+        if (val && usedNames.includes(val)) {
+            alert(`نام "${val}" قبلاً انتخاب شده است. لطفاً نام دیگری انتخاب کنید.`);
+            // بازگرداندن به مقدار قبلی
+            const prevName = pickedHistory[idx].role.playerName || '';
+            const select = document.querySelector(`.god-player-row:nth-child(${idx+1}) .player-name-select`);
+            if (select) {
+                select.value = prevName;
+            }
+            return;
         }
+        pickedHistory[idx].role.playerName = val;
         saveState();
+        // بعد از تغییر، دوباره render می‌کنیم تا dropdownها به‌روز شوند
+        renderGodList();
     }
 
     function togglePlayerAlive(idx) {
@@ -1857,7 +1850,7 @@
     }
 
     // ================================================================
-    // 12. TIMER
+    // 12. TIMER (همانند قبل)
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -1953,7 +1946,7 @@
     }
 
     // ================================================================
-    // 13. AUDIO
+    // 13. AUDIO (همانند قبل)
     // ================================================================
     function loadAudio(event) {
         const file = event.target.files[0];
@@ -1991,7 +1984,7 @@
     }
 
     // ================================================================
-    // 14. REPORT
+    // 14. REPORT (همانند قبل)
     // ================================================================
     function generateRawReport() {
         let r = `====================================\n`;
@@ -2074,7 +2067,7 @@
     }
 
     // ================================================================
-    // 15. SAVE GAME RESULTS (ذخیره نتایج در پروفایل بازیکنان)
+    // 15. SAVE GAME RESULTS
     // ================================================================
     function saveGameResults() {
         let savedCount = 0;
@@ -2103,7 +2096,7 @@
     }
 
     // ================================================================
-    // 16. LEADERBOARD PANEL
+    // 16. LEADERBOARD PANEL (با ریست فقط امتیازها)
     // ================================================================
     function openLeaderboard() {
         document.getElementById('leaderboard-panel').classList.add('active');
@@ -2163,7 +2156,7 @@
                 <button class="primary" onclick="downloadLeaderboardTXT()">📥 دانلود TXT</button>
                 <button class="primary" onclick="downloadLeaderboardHTML()">🌐 دانلود HTML</button>
                 <button class="primary" onclick="downloadLeaderboardCSV()">📊 دانلود CSV</button>
-                <button class="danger" onclick="resetLeaderboard()">🔄 ریست لیدربورد</button>
+                <button class="danger" onclick="resetScoresOnly()">🔄 ریست امتیازها</button>
             </div>
         `;
         container.innerHTML = html;
@@ -2174,11 +2167,11 @@
         let html = `
             <div class="player-mgmt">
                 <div class="player-mgmt-search">
-                    <input type="text" id="player-search-input" placeholder="جستجوی نام..." oninput="filterPlayerList()">
-                    <button onclick="filterPlayerList()">🔍 جستجو</button>
+                    <input type="text" id="player-search-input" placeholder="جستجوی نام..." oninput="filterPlayerListMgmt()">
+                    <button onclick="filterPlayerListMgmt()">🔍 جستجو</button>
                 </div>
                 <div class="player-mgmt-add">
-                    <input type="text" id="new-player-name" placeholder="نام کامل بازیکن..." onkeydown="if(event.key==='Enter') addNewPlayerFromMgmt()">
+                    <input type="text" id="new-player-name-mgmt" placeholder="نام کامل بازیکن..." onkeydown="if(event.key==='Enter') addNewPlayerFromMgmt()">
                     <button onclick="addNewPlayerFromMgmt()">➕ افزودن</button>
                 </div>
                 <div class="player-mgmt-list" id="player-mgmt-list">
@@ -2207,7 +2200,7 @@
         container.innerHTML = html;
     }
 
-    function filterPlayerList() {
+    function filterPlayerListMgmt() {
         const query = document.getElementById('player-search-input')?.value || '';
         const container = document.getElementById('player-mgmt-list');
         if(!container) return;
@@ -2219,7 +2212,7 @@
     }
 
     function addNewPlayerFromMgmt() {
-        const input = document.getElementById('new-player-name');
+        const input = document.getElementById('new-player-name-mgmt');
         if(!input) return;
         const val = input.value.trim();
         if(!val) { alert('لطفاً نام را وارد کنید.'); return; }
@@ -2255,12 +2248,13 @@
         }
     }
 
-    function resetLeaderboard() {
-        if(confirm('آیا از ریست کامل لیدربورد (حذف تمام بازیکنان) مطمئن هستید؟')) {
+    // ریست فقط امتیازها (نه حذف نام‌ها)
+    function resetScoresOnly() {
+        if(confirm('آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟')) {
             if(confirm('این عمل غیرقابل بازگشت است. ادامه دهید؟')) {
-                PlayerManager.resetAll();
+                PlayerManager.resetScores();
                 switchLBtab('leaderboard');
-                alert('لیدربورد با موفقیت ریست شد.');
+                alert('امتیازها با موفقیت ریست شدند.');
             }
         }
     }
@@ -2365,6 +2359,8 @@
         pickedHistory = [];
         openedCount = 0;
         inquiryCount = 0;
+        selectedPlayerIds = [];
+        selectedPlayerNames = [];
         timerSeconds = 0;
         timerInitialSeconds = 0;
         timerMode = 'normal';
@@ -2387,7 +2383,6 @@
         document.getElementById('god-bottom-bar').style.display = 'none';
         document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
         document.getElementById('god-inquiry-display').innerText = '0';
-        selectedPlayerNames = [];
         updateUI();
         showScreen('setup-screen');
         localStorage.removeItem(stateKey);
