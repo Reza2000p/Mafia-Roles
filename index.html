@@ -175,25 +175,85 @@
         .screen.active { display:block; }
         @keyframes fadeUp { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
 
-        /* ===== CARDS GRID ===== */
+        /* ===== CARDS GRID (DRAW) - با عکس بزرگ ===== */
         .cards-grid {
-            display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-            gap:16px; margin-top:16px;
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+            gap:16px;
+            margin-top:16px;
         }
         .draw-card {
             background:linear-gradient(145deg,#1e293b,#0f172a);
-            border:2px solid #38bdf8; border-radius:20px;
-            height:clamp(120px,26vw,160px);
-            display:flex; align-items:center; justify-content:center;
-            font-size:clamp(32px,7vw,48px); font-weight:800; color:#38bdf8;
-            cursor:pointer; transition:all .15s ease;
+            border:4px solid #38bdf8;
+            border-radius:20px;
+            height:clamp(200px,50vh,400px);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            transition:all .15s ease;
             box-shadow:0 6px 20px rgba(56,189,248,.08);
+            position:relative;
+            overflow:hidden;
+            padding:8px;
         }
-        .draw-card:active:not(.opened) { transform:scale(.94); box-shadow:0 0 40px rgba(56,189,248,.15); }
+        .draw-card .card-number {
+            font-size:clamp(40px,8vw,70px);
+            font-weight:800;
+            color:#38bdf8;
+            text-shadow:0 0 30px rgba(56,189,248,0.2);
+        }
+        .draw-card .card-image {
+            width:100%;
+            height:100%;
+            object-fit:contain;
+            display:none;
+        }
         .draw-card.opened {
-            background:#0f172a; border-color:#334155; color:#475569;
-            cursor:default; opacity:.45; transform:scale(.95); box-shadow:none;
+            background:#0f172a;
+            border-color:#334155;
+            cursor:default;
+            box-shadow:none;
         }
+        .draw-card.opened .card-number { display:none; }
+        .draw-card.opened .card-image {
+            display:block;
+            animation:fadeIn .3s ease;
+        }
+        .draw-card .card-team-badge {
+            position:absolute;
+            bottom:8px;
+            right:8px;
+            padding:4px 12px;
+            border-radius:20px;
+            font-size:11px;
+            font-weight:600;
+            background:rgba(0,0,0,0.7);
+            backdrop-filter:blur(4px);
+            display:none;
+        }
+        .draw-card.opened .card-team-badge { display:block; }
+        .draw-card .card-role-name {
+            position:absolute;
+            top:8px;
+            left:50%;
+            transform:translateX(-50%);
+            font-size:16px;
+            font-weight:700;
+            color:#f8fafc;
+            text-shadow:0 2px 12px rgba(0,0,0,0.8);
+            background:rgba(0,0,0,0.5);
+            padding:4px 16px;
+            border-radius:20px;
+            display:none;
+            white-space:nowrap;
+        }
+        .draw-card.opened .card-role-name { display:block; }
+        .draw-card:active:not(.opened) { transform:scale(.94); }
+        .draw-card .border-citizen { border-color:#10b981 !important; }
+        .draw-card .border-mafia { border-color:#ef4444 !important; }
+        .draw-card .border-free { border-color:#f97316 !important; }
 
         /* ===== GOD PANEL ===== */
         .god-header-bar {
@@ -428,6 +488,134 @@
         .lb-actions button.success { background:#10b981; }
         .lb-actions button.success:hover { background:#059669; }
 
+        /* ===== GALLERY ===== */
+        .gallery-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+            gap:12px;
+            margin-top:12px;
+        }
+        .gallery-item {
+            background:#182235;
+            border-radius:14px;
+            overflow:hidden;
+            cursor:pointer;
+            transition:all .15s ease;
+            border:3px solid #2d3a4f;
+            text-align:center;
+            padding:10px 8px 8px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:6px;
+        }
+        .gallery-item:hover { transform:scale(1.03); border-color:#38bdf8; }
+        .gallery-item .gallery-img {
+            width:100%;
+            height:120px;
+            object-fit:contain;
+            border-radius:8px;
+            background:#0b0f19;
+        }
+        .gallery-item .gallery-name {
+            font-size:12px;
+            font-weight:600;
+            color:#e2e8f0;
+            text-align:center;
+            line-height:1.2;
+        }
+        .gallery-item .gallery-team {
+            font-size:10px;
+            color:#94a3b8;
+            padding:2px 10px;
+            border-radius:20px;
+            background:#0b0f19;
+        }
+        .gallery-item.gallery-citizen { border-color:#10b981; }
+        .gallery-item.gallery-mafia { border-color:#ef4444; }
+        .gallery-item.gallery-free { border-color:#f97316; }
+        .gallery-search {
+            width:100%;
+            padding:10px 14px;
+            background:#0b0f19;
+            border:1px solid #2d3a4f;
+            border-radius:10px;
+            color:#f8fafc;
+            font-size:14px;
+            outline:none;
+            margin-bottom:8px;
+        }
+        .gallery-search:focus { border-color:#38bdf8; }
+        .gallery-group-title {
+            font-size:16px;
+            font-weight:700;
+            margin:16px 0 8px;
+            padding:6px 12px;
+            border-radius:10px;
+            display:inline-block;
+        }
+        .gallery-group-title.citizen { color:#6ee7b7; background:#064e3b; border:1px solid #10b981; }
+        .gallery-group-title.mafia { color:#fca5a5; background:#7f1d1d; border:1px solid #ef4444; }
+        .gallery-group-title.free { color:#fdba74; background:#7c2d12; border:1px solid #f97316; }
+
+        /* ===== GALLERY MODAL ===== */
+        .gallery-modal {
+            position:fixed;
+            top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.92);
+            backdrop-filter:blur(8px);
+            display:none;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            z-index:300;
+            padding:20px;
+            animation:fadeIn .2s ease;
+        }
+        .gallery-modal.active { display:flex; }
+        .gallery-modal .modal-content {
+            background:#182235;
+            border-radius:24px;
+            padding:24px;
+            max-width:500px;
+            width:100%;
+            text-align:center;
+            border:1px solid #2d3a4f;
+            box-shadow:0 20px 60px rgba(0,0,0,0.8);
+            max-height:90vh;
+            overflow-y:auto;
+        }
+        .gallery-modal .modal-img {
+            width:100%;
+            max-height:55vh;
+            object-fit:contain;
+            border-radius:12px;
+            background:#0b0f19;
+        }
+        .gallery-modal .modal-name {
+            font-size:22px;
+            font-weight:700;
+            color:#f8fafc;
+            margin:12px 0 4px;
+        }
+        .gallery-modal .modal-team {
+            font-size:14px;
+            color:#94a3b8;
+            margin-bottom:12px;
+        }
+        .gallery-modal .modal-close {
+            background:#2d3a4f;
+            border:none;
+            color:#f8fafc;
+            padding:10px 30px;
+            border-radius:30px;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:background .15s;
+        }
+        .gallery-modal .modal-close:hover { background:#3b4a63; }
+
         /* ===== PLAYER MANAGEMENT ===== */
         .player-mgmt {
             display:flex; flex-direction:column; gap:10px;
@@ -556,12 +744,20 @@
         @keyframes fadeIn { 0%{opacity:0;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
         .modal-card {
             background:#182235; border-radius:22px; padding:clamp(20px,4vw,30px);
-            width:100%; max-width:400px; border:1px solid #2d3a4f; text-align:center;
+            width:100%; max-width:500px; border:1px solid #2d3a4f; text-align:center;
             box-shadow:0 20px 60px rgba(0,0,0,0.6);
         }
         .modal-role-title {
             font-size:clamp(22px,5vw,30px); font-weight:800; margin:10px 0 4px 0;
             padding:10px; border-radius:14px; background:#0b0f19;
+        }
+        .modal-role-image {
+            width:100%;
+            max-height:55vh;
+            object-fit:contain;
+            border-radius:12px;
+            background:#0b0f19;
+            margin:8px 0;
         }
         .report-textarea {
             width:100%; height:180px; background:#0b0f19; color:#e2e8f0;
@@ -596,8 +792,8 @@
             .badge-row{font-size:9px;padding:1px 4px;min-width:50px}
             .badge-row .btn-sm{width:16px;height:16px;font-size:11px}
             .alive-checkbox{width:18px;height:18px}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
-            .draw-card{height:100px;font-size:28px}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+            .draw-card{height:clamp(160px,40vh,280px)}
             .god-stats-panel{padding:10px}
             .god-bottom-row{gap:6px}
             .god-bottom-row .btn-sm{padding:8px 12px;font-size:13px;min-height:38px;min-width:40px}
@@ -616,6 +812,11 @@
             .player-select-item .pname{font-size:12px}
             .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
             .player-select-stats .count{font-size:12px}
+            .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+            .gallery-item .gallery-img{height:80px}
+            .gallery-item .gallery-name{font-size:10px}
+            .modal-role-image{max-height:40vh}
+            .gallery-modal .modal-img{max-height:40vh}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
@@ -629,21 +830,29 @@
             .timer-display{font-size:20px;min-width:60px}
             .god-screen-padding{padding-bottom:230px}
             .player-select-item .pname{font-size:11px}
+            .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}
+            .gallery-item .gallery-img{height:60px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
             .player-name-select,.player-name-input{width:180px}
             .music-name{max-width:350px}
             .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:52px}
+            .draw-card{height:clamp(240px,55vh,450px)}
+            .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+            .gallery-item .gallery-img{height:160px}
         }
         @media(min-width:1024px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
             body{padding:20px 36px;padding-bottom:100px}
             .player-name-select,.player-name-input{width:220px}
             .music-name{max-width:450px}
             .god-bottom-row .btn-sm{padding:14px 32px;font-size:20px;min-height:56px}
+            .draw-card{height:clamp(280px,60vh,500px)}
+            .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+            .gallery-item .gallery-img{height:180px}
         }
     </style>
 </head>
@@ -741,7 +950,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 3: DRAW CARDS ===== -->
+    <!-- ===== SCREEN 3: DRAW CARDS (با عکس بزرگ) ===== -->
     <!-- ============================================================ -->
     <div id="draw-screen" class="screen">
         <div class="setup-box" style="justify-content:center;">
@@ -829,11 +1038,12 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== MODALS ===== -->
+    <!-- ===== ROLE MODAL (با عکس بزرگ) ===== -->
     <!-- ============================================================ -->
     <div class="modal-overlay" id="role-modal">
         <div class="modal-card">
             <div style="color:#94a3b8;font-size:clamp(13px,2.5vw,16px);" id="modal-player-num">کارت شماره ۱</div>
+            <img id="modal-role-image" class="modal-role-image" src="" alt="نقش" style="display:none;">
             <div style="font-size:clamp(11px,2vw,14px);color:#64748b;margin-top:4px;">نقش شما:</div>
             <div class="modal-role-title" id="modal-role-name">دکتر</div>
             <div style="font-size:clamp(12px,2.2vw,15px);margin-bottom:16px;font-weight:600;" id="modal-team-name">گروه شهروندی</div>
@@ -843,6 +1053,9 @@
         </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ===== REPORT MODAL ===== -->
+    <!-- ============================================================ -->
     <div class="modal-overlay" id="report-modal">
         <div class="modal-card" style="max-width:460px;">
             <h3 style="font-size:clamp(16px,3vw,20px);color:#f87171;margin-bottom:10px;">📊 گزارش نهایی نقش‌ها</h3>
@@ -858,16 +1071,29 @@
     </div>
 
     <!-- ============================================================ -->
+    <!-- ===== GALLERY MODAL (بزرگ‌نمایی عکس) ===== -->
+    <!-- ============================================================ -->
+    <div class="gallery-modal" id="gallery-modal">
+        <div class="modal-content">
+            <img id="gallery-modal-img" class="modal-img" src="" alt="نقش">
+            <div class="modal-name" id="gallery-modal-name"></div>
+            <div class="modal-team" id="gallery-modal-team"></div>
+            <button class="modal-close" onclick="closeGalleryModal()">✕ بستن</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
     <!-- ===== LEADERBOARD PANEL ===== -->
     <!-- ============================================================ -->
     <div class="leaderboard-panel" id="leaderboard-panel">
         <div class="leaderboard-header">
-            <h2>🏆 لیدربورد</h2>
+            <h2>🏆 پنل گرداننده</h2>
             <button class="leaderboard-close" onclick="closeLeaderboard()">✕ بستن</button>
         </div>
         <div class="leaderboard-tabs">
             <button class="active" onclick="switchLBtab('leaderboard')">📊 لیدربورد</button>
             <button onclick="switchLBtab('players')">👥 مدیریت بازیکنان</button>
+            <button onclick="switchLBtab('gallery')">🎴 گالری نقش‌ها</button>
         </div>
         <div class="leaderboard-content" id="lb-content">
             <!-- محتوای لیدربورد توسط JS پر می‌شود -->
@@ -1105,7 +1331,7 @@
     let selectedPlayerIds = [];
     let selectedPlayerNames = [];
     let enablePlayerSelect = true;
-    let usePlayerSelectForGame = true; // مقدار ثابت برای بازی جاری
+    let usePlayerSelectForGame = true;
 
     // Timer
     let timerSeconds = 0;
@@ -1423,7 +1649,7 @@
     // ================================================================
     function startGame() {
         enablePlayerSelect = document.getElementById('enable-player-select').checked;
-        usePlayerSelectForGame = enablePlayerSelect; // ذخیره برای بازی جاری
+        usePlayerSelectForGame = enablePlayerSelect;
         const total = parseInt(document.getElementById('player-count').value) || 0;
         if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
 
@@ -1598,6 +1824,9 @@
         saveState();
     }
 
+    // ================================================================
+    // 10. RENDER DRAW CARDS (با عکس و رنگ‌بندی)
+    // ================================================================
     function renderDrawCards() {
         const container = document.getElementById('cards-container');
         container.innerHTML = '';
@@ -1609,15 +1838,36 @@
         }
 
         cardDisplayIndices.forEach((cardIndex) => {
+            const roleData = assignedCards[cardIndex];
             const card = document.createElement('div');
             card.className = 'draw-card';
             card.id = `draw-card-${cardIndex}`;
-            card.innerText = cardIndex + 1;
+            
+            // رنگ دور بر اساس گروه
+            const teamColor = roleData.team === 'citizen' ? '#10b981' :
+                              (roleData.team === 'mafia' ? '#ef4444' : '#f97316');
+            card.style.borderColor = teamColor;
+
+            // نام نقش و عکس
+            const imgSrc = `assets/images/${roleData.id || ''}.png`;
+            
+            card.innerHTML = `
+                <span class="card-number">${cardIndex + 1}</span>
+                <img class="card-image" src="${imgSrc}" alt="${roleData.name}" loading="lazy">
+                <span class="card-team-badge" style="background:${teamColor}33; border:1px solid ${teamColor}; color:${teamColor};">${roleData.teamLabel}</span>
+                <span class="card-role-name">${roleData.name}</span>
+            `;
+
+            // اگر قبلاً باز شده بود
             const found = pickedHistory.find(p => p.cardNumber === cardIndex+1);
             if(found) {
                 card.classList.add('opened');
-                card.innerText = '✓';
+                card.querySelector('.card-number').style.display = 'none';
+                card.querySelector('.card-image').style.display = 'block';
+                card.querySelector('.card-team-badge').style.display = 'block';
+                card.querySelector('.card-role-name').style.display = 'block';
             }
+
             card.onclick = () => revealRole(cardIndex);
             container.appendChild(card);
         });
@@ -1630,7 +1880,7 @@
     }
 
     // ================================================================
-    // 10. REVEAL ROLE
+    // 11. REVEAL ROLE (با عکس و رنگ‌بندی)
     // ================================================================
     let currentCardIndex = -1;
 
@@ -1641,24 +1891,36 @@
         currentCardIndex = index;
         const roleData = assignedCards[index];
 
+        // نمایش در مودال با عکس
         document.getElementById('modal-player-num').innerText = `کارت شماره ${index+1}`;
-        const roleTitle = document.getElementById('modal-role-name');
-        roleTitle.innerText = roleData.name;
+        document.getElementById('modal-role-name').innerText = roleData.name;
 
         const teamLabel = document.getElementById('modal-team-name');
+        const roleTitle = document.getElementById('modal-role-name');
+        const roleImage = document.getElementById('modal-role-image');
+
+        let teamColor, bgColor;
         if(roleData.team === 'citizen') {
-            roleTitle.style.backgroundColor = '#064e3b';
-            roleTitle.style.color = '#6ee7b7';
+            teamColor = '#6ee7b7';
+            bgColor = '#064e3b';
             teamLabel.innerText = 'گروه شهروندی 🟩';
         } else if(roleData.team === 'mafia') {
-            roleTitle.style.backgroundColor = '#7f1d1d';
-            roleTitle.style.color = '#fca5a5';
+            teamColor = '#fca5a5';
+            bgColor = '#7f1d1d';
             teamLabel.innerText = 'گروه مافیا 🟥';
         } else {
-            roleTitle.style.backgroundColor = '#7c2d12';
-            roleTitle.style.color = '#fdba74';
+            teamColor = '#fdba74';
+            bgColor = '#7c2d12';
             teamLabel.innerText = 'گروه مستقل 🟧';
         }
+        roleTitle.style.backgroundColor = bgColor;
+        roleTitle.style.color = teamColor;
+
+        // بارگذاری عکس
+        const imgSrc = `assets/images/${roleData.id || ''}.png`;
+        roleImage.src = imgSrc;
+        roleImage.style.display = 'block';
+        roleImage.onerror = function() { this.style.display = 'none'; };
 
         document.getElementById('role-modal').style.display = 'flex';
     }
@@ -1669,7 +1931,12 @@
             const cardEl = document.getElementById(`draw-card-${currentCardIndex}`);
             if(!cardEl.classList.contains('opened')) {
                 cardEl.classList.add('opened');
-                cardEl.innerText = '✓';
+                // نمایش عکس و مخفی کردن شماره
+                cardEl.querySelector('.card-number').style.display = 'none';
+                cardEl.querySelector('.card-image').style.display = 'block';
+                cardEl.querySelector('.card-team-badge').style.display = 'block';
+                cardEl.querySelector('.card-role-name').style.display = 'block';
+                
                 const role = assignedCards[currentCardIndex];
                 pickedHistory.push({
                     pickOrder: pickedHistory.length + 1,
@@ -1686,7 +1953,7 @@
     }
 
     // ================================================================
-    // 11. RESET DRAW / BACK
+    // 12. RESET DRAW / BACK
     // ================================================================
     function resetDraw() {
         if(!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
@@ -1721,7 +1988,7 @@
     }
 
     // ================================================================
-    // 12. GOD SCREEN (با استفاده از usePlayerSelectForGame)
+    // 13. GOD SCREEN
     // ================================================================
     function showGodScreen() {
         renderGodList();
@@ -1887,7 +2154,7 @@
     }
 
     // ================================================================
-    // 13. TIMER
+    // 14. TIMER (همانند قبل)
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -1983,7 +2250,7 @@
     }
 
     // ================================================================
-    // 14. AUDIO
+    // 15. AUDIO
     // ================================================================
     function loadAudio(event) {
         const file = event.target.files[0];
@@ -2021,7 +2288,7 @@
     }
 
     // ================================================================
-    // 15. REPORT
+    // 16. REPORT
     // ================================================================
     function generateRawReport() {
         let r = `====================================\n`;
@@ -2104,7 +2371,7 @@
     }
 
     // ================================================================
-    // 16. SAVE GAME RESULTS
+    // 17. SAVE GAME RESULTS
     // ================================================================
     function saveGameResults() {
         let savedCount = 0;
@@ -2133,7 +2400,7 @@
     }
 
     // ================================================================
-    // 17. LEADERBOARD PANEL
+    // 18. LEADERBOARD PANEL + GALLERY
     // ================================================================
     function openLeaderboard() {
         document.getElementById('leaderboard-panel').classList.add('active');
@@ -2148,13 +2415,16 @@
         document.querySelectorAll('.leaderboard-tabs button').forEach(btn => btn.classList.remove('active'));
         const tabs = document.querySelectorAll('.leaderboard-tabs button');
         if(tab === 'leaderboard') tabs[0].classList.add('active');
-        else tabs[1].classList.add('active');
+        else if(tab === 'players') tabs[1].classList.add('active');
+        else if(tab === 'gallery') tabs[2].classList.add('active');
 
         const content = document.getElementById('lb-content');
         if(tab === 'leaderboard') {
             renderLeaderboard(content);
-        } else {
+        } else if(tab === 'players') {
             renderPlayerManagement(content);
+        } else if(tab === 'gallery') {
+            renderGallery(content);
         }
     }
 
@@ -2199,6 +2469,109 @@
         container.innerHTML = html;
     }
 
+    // ================================================================
+    // 19. GALLERY (گالری نقش‌ها)
+    // ================================================================
+    function renderGallery(container) {
+        // گروه‌بندی نقش‌ها
+        const groups = [
+            { key: 'citizen', label: '🟩 شهروندان', className: 'citizen' },
+            { key: 'mafia', label: '🟥 مافیا', className: 'mafia' },
+            { key: 'free', label: '🟧 مستقل‌ها', className: 'free' }
+        ];
+
+        let html = `
+            <input type="text" class="gallery-search" id="gallery-search" placeholder="🔍 جستجوی نقش..." oninput="filterGallery()">
+            <div id="gallery-grid-container">
+        `;
+
+        groups.forEach(group => {
+            const roles = ALL_ROLES[group.key] || [];
+            // فیلتر کردن نقش‌های تکراری (simple حذف نمی‌شود)
+            const uniqueRoles = roles.filter((role, index, self) => 
+                index === self.findIndex(r => r.id === role.id)
+            );
+            
+            html += `<div class="gallery-group-title ${group.className}">${group.label} (${uniqueRoles.length})</div>`;
+            html += `<div class="gallery-grid" data-group="${group.key}">`;
+            
+            uniqueRoles.forEach(role => {
+                // نقش‌های isMultiple (شهروند ساده و مافیای ساده) را هم نمایش بده
+                const imgSrc = `assets/images/${role.id}.png`;
+                html += `
+                    <div class="gallery-item gallery-${group.className}" data-name="${role.name}" onclick="openGalleryModal('${role.id}', '${role.name}', '${role.teamLabel}', '${group.key}')">
+                        <img class="gallery-img" src="${imgSrc}" alt="${role.name}" loading="lazy" 
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-name').style.color='#64748b';">
+                        <div class="gallery-name">${role.name}</div>
+                        <div class="gallery-team">${role.teamLabel}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        });
+
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+
+    function filterGallery() {
+        const query = document.getElementById('gallery-search')?.value?.toLowerCase() || '';
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            const name = item.getAttribute('data-name')?.toLowerCase() || '';
+            item.style.display = name.includes(query) ? 'flex' : 'none';
+        });
+        // نمایش/مخفی کردن گروه‌های خالی
+        const grids = document.querySelectorAll('.gallery-grid');
+        grids.forEach(grid => {
+            const items2 = grid.querySelectorAll('.gallery-item');
+            let visible = false;
+            items2.forEach(item => {
+                if (item.style.display !== 'none') visible = true;
+            });
+            grid.style.display = visible ? 'grid' : 'none';
+            const title = grid.previousElementSibling;
+            if (title && title.classList.contains('gallery-group-title')) {
+                title.style.display = visible ? 'inline-block' : 'none';
+            }
+        });
+    }
+
+    function openGalleryModal(roleId, name, teamLabel, team) {
+        const img = document.getElementById('gallery-modal-img');
+        const nameEl = document.getElementById('gallery-modal-name');
+        const teamEl = document.getElementById('gallery-modal-team');
+        
+        img.src = `assets/images/${roleId}.png`;
+        img.onerror = function() { this.style.display = 'none'; };
+        img.style.display = 'block';
+        nameEl.textContent = name;
+        
+        const teamColors = {
+            citizen: { label: '🟩 گروه شهروندی', color: '#6ee7b7' },
+            mafia: { label: '🟥 گروه مافیا', color: '#fca5a5' },
+            free: { label: '🟧 گروه مستقل', color: '#fdba74' }
+        };
+        const info = teamColors[team] || teamColors.citizen;
+        teamEl.textContent = info.label;
+        teamEl.style.color = info.color;
+        
+        document.getElementById('gallery-modal').classList.add('active');
+    }
+
+    function closeGalleryModal() {
+        document.getElementById('gallery-modal').classList.remove('active');
+    }
+
+    // کلیک خارج از مودال برای بستن
+    document.getElementById('gallery-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeGalleryModal();
+    });
+
+    // ================================================================
+    // 20. PLAYER MANAGEMENT
+    // ================================================================
     function renderPlayerManagement(container) {
         const allPlayers = PlayerManager.getAll();
         let html = `
@@ -2296,7 +2669,7 @@
     }
 
     // ================================================================
-    // 18. LEADERBOARD EXPORTS
+    // 21. LEADERBOARD EXPORTS
     // ================================================================
     function getLeaderboardData() {
         return PlayerManager.getLeaderboard(0);
@@ -2379,7 +2752,7 @@
     }
 
     // ================================================================
-    // 19. SCREEN MANAGEMENT
+    // 22. SCREEN MANAGEMENT
     // ================================================================
     function showScreen(screenId, save = true) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2436,7 +2809,7 @@
     }
 
     // ================================================================
-    // 20. AUTO SAVE
+    // 23. AUTO SAVE
     // ================================================================
     window.addEventListener('beforeunload', () => {
         saveState();
