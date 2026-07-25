@@ -175,85 +175,38 @@
         .screen.active { display:block; }
         @keyframes fadeUp { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
 
-        /* ===== CARDS GRID (DRAW) - با عکس بزرگ ===== */
+        /* ===== CARDS GRID (DRAW) - فقط شماره ===== */
         .cards-grid {
             display:grid;
-            grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+            grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
             gap:16px;
             margin-top:16px;
         }
         .draw-card {
             background:linear-gradient(145deg,#1e293b,#0f172a);
-            border:4px solid #38bdf8;
+            border:2px solid #38bdf8;
             border-radius:20px;
-            height:clamp(200px,50vh,400px);
+            height:clamp(120px,26vw,160px);
             display:flex;
-            flex-direction:column;
             align-items:center;
             justify-content:center;
+            font-size:clamp(32px,7vw,48px);
+            font-weight:800;
+            color:#38bdf8;
             cursor:pointer;
             transition:all .15s ease;
             box-shadow:0 6px 20px rgba(56,189,248,.08);
-            position:relative;
-            overflow:hidden;
-            padding:8px;
         }
-        .draw-card .card-number {
-            font-size:clamp(40px,8vw,70px);
-            font-weight:800;
-            color:#38bdf8;
-            text-shadow:0 0 30px rgba(56,189,248,0.2);
-        }
-        .draw-card .card-image {
-            width:100%;
-            height:100%;
-            object-fit:contain;
-            display:none;
-        }
+        .draw-card:active:not(.opened) { transform:scale(.94); box-shadow:0 0 40px rgba(56,189,248,.15); }
         .draw-card.opened {
             background:#0f172a;
             border-color:#334155;
+            color:#475569;
             cursor:default;
+            opacity:.45;
+            transform:scale(.95);
             box-shadow:none;
         }
-        .draw-card.opened .card-number { display:none; }
-        .draw-card.opened .card-image {
-            display:block;
-            animation:fadeIn .3s ease;
-        }
-        .draw-card .card-team-badge {
-            position:absolute;
-            bottom:8px;
-            right:8px;
-            padding:4px 12px;
-            border-radius:20px;
-            font-size:11px;
-            font-weight:600;
-            background:rgba(0,0,0,0.7);
-            backdrop-filter:blur(4px);
-            display:none;
-        }
-        .draw-card.opened .card-team-badge { display:block; }
-        .draw-card .card-role-name {
-            position:absolute;
-            top:8px;
-            left:50%;
-            transform:translateX(-50%);
-            font-size:16px;
-            font-weight:700;
-            color:#f8fafc;
-            text-shadow:0 2px 12px rgba(0,0,0,0.8);
-            background:rgba(0,0,0,0.5);
-            padding:4px 16px;
-            border-radius:20px;
-            display:none;
-            white-space:nowrap;
-        }
-        .draw-card.opened .card-role-name { display:block; }
-        .draw-card:active:not(.opened) { transform:scale(.94); }
-        .draw-card .border-citizen { border-color:#10b981 !important; }
-        .draw-card .border-mafia { border-color:#ef4444 !important; }
-        .draw-card .border-free { border-color:#f97316 !important; }
 
         /* ===== GOD PANEL ===== */
         .god-header-bar {
@@ -792,8 +745,8 @@
             .badge-row{font-size:9px;padding:1px 4px;min-width:50px}
             .badge-row .btn-sm{width:16px;height:16px;font-size:11px}
             .alive-checkbox{width:18px;height:18px}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
-            .draw-card{height:clamp(160px,40vh,280px)}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+            .draw-card{height:100px;font-size:28px}
             .god-stats-panel{padding:10px}
             .god-bottom-row{gap:6px}
             .god-bottom-row .btn-sm{padding:8px 12px;font-size:13px;min-height:38px;min-width:40px}
@@ -835,22 +788,22 @@
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             .player-name-select,.player-name-input{width:180px}
             .music-name{max-width:350px}
             .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:52px}
-            .draw-card{height:clamp(240px,55vh,450px)}
+            .draw-card{height:clamp(160px,30vw,200px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
             .gallery-item .gallery-img{height:160px}
         }
         @media(min-width:1024px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
             body{padding:20px 36px;padding-bottom:100px}
             .player-name-select,.player-name-input{width:220px}
             .music-name{max-width:450px}
             .god-bottom-row .btn-sm{padding:14px 32px;font-size:20px;min-height:56px}
-            .draw-card{height:clamp(280px,60vh,500px)}
+            .draw-card{height:clamp(180px,35vw,220px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
             .gallery-item .gallery-img{height:180px}
         }
@@ -950,7 +903,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 3: DRAW CARDS (با عکس بزرگ) ===== -->
+    <!-- ===== SCREEN 3: DRAW CARDS (فقط شماره) ===== -->
     <!-- ============================================================ -->
     <div id="draw-screen" class="screen">
         <div class="setup-box" style="justify-content:center;">
@@ -1071,7 +1024,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== GALLERY MODAL (بزرگ‌نمایی عکس) ===== -->
+    <!-- ===== GALLERY MODAL ===== -->
     <!-- ============================================================ -->
     <div class="gallery-modal" id="gallery-modal">
         <div class="modal-content">
@@ -1105,7 +1058,7 @@
     <!-- ============================================================ -->
     <script>
     // ================================================================
-    // 1. ALL_ROLES
+    // 1. ALL_ROLES (نانو حذف شد)
     // ================================================================
     const ALL_ROLES = {
         citizen: [
@@ -1175,7 +1128,7 @@
             { id: 'm_mardeghavi', name: 'مرد قوی', teamLabel: 'گروه مافیا' },
             { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' },
             { id: 'm_mozakere', name: 'مذاکره‌کننده', teamLabel: 'گروه مافیا' },
-            { id: 'm_nano', name: 'نانو', teamLabel: 'گروه مافیا' },
+            // حذف شد: m_nano
             { id: 'm_natasha', name: 'ناتاشا', teamLabel: 'گروه مافیا' },
             { id: 'm_nato', name: 'ناتو', teamLabel: 'گروه مافیا' },
             { id: 'm_samsaz', name: 'سم ساز', teamLabel: 'گروه مافیا' },
@@ -1789,7 +1742,16 @@
             ALL_ROLES[team].forEach(role => {
                 const count = selectedRoles[role.id] || 0;
                 for(let i=0; i<count; i++) {
-                    rolePool.push({ name: role.name, team: team, teamLabel: role.teamLabel, isAlive: true, warnings: 0, score: 0, playerName: '' });
+                    rolePool.push({ 
+                        name: role.name, 
+                        team: team, 
+                        teamLabel: role.teamLabel, 
+                        isAlive: true, 
+                        warnings: 0, 
+                        score: 0, 
+                        playerName: '',
+                        id: role.id // اضافه کردن id برای نمایش عکس
+                    });
                 }
             });
         });
@@ -1825,7 +1787,7 @@
     }
 
     // ================================================================
-    // 10. RENDER DRAW CARDS (با عکس و رنگ‌بندی)
+    // 10. RENDER DRAW CARDS (فقط شماره)
     // ================================================================
     function renderDrawCards() {
         const container = document.getElementById('cards-container');
@@ -1838,34 +1800,15 @@
         }
 
         cardDisplayIndices.forEach((cardIndex) => {
-            const roleData = assignedCards[cardIndex];
             const card = document.createElement('div');
             card.className = 'draw-card';
             card.id = `draw-card-${cardIndex}`;
-            
-            // رنگ دور بر اساس گروه
-            const teamColor = roleData.team === 'citizen' ? '#10b981' :
-                              (roleData.team === 'mafia' ? '#ef4444' : '#f97316');
-            card.style.borderColor = teamColor;
-
-            // نام نقش و عکس
-            const imgSrc = `assets/images/${roleData.id || ''}.png`;
-            
-            card.innerHTML = `
-                <span class="card-number">${cardIndex + 1}</span>
-                <img class="card-image" src="${imgSrc}" alt="${roleData.name}" loading="lazy">
-                <span class="card-team-badge" style="background:${teamColor}33; border:1px solid ${teamColor}; color:${teamColor};">${roleData.teamLabel}</span>
-                <span class="card-role-name">${roleData.name}</span>
-            `;
+            card.innerText = cardIndex + 1;
 
             // اگر قبلاً باز شده بود
             const found = pickedHistory.find(p => p.cardNumber === cardIndex+1);
             if(found) {
                 card.classList.add('opened');
-                card.querySelector('.card-number').style.display = 'none';
-                card.querySelector('.card-image').style.display = 'block';
-                card.querySelector('.card-team-badge').style.display = 'block';
-                card.querySelector('.card-role-name').style.display = 'block';
             }
 
             card.onclick = () => revealRole(cardIndex);
@@ -1880,7 +1823,7 @@
     }
 
     // ================================================================
-    // 11. REVEAL ROLE (با عکس و رنگ‌بندی)
+    // 11. REVEAL ROLE (با عکس در مودال)
     // ================================================================
     let currentCardIndex = -1;
 
@@ -1931,12 +1874,6 @@
             const cardEl = document.getElementById(`draw-card-${currentCardIndex}`);
             if(!cardEl.classList.contains('opened')) {
                 cardEl.classList.add('opened');
-                // نمایش عکس و مخفی کردن شماره
-                cardEl.querySelector('.card-number').style.display = 'none';
-                cardEl.querySelector('.card-image').style.display = 'block';
-                cardEl.querySelector('.card-team-badge').style.display = 'block';
-                cardEl.querySelector('.card-role-name').style.display = 'block';
-                
                 const role = assignedCards[currentCardIndex];
                 pickedHistory.push({
                     pickOrder: pickedHistory.length + 1,
@@ -2154,7 +2091,7 @@
     }
 
     // ================================================================
-    // 14. TIMER (همانند قبل)
+    // 14. TIMER
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -2470,10 +2407,9 @@
     }
 
     // ================================================================
-    // 19. GALLERY (گالری نقش‌ها)
+    // 19. GALLERY
     // ================================================================
     function renderGallery(container) {
-        // گروه‌بندی نقش‌ها
         const groups = [
             { key: 'citizen', label: '🟩 شهروندان', className: 'citizen' },
             { key: 'mafia', label: '🟥 مافیا', className: 'mafia' },
@@ -2487,7 +2423,6 @@
 
         groups.forEach(group => {
             const roles = ALL_ROLES[group.key] || [];
-            // فیلتر کردن نقش‌های تکراری (simple حذف نمی‌شود)
             const uniqueRoles = roles.filter((role, index, self) => 
                 index === self.findIndex(r => r.id === role.id)
             );
@@ -2496,7 +2431,6 @@
             html += `<div class="gallery-grid" data-group="${group.key}">`;
             
             uniqueRoles.forEach(role => {
-                // نقش‌های isMultiple (شهروند ساده و مافیای ساده) را هم نمایش بده
                 const imgSrc = `assets/images/${role.id}.png`;
                 html += `
                     <div class="gallery-item gallery-${group.className}" data-name="${role.name}" onclick="openGalleryModal('${role.id}', '${role.name}', '${role.teamLabel}', '${group.key}')">
@@ -2522,7 +2456,6 @@
             const name = item.getAttribute('data-name')?.toLowerCase() || '';
             item.style.display = name.includes(query) ? 'flex' : 'none';
         });
-        // نمایش/مخفی کردن گروه‌های خالی
         const grids = document.querySelectorAll('.gallery-grid');
         grids.forEach(grid => {
             const items2 = grid.querySelectorAll('.gallery-item');
@@ -2564,7 +2497,6 @@
         document.getElementById('gallery-modal').classList.remove('active');
     }
 
-    // کلیک خارج از مودال برای بستن
     document.getElementById('gallery-modal').addEventListener('click', function(e) {
         if (e.target === this) closeGalleryModal();
     });
@@ -2752,7 +2684,7 @@
     }
 
     // ================================================================
-    // 22. SCREEN MANAGEMENT
+    // 22. SCREEN MANAGEMENT (با حفظ سناریو)
     // ================================================================
     function showScreen(screenId, save = true) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -2763,6 +2695,12 @@
 
     function resetApp() {
         if(!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
+        
+        // ذخیره سناریو و نقش‌های فعلی
+        const currentScenario = document.getElementById('scenario-select').value;
+        const savedRoles = { ...selectedRoles };
+        
+        // پاک کردن داده‌های بازی
         selectedRoles = {};
         assignedCards = [];
         pickedHistory = [];
@@ -2792,9 +2730,30 @@
         document.getElementById('god-bottom-bar').style.display = 'none';
         document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
         document.getElementById('god-inquiry-display').innerText = '0';
+        
+        // بازگرداندن سناریو و نقش‌ها
+        document.getElementById('scenario-select').value = currentScenario;
+        applyScenario(); // این تابع selectedRoles را بر اساس سناریو تنظیم می‌کند
+        // اگر سناریو "custom" بود، selectedRoles از savedRoles بازیابی شود
+        if (currentScenario === 'custom') {
+            selectedRoles = { ...savedRoles };
+            // به‌روزرسانی UI
+            Object.keys(selectedRoles).forEach(id => {
+                const countEl = document.getElementById(`count-${id}`);
+                if (countEl) countEl.innerText = selectedRoles[id];
+            });
+            updateUI();
+            saveState();
+        }
+        
         updateUI();
         showScreen('setup-screen');
+        // حذف localStorage state بازی (اما داده‌های بازیکنان باقی می‌مانند)
+        // ما فقط stateKey را پاک نمی‌کنیم تا تنظیمات سناریو حفظ شود
+        // اما می‌توانیم state بازی را ریست کنیم
         localStorage.removeItem(stateKey);
+        // دوباره state را با تنظیمات جدید ذخیره می‌کنیم
+        saveState();
     }
 
     function updateGodBottomBar() {

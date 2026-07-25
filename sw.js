@@ -1,8 +1,6 @@
 const CACHE_NAME = 'mafia-pwa-v11';
 
-// لیست تمام ۸۰ نقش با شناسه‌های یکتا
 const ROLE_IDS = [
-  // شهروندان (۴۴ نقش)
   'c_ahangar', 'c_ankabut', 'c_attar', 'c_bakere', 'c_bazpors',
   'c_bomber', 'c_cowboy', 'c_dastkaj', 'c_doctor', 'c_fadaei',
   'c_faramason', 'c_fereshte', 'c_fermandeh', 'c_ghahreman', 'c_ghazi',
@@ -12,19 +10,16 @@ const ROLE_IDS = [
   'c_ravanshenas', 'c_roointan', 'c_roshanbin', 'c_saatsaz', 'c_shekarchi',
   'c_simple', 'c_sniper', 'c_takavar', 'c_tayler', 'c_tofangdar',
   'c_vakeel_citizen', 'c_vares', 'c_zaresaz', 'c_zendanban',
-  // مافیا (۳۱ نقش)
   'm_afsangar', 'm_bombgozar', 'm_dinamit', 'm_dozd', 'm_ghatle_herfehei',
   'm_godfather', 'm_gorogangir', 'm_hacker', 'm_jadoogar', 'm_jalab',
   'm_jallad', 'm_jasoos', 'm_khabarchein', 'm_kharabkar', 'm_lecter',
-  'm_marde_ravani', 'm_mardeghavi', 'm_mashooghe', 'm_mozakere', 'm_nano',
+  'm_marde_ravani', 'm_mardeghavi', 'm_mashooghe', 'm_mozakere',
   'm_natasha', 'm_nato', 'm_samsaz', 'm_shaiad', 'm_shobadebaz',
   'm_silencer', 'm_simple', 'm_terorist', 'm_tohamatzan', 'm_vakeel',
   'm_yaghi',
-  // مستقل (۶ نقش)
   'f_delroba', 'f_gorgnama', 'f_hezarchehre', 'f_joker', 'f_killer', 'f_sandika'
 ];
 
-// فایل‌های اصلی برنامه + تمام عکس‌ها
 const ASSETS = [
   './',
   './index.html',
