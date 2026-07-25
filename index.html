@@ -696,21 +696,81 @@
         }
         @keyframes fadeIn { 0%{opacity:0;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
         .modal-card {
-            background:#182235; border-radius:22px; padding:clamp(20px,4vw,30px);
-            width:100%; max-width:500px; border:1px solid #2d3a4f; text-align:center;
-            box-shadow:0 20px 60px rgba(0,0,0,0.6);
+            background:#182235;
+            border-radius:28px;
+            padding:clamp(24px,4vw,36px);
+            width:100%;
+            max-width:520px;
+            border:1px solid #2d3a4f;
+            text-align:center;
+            box-shadow:0 25px 70px rgba(0,0,0,0.8);
+            position:relative;
+            overflow:hidden;
+        }
+        .modal-card::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            height:6px;
+            border-radius:28px 28px 0 0;
+            background:linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
+            opacity:0.3;
         }
         .modal-role-title {
-            font-size:clamp(22px,5vw,30px); font-weight:800; margin:10px 0 4px 0;
-            padding:10px; border-radius:14px; background:#0b0f19;
+            font-size:clamp(28px,5vw,38px);
+            font-weight:800;
+            margin:12px 0 6px 0;
+            padding:12px 16px;
+            border-radius:16px;
+            background:rgba(0,0,0,0.4);
+            backdrop-filter:blur(4px);
+            letter-spacing:0.5px;
         }
+        .modal-role-image-wrapper {
+            border-radius:16px;
+            overflow:hidden;
+            padding:8px;
+            background:#0b0f19;
+            margin:8px 0 12px;
+            border:4px solid #38bdf8;
+            transition:border-color 0.3s ease;
+            box-shadow:0 0 30px rgba(56,189,248,0.1);
+        }
+        .modal-role-image-wrapper.border-citizen { border-color:#10b981; box-shadow:0 0 30px rgba(16,185,129,0.15); }
+        .modal-role-image-wrapper.border-mafia { border-color:#ef4444; box-shadow:0 0 30px rgba(239,68,68,0.15); }
+        .modal-role-image-wrapper.border-free { border-color:#f97316; box-shadow:0 0 30px rgba(249,115,22,0.15); }
         .modal-role-image {
             width:100%;
-            max-height:55vh;
+            max-height:50vh;
             object-fit:contain;
             border-radius:12px;
+            display:block;
             background:#0b0f19;
-            margin:8px 0;
+        }
+        .modal-team-name {
+            font-size:clamp(16px,2.5vw,22px);
+            font-weight:700;
+            padding:8px 16px;
+            border-radius:30px;
+            display:inline-block;
+            margin:4px 0 12px;
+            background:rgba(0,0,0,0.3);
+            backdrop-filter:blur(4px);
+        }
+        .modal-team-name.team-citizen { color:#6ee7b7; border:1px solid #10b981; }
+        .modal-team-name.team-mafia { color:#fca5a5; border:1px solid #ef4444; }
+        .modal-team-name.team-free { color:#fdba74; border:1px solid #f97316; }
+        .modal-player-num {
+            color:#94a3b8;
+            font-size:clamp(14px,2vw,18px);
+            font-weight:600;
+            background:rgba(0,0,0,0.3);
+            padding:4px 16px;
+            border-radius:30px;
+            display:inline-block;
+            margin-bottom:6px;
         }
         .report-textarea {
             width:100%; height:180px; background:#0b0f19; color:#e2e8f0;
@@ -768,8 +828,11 @@
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
             .gallery-item .gallery-img{height:80px}
             .gallery-item .gallery-name{font-size:10px}
-            .modal-role-image{max-height:40vh}
+            .modal-role-image-wrapper{max-height:40vh}
+            .modal-role-image{max-height:35vh}
             .gallery-modal .modal-img{max-height:40vh}
+            .modal-role-title{font-size:22px}
+            .modal-team-name{font-size:14px}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
@@ -785,6 +848,7 @@
             .player-select-item .pname{font-size:11px}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}
             .gallery-item .gallery-img{height:60px}
+            .modal-role-title{font-size:18px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
@@ -795,6 +859,7 @@
             .draw-card{height:clamp(160px,30vw,200px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
             .gallery-item .gallery-img{height:160px}
+            .modal-card{padding:32px}
         }
         @media(min-width:1024px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
@@ -806,6 +871,8 @@
             .draw-card{height:clamp(180px,35vw,220px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
             .gallery-item .gallery-img{height:180px}
+            .modal-card{padding:40px}
+            .modal-role-title{font-size:34px}
         }
     </style>
 </head>
@@ -903,7 +970,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 3: DRAW CARDS (فقط شماره) ===== -->
+    <!-- ===== SCREEN 3: DRAW CARDS ===== -->
     <!-- ============================================================ -->
     <div id="draw-screen" class="screen">
         <div class="setup-box" style="justify-content:center;">
@@ -991,16 +1058,18 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== ROLE MODAL (با عکس بزرگ) ===== -->
+    <!-- ===== ROLE MODAL (با عکس و کادر رنگی) ===== -->
     <!-- ============================================================ -->
     <div class="modal-overlay" id="role-modal">
         <div class="modal-card">
-            <div style="color:#94a3b8;font-size:clamp(13px,2.5vw,16px);" id="modal-player-num">کارت شماره ۱</div>
-            <img id="modal-role-image" class="modal-role-image" src="" alt="نقش" style="display:none;">
-            <div style="font-size:clamp(11px,2vw,14px);color:#64748b;margin-top:4px;">نقش شما:</div>
+            <div class="modal-player-num" id="modal-player-num">کارت شماره ۱</div>
+            <div class="modal-role-image-wrapper" id="modal-image-wrapper">
+                <img id="modal-role-image" class="modal-role-image" src="" alt="نقش">
+            </div>
+            <div style="font-size:clamp(13px,2vw,16px);color:#94a3b8;font-weight:500;margin-top:4px;">نقش شما:</div>
             <div class="modal-role-title" id="modal-role-name">دکتر</div>
-            <div style="font-size:clamp(12px,2.2vw,15px);margin-bottom:16px;font-weight:600;" id="modal-team-name">گروه شهروندی</div>
-            <button class="btn-action" onclick="closeModal()" style="background:#2d3a4f;box-shadow:none;">
+            <div class="modal-team-name" id="modal-team-name">گروه شهروندی</div>
+            <button class="btn-action" onclick="closeModal()" style="background:#2d3a4f;box-shadow:none;max-width:280px;margin:0 auto;">
                 🔒 تایید و مخفی‌سازی
             </button>
         </div>
@@ -1128,7 +1197,6 @@
             { id: 'm_mardeghavi', name: 'مرد قوی', teamLabel: 'گروه مافیا' },
             { id: 'm_mashooghe', name: 'معشوقه', teamLabel: 'گروه مافیا' },
             { id: 'm_mozakere', name: 'مذاکره‌کننده', teamLabel: 'گروه مافیا' },
-            // حذف شد: m_nano
             { id: 'm_natasha', name: 'ناتاشا', teamLabel: 'گروه مافیا' },
             { id: 'm_nato', name: 'ناتو', teamLabel: 'گروه مافیا' },
             { id: 'm_samsaz', name: 'سم ساز', teamLabel: 'گروه مافیا' },
@@ -1750,7 +1818,7 @@
                         warnings: 0, 
                         score: 0, 
                         playerName: '',
-                        id: role.id // اضافه کردن id برای نمایش عکس
+                        id: role.id
                     });
                 }
             });
@@ -1787,7 +1855,7 @@
     }
 
     // ================================================================
-    // 10. RENDER DRAW CARDS (فقط شماره)
+    // 10. RENDER DRAW CARDS
     // ================================================================
     function renderDrawCards() {
         const container = document.getElementById('cards-container');
@@ -1805,7 +1873,6 @@
             card.id = `draw-card-${cardIndex}`;
             card.innerText = cardIndex + 1;
 
-            // اگر قبلاً باز شده بود
             const found = pickedHistory.find(p => p.cardNumber === cardIndex+1);
             if(found) {
                 card.classList.add('opened');
@@ -1823,7 +1890,7 @@
     }
 
     // ================================================================
-    // 11. REVEAL ROLE (با عکس در مودال)
+    // 11. REVEAL ROLE (با کادر رنگی و فونت بزرگ‌تر)
     // ================================================================
     let currentCardIndex = -1;
 
@@ -1834,32 +1901,39 @@
         currentCardIndex = index;
         const roleData = assignedCards[index];
 
-        // نمایش در مودال با عکس
         document.getElementById('modal-player-num').innerText = `کارت شماره ${index+1}`;
         document.getElementById('modal-role-name').innerText = roleData.name;
 
-        const teamLabel = document.getElementById('modal-team-name');
+        const teamNameEl = document.getElementById('modal-team-name');
         const roleTitle = document.getElementById('modal-role-name');
+        const imageWrapper = document.getElementById('modal-image-wrapper');
         const roleImage = document.getElementById('modal-role-image');
 
-        let teamColor, bgColor;
+        let teamColor, bgColor, borderClass, teamLabel;
         if(roleData.team === 'citizen') {
             teamColor = '#6ee7b7';
             bgColor = '#064e3b';
-            teamLabel.innerText = 'گروه شهروندی 🟩';
+            borderClass = 'border-citizen';
+            teamLabel = '🟩 گروه شهروندی';
         } else if(roleData.team === 'mafia') {
             teamColor = '#fca5a5';
             bgColor = '#7f1d1d';
-            teamLabel.innerText = 'گروه مافیا 🟥';
+            borderClass = 'border-mafia';
+            teamLabel = '🟥 گروه مافیا';
         } else {
             teamColor = '#fdba74';
             bgColor = '#7c2d12';
-            teamLabel.innerText = 'گروه مستقل 🟧';
+            borderClass = 'border-free';
+            teamLabel = '🟧 گروه مستقل';
         }
+
         roleTitle.style.backgroundColor = bgColor;
         roleTitle.style.color = teamColor;
+        teamNameEl.textContent = teamLabel;
+        teamNameEl.className = `modal-team-name team-${roleData.team}`;
 
-        // بارگذاری عکس
+        imageWrapper.className = `modal-role-image-wrapper ${borderClass}`;
+
         const imgSrc = `assets/images/${roleData.id || ''}.png`;
         roleImage.src = imgSrc;
         roleImage.style.display = 'block';
@@ -2696,11 +2770,9 @@
     function resetApp() {
         if(!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
         
-        // ذخیره سناریو و نقش‌های فعلی
         const currentScenario = document.getElementById('scenario-select').value;
         const savedRoles = { ...selectedRoles };
         
-        // پاک کردن داده‌های بازی
         selectedRoles = {};
         assignedCards = [];
         pickedHistory = [];
@@ -2731,13 +2803,10 @@
         document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
         document.getElementById('god-inquiry-display').innerText = '0';
         
-        // بازگرداندن سناریو و نقش‌ها
         document.getElementById('scenario-select').value = currentScenario;
-        applyScenario(); // این تابع selectedRoles را بر اساس سناریو تنظیم می‌کند
-        // اگر سناریو "custom" بود، selectedRoles از savedRoles بازیابی شود
+        applyScenario();
         if (currentScenario === 'custom') {
             selectedRoles = { ...savedRoles };
-            // به‌روزرسانی UI
             Object.keys(selectedRoles).forEach(id => {
                 const countEl = document.getElementById(`count-${id}`);
                 if (countEl) countEl.innerText = selectedRoles[id];
@@ -2748,11 +2817,7 @@
         
         updateUI();
         showScreen('setup-screen');
-        // حذف localStorage state بازی (اما داده‌های بازیکنان باقی می‌مانند)
-        // ما فقط stateKey را پاک نمی‌کنیم تا تنظیمات سناریو حفظ شود
-        // اما می‌توانیم state بازی را ریست کنیم
         localStorage.removeItem(stateKey);
-        // دوباره state را با تنظیمات جدید ذخیره می‌کنیم
         saveState();
     }
 
