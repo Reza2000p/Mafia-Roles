@@ -1,5 +1,6 @@
-const CACHE_NAME = 'mafia-pwa-v11';
+const CACHE_NAME = 'mafia-pwa-v12';
 
+// لیست تمام نقش‌ها (بدون نانو)
 const ROLE_IDS = [
   'c_ahangar', 'c_ankabut', 'c_attar', 'c_bakere', 'c_bazpors',
   'c_bomber', 'c_cowboy', 'c_dastkaj', 'c_doctor', 'c_fadaei',
@@ -20,11 +21,13 @@ const ROLE_IDS = [
   'f_delroba', 'f_gorgnama', 'f_hezarchehre', 'f_joker', 'f_killer', 'f_sandika'
 ];
 
+// فایل‌های اصلی + عکس‌ها + فایل توضیحات
 const ASSETS = [
   './',
   './index.html',
   './sw.js',
   './manifest.json',
+  './roles-descriptions.json',
   ...ROLE_IDS.map(id => `./assets/images/${id}.png`)
 ];
 
