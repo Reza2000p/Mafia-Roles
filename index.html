@@ -511,7 +511,7 @@
         .gallery-group-title.mafia { color:#fca5a5; background:#7f1d1d; border:1px solid #ef4444; }
         .gallery-group-title.free { color:#fdba74; background:#7c2d12; border:1px solid #f97316; }
 
-        /* ===== GALLERY MODAL ===== */
+        /* ===== GALLERY MODAL (شبیه مودال نقش‌ها) ===== */
         .gallery-modal {
             position:fixed;
             top:0; left:0; right:0; bottom:0;
@@ -528,33 +528,81 @@
         .gallery-modal.active { display:flex; }
         .gallery-modal .modal-content {
             background:#182235;
-            border-radius:24px;
-            padding:24px;
-            max-width:500px;
+            border-radius:28px;
+            padding:clamp(24px,4vw,36px);
+            max-width:520px;
             width:100%;
-            text-align:center;
             border:1px solid #2d3a4f;
-            box-shadow:0 20px 60px rgba(0,0,0,0.8);
-            max-height:90vh;
-            overflow-y:auto;
+            text-align:center;
+            box-shadow:0 25px 70px rgba(0,0,0,0.8);
+            position:relative;
+            overflow:hidden;
         }
+        .gallery-modal .modal-content::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            height:6px;
+            border-radius:28px 28px 0 0;
+            background:linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
+            opacity:0.3;
+        }
+        .gallery-modal .modal-img-wrapper {
+            border-radius:16px;
+            overflow:hidden;
+            padding:8px;
+            background:#0b0f19;
+            margin:8px 0 12px;
+            border:4px solid #38bdf8;
+            transition:border-color 0.3s ease;
+            box-shadow:0 0 30px rgba(56,189,248,0.1);
+        }
+        .gallery-modal .modal-img-wrapper.border-citizen { border-color:#10b981; box-shadow:0 0 30px rgba(16,185,129,0.15); }
+        .gallery-modal .modal-img-wrapper.border-mafia { border-color:#ef4444; box-shadow:0 0 30px rgba(239,68,68,0.15); }
+        .gallery-modal .modal-img-wrapper.border-free { border-color:#f97316; box-shadow:0 0 30px rgba(249,115,22,0.15); }
         .gallery-modal .modal-img {
             width:100%;
-            max-height:55vh;
+            max-height:50vh;
             object-fit:contain;
             border-radius:12px;
+            display:block;
             background:#0b0f19;
         }
         .gallery-modal .modal-name {
-            font-size:22px;
-            font-weight:700;
+            font-size:clamp(28px,5vw,38px);
+            font-weight:800;
+            margin:8px 0 4px;
+            padding:8px 16px;
+            border-radius:16px;
+            background:rgba(0,0,0,0.4);
+            backdrop-filter:blur(4px);
             color:#f8fafc;
-            margin:12px 0 4px;
         }
         .gallery-modal .modal-team {
+            font-size:clamp(16px,2.5vw,22px);
+            font-weight:700;
+            padding:8px 16px;
+            border-radius:30px;
+            display:inline-block;
+            margin:4px 0 8px;
+            background:rgba(0,0,0,0.3);
+            backdrop-filter:blur(4px);
+        }
+        .gallery-modal .modal-team.team-citizen { color:#6ee7b7; border:1px solid #10b981; }
+        .gallery-modal .modal-team.team-mafia { color:#fca5a5; border:1px solid #ef4444; }
+        .gallery-modal .modal-team.team-free { color:#fdba74; border:1px solid #f97316; }
+        .gallery-modal .modal-desc {
             font-size:14px;
             color:#94a3b8;
-            margin-bottom:12px;
+            margin:8px 0 16px;
+            line-height:1.8;
+            text-align:right;
+            padding:0 8px;
+            max-height:none;
+            overflow:visible;
+            word-wrap:break-word;
         }
         .gallery-modal .modal-close {
             background:#2d3a4f;
@@ -566,6 +614,7 @@
             font-weight:600;
             cursor:pointer;
             transition:background .15s;
+            margin-top:8px;
         }
         .gallery-modal .modal-close:hover { background:#3b4a63; }
 
@@ -755,13 +804,24 @@
             padding:8px 16px;
             border-radius:30px;
             display:inline-block;
-            margin:4px 0 12px;
+            margin:4px 0 8px;
             background:rgba(0,0,0,0.3);
             backdrop-filter:blur(4px);
         }
         .modal-team-name.team-citizen { color:#6ee7b7; border:1px solid #10b981; }
         .modal-team-name.team-mafia { color:#fca5a5; border:1px solid #ef4444; }
         .modal-team-name.team-free { color:#fdba74; border:1px solid #f97316; }
+        .modal-role-description {
+            font-size:14px;
+            color:#94a3b8;
+            margin:8px 0 16px;
+            line-height:1.8;
+            text-align:right;
+            padding:0 8px;
+            max-height:none;
+            overflow:visible;
+            word-wrap:break-word;
+        }
         .modal-player-num {
             color:#94a3b8;
             font-size:clamp(14px,2vw,18px);
@@ -830,9 +890,12 @@
             .gallery-item .gallery-name{font-size:10px}
             .modal-role-image-wrapper{max-height:40vh}
             .modal-role-image{max-height:35vh}
-            .gallery-modal .modal-img{max-height:40vh}
             .modal-role-title{font-size:22px}
             .modal-team-name{font-size:14px}
+            .modal-role-description{font-size:12px}
+            .gallery-modal .modal-name{font-size:22px}
+            .gallery-modal .modal-team{font-size:14px}
+            .gallery-modal .modal-desc{font-size:12px}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
@@ -849,6 +912,7 @@
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}
             .gallery-item .gallery-img{height:60px}
             .modal-role-title{font-size:18px}
+            .gallery-modal .modal-name{font-size:18px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
@@ -873,6 +937,7 @@
             .gallery-item .gallery-img{height:180px}
             .modal-card{padding:40px}
             .modal-role-title{font-size:34px}
+            .gallery-modal .modal-name{font-size:34px}
         }
     </style>
 </head>
@@ -1058,7 +1123,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== ROLE MODAL (با عکس و کادر رنگی) ===== -->
+    <!-- ===== ROLE MODAL (با توضیحات) ===== -->
     <!-- ============================================================ -->
     <div class="modal-overlay" id="role-modal">
         <div class="modal-card">
@@ -1069,6 +1134,7 @@
             <div style="font-size:clamp(13px,2vw,16px);color:#94a3b8;font-weight:500;margin-top:4px;">نقش شما:</div>
             <div class="modal-role-title" id="modal-role-name">دکتر</div>
             <div class="modal-team-name" id="modal-team-name">گروه شهروندی</div>
+            <div class="modal-role-description" id="modal-role-description" style="display:none;"></div>
             <button class="btn-action" onclick="closeModal()" style="background:#2d3a4f;box-shadow:none;max-width:280px;margin:0 auto;">
                 🔒 تایید و مخفی‌سازی
             </button>
@@ -1093,13 +1159,16 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== GALLERY MODAL ===== -->
+    <!-- ===== GALLERY MODAL (شبیه مودال نقش‌ها) ===== -->
     <!-- ============================================================ -->
     <div class="gallery-modal" id="gallery-modal">
         <div class="modal-content">
-            <img id="gallery-modal-img" class="modal-img" src="" alt="نقش">
-            <div class="modal-name" id="gallery-modal-name"></div>
-            <div class="modal-team" id="gallery-modal-team"></div>
+            <div class="modal-img-wrapper" id="gallery-img-wrapper">
+                <img id="gallery-modal-img" class="modal-img" src="" alt="نقش">
+            </div>
+            <div class="modal-name" id="gallery-modal-name">دکتر</div>
+            <div class="modal-team" id="gallery-modal-team">گروه شهروندی</div>
+            <div class="modal-desc" id="gallery-modal-desc" style="display:none;"></div>
             <button class="modal-close" onclick="closeGalleryModal()">✕ بستن</button>
         </div>
     </div>
@@ -1366,10 +1435,61 @@
     let audioFileLoaded = false;
     let currentAudioName = '';
 
+    // Descriptions
+    let roleDescriptions = {};
+
+    // Wake Lock
+    let wakeLock = null;
+
     // ================================================================
-    // 4. INIT
+    // 4. WAKE LOCK (فقط در صفحه گاد)
     // ================================================================
-    window.onload = () => {
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator && !wakeLock) {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake Lock فعال شد');
+                // در صورت آزاد شدن ناگهانی، دوباره درخواست بده
+                wakeLock.addEventListener('release', () => {
+                    console.log('Wake Lock به صورت خودکار آزاد شد');
+                    wakeLock = null;
+                });
+            }
+        } catch (err) {
+            console.log('Wake Lock پشتیبانی نمی‌شود:', err);
+        }
+    }
+
+    function releaseWakeLock() {
+        if (wakeLock) {
+            wakeLock.release();
+            wakeLock = null;
+            console.log('Wake Lock آزاد شد');
+        }
+    }
+
+    // ================================================================
+    // 5. LOAD DESCRIPTIONS
+    // ================================================================
+    async function loadDescriptions() {
+        try {
+            const response = await fetch('./roles-descriptions.json');
+            if (response.ok) {
+                roleDescriptions = await response.json();
+                console.log('توضیحات نقش‌ها بارگذاری شد.');
+            } else {
+                console.warn('فایل توضیحات یافت نشد.');
+            }
+        } catch (e) {
+            console.warn('خطا در بارگذاری توضیحات:', e);
+        }
+    }
+
+    // ================================================================
+    // 6. INIT
+    // ================================================================
+    window.onload = async () => {
+        await loadDescriptions();
         loadState();
         renderCustomScenariosOptions();
         renderRoles();
@@ -1387,7 +1507,7 @@
     };
 
     // ================================================================
-    // 5. STATE PERSISTENCE
+    // 7. STATE PERSISTENCE
     // ================================================================
     const stateKey = 'mafia_assistant_state';
 
@@ -1448,11 +1568,13 @@
                 renderGodList();
                 document.getElementById('god-bottom-bar').style.display = 'flex';
                 updateGodBottomBar();
+                requestWakeLock();
             } else if (state.currentScreen === 'player-select-screen') {
                 showScreen('player-select-screen', false);
                 renderPlayerSelect();
             } else {
                 showScreen('setup-screen', false);
+                releaseWakeLock();
             }
 
             Object.keys(selectedRoles).forEach(id => {
@@ -1476,7 +1598,7 @@
     }
 
     // ================================================================
-    // 6. HELPER FUNCTIONS
+    // 8. HELPER FUNCTIONS
     // ================================================================
     function getSavedScenarios() {
         try { return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]'); } catch(e) { return []; }
@@ -1666,7 +1788,7 @@
     }
 
     // ================================================================
-    // 7. START GAME
+    // 9. START GAME
     // ================================================================
     function startGame() {
         enablePlayerSelect = document.getElementById('enable-player-select').checked;
@@ -1687,7 +1809,7 @@
     }
 
     // ================================================================
-    // 8. PLAYER SELECTION
+    // 10. PLAYER SELECTION
     // ================================================================
     function renderPlayerSelect() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
@@ -1802,7 +1924,7 @@
     }
 
     // ================================================================
-    // 9. DISTRIBUTE ROLES
+    // 11. DISTRIBUTE ROLES
     // ================================================================
     function doDistributeRoles(playerNames) {
         let rolePool = [];
@@ -1855,7 +1977,7 @@
     }
 
     // ================================================================
-    // 10. RENDER DRAW CARDS
+    // 12. RENDER DRAW CARDS
     // ================================================================
     function renderDrawCards() {
         const container = document.getElementById('cards-container');
@@ -1890,7 +2012,7 @@
     }
 
     // ================================================================
-    // 11. REVEAL ROLE (با کادر رنگی و فونت بزرگ‌تر)
+    // 13. REVEAL ROLE (با توضیحات و کادر رنگی)
     // ================================================================
     let currentCardIndex = -1;
 
@@ -1900,6 +2022,7 @@
 
         currentCardIndex = index;
         const roleData = assignedCards[index];
+        const roleId = roleData.id;
 
         document.getElementById('modal-player-num').innerText = `کارت شماره ${index+1}`;
         document.getElementById('modal-role-name').innerText = roleData.name;
@@ -1908,6 +2031,7 @@
         const roleTitle = document.getElementById('modal-role-name');
         const imageWrapper = document.getElementById('modal-image-wrapper');
         const roleImage = document.getElementById('modal-role-image');
+        const descEl = document.getElementById('modal-role-description');
 
         let teamColor, bgColor, borderClass, teamLabel;
         if(roleData.team === 'citizen') {
@@ -1934,10 +2058,19 @@
 
         imageWrapper.className = `modal-role-image-wrapper ${borderClass}`;
 
-        const imgSrc = `assets/images/${roleData.id || ''}.png`;
+        const imgSrc = `assets/images/${roleId || ''}.png`;
         roleImage.src = imgSrc;
         roleImage.style.display = 'block';
         roleImage.onerror = function() { this.style.display = 'none'; };
+
+        // نمایش توضیحات
+        const desc = roleDescriptions[roleId]?.description;
+        if (desc && desc !== '-' && desc.trim() !== '') {
+            descEl.textContent = desc;
+            descEl.style.display = 'block';
+        } else {
+            descEl.style.display = 'none';
+        }
 
         document.getElementById('role-modal').style.display = 'flex';
     }
@@ -1964,7 +2097,7 @@
     }
 
     // ================================================================
-    // 12. RESET DRAW / BACK
+    // 14. RESET DRAW / BACK
     // ================================================================
     function resetDraw() {
         if(!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
@@ -1994,18 +2127,20 @@
         selectedPlayerNames = [];
         document.getElementById('god-btn').style.display = 'none';
         document.getElementById('god-bottom-bar').style.display = 'none';
+        releaseWakeLock();
         showScreen('setup-screen');
         saveState();
     }
 
     // ================================================================
-    // 13. GOD SCREEN
+    // 15. GOD SCREEN (با Wake Lock فعال)
     // ================================================================
     function showGodScreen() {
         renderGodList();
         showScreen('god-screen');
         document.getElementById('god-bottom-bar').style.display = 'flex';
         updateGodBottomBar();
+        requestWakeLock();
         saveState();
     }
 
@@ -2165,7 +2300,7 @@
     }
 
     // ================================================================
-    // 14. TIMER
+    // 16. TIMER
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -2261,7 +2396,7 @@
     }
 
     // ================================================================
-    // 15. AUDIO
+    // 17. AUDIO
     // ================================================================
     function loadAudio(event) {
         const file = event.target.files[0];
@@ -2299,7 +2434,7 @@
     }
 
     // ================================================================
-    // 16. REPORT
+    // 18. REPORT
     // ================================================================
     function generateRawReport() {
         let r = `====================================\n`;
@@ -2357,6 +2492,11 @@
 
     function closeReportModal() {
         document.getElementById('report-modal').style.display = 'none';
+        // اگر از صفحه گاد خارج می‌شویم، Wake Lock را آزاد می‌کنیم
+        const activeScreen = document.querySelector('.screen.active');
+        if (!activeScreen || activeScreen.id !== 'god-screen') {
+            releaseWakeLock();
+        }
     }
 
     function copyReportTxt() {
@@ -2382,7 +2522,7 @@
     }
 
     // ================================================================
-    // 17. SAVE GAME RESULTS
+    // 19. SAVE GAME RESULTS
     // ================================================================
     function saveGameResults() {
         let savedCount = 0;
@@ -2411,7 +2551,7 @@
     }
 
     // ================================================================
-    // 18. LEADERBOARD PANEL + GALLERY
+    // 20. LEADERBOARD PANEL + GALLERY
     // ================================================================
     function openLeaderboard() {
         document.getElementById('leaderboard-panel').classList.add('active');
@@ -2481,7 +2621,7 @@
     }
 
     // ================================================================
-    // 19. GALLERY
+    // 21. GALLERY (با مودال شبیه نقش‌ها)
     // ================================================================
     function renderGallery(container) {
         const groups = [
@@ -2549,21 +2689,37 @@
         const img = document.getElementById('gallery-modal-img');
         const nameEl = document.getElementById('gallery-modal-name');
         const teamEl = document.getElementById('gallery-modal-team');
-        
+        const descEl = document.getElementById('gallery-modal-desc');
+        const wrapper = document.getElementById('gallery-img-wrapper');
+
+        // تنظیم عکس
         img.src = `assets/images/${roleId}.png`;
         img.onerror = function() { this.style.display = 'none'; };
         img.style.display = 'block';
+
+        // تنظیم نام
         nameEl.textContent = name;
-        
+
+        // تنظیم گروه و رنگ
         const teamColors = {
-            citizen: { label: '🟩 گروه شهروندی', color: '#6ee7b7' },
-            mafia: { label: '🟥 گروه مافیا', color: '#fca5a5' },
-            free: { label: '🟧 گروه مستقل', color: '#fdba74' }
+            citizen: { label: '🟩 گروه شهروندی', color: '#6ee7b7', borderClass: 'border-citizen' },
+            mafia: { label: '🟥 گروه مافیا', color: '#fca5a5', borderClass: 'border-mafia' },
+            free: { label: '🟧 گروه مستقل', color: '#fdba74', borderClass: 'border-free' }
         };
         const info = teamColors[team] || teamColors.citizen;
         teamEl.textContent = info.label;
-        teamEl.style.color = info.color;
-        
+        teamEl.className = `modal-team team-${team}`;
+        wrapper.className = `modal-img-wrapper ${info.borderClass}`;
+
+        // تنظیم توضیحات
+        const desc = roleDescriptions[roleId]?.description;
+        if (desc && desc !== '-' && desc.trim() !== '') {
+            descEl.textContent = desc;
+            descEl.style.display = 'block';
+        } else {
+            descEl.style.display = 'none';
+        }
+
         document.getElementById('gallery-modal').classList.add('active');
     }
 
@@ -2576,7 +2732,7 @@
     });
 
     // ================================================================
-    // 20. PLAYER MANAGEMENT
+    // 22. PLAYER MANAGEMENT
     // ================================================================
     function renderPlayerManagement(container) {
         const allPlayers = PlayerManager.getAll();
@@ -2675,7 +2831,7 @@
     }
 
     // ================================================================
-    // 21. LEADERBOARD EXPORTS
+    // 23. LEADERBOARD EXPORTS
     // ================================================================
     function getLeaderboardData() {
         return PlayerManager.getLeaderboard(0);
@@ -2758,11 +2914,19 @@
     }
 
     // ================================================================
-    // 22. SCREEN MANAGEMENT (با حفظ سناریو)
+    // 24. SCREEN MANAGEMENT (با Wake Lock)
     // ================================================================
     function showScreen(screenId, save = true) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+        
+        // مدیریت Wake Lock
+        if (screenId === 'god-screen') {
+            requestWakeLock();
+        } else {
+            releaseWakeLock();
+        }
+        
         if(save) saveState();
         window.scrollTo(0, 0);
     }
@@ -2803,6 +2967,9 @@
         document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
         document.getElementById('god-inquiry-display').innerText = '0';
         
+        // آزاد کردن Wake Lock
+        releaseWakeLock();
+        
         document.getElementById('scenario-select').value = currentScenario;
         applyScenario();
         if (currentScenario === 'custom') {
@@ -2833,10 +3000,11 @@
     }
 
     // ================================================================
-    // 23. AUTO SAVE
+    // 25. AUTO SAVE
     // ================================================================
     window.addEventListener('beforeunload', () => {
         saveState();
+        releaseWakeLock();
     });
     </script>
 </body>
