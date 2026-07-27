@@ -1835,10 +1835,11 @@
     // ================================================================
     // 7. PAGE MANAGEMENT
     // ================================================================
-    async function confirmExitDraw() {
+    // تابع تأیید برای برگشت به تنظیمات
+    async function confirmBackToRoles() {
         return await showCustomModal(
             'خروج از قرعه‌کشی',
-            'آیا از خروج از صفحه قرعه‌کشی مطمئن هستید؟ بازی فعلی ادامه خواهد یافت.',
+            'آیا از بازگشت به تنظیمات مطمئن هستید؟ نقش‌های فعلی از دست خواهند رفت.',
             'confirm'
         );
     }
@@ -1847,10 +1848,17 @@
         const drawPage = document.getElementById('page-draw');
         const isDrawActive = drawPage.classList.contains('active');
         
+        // در قرعه‌کشی، منو مخفی است، اما در صورت فراخوانی مستقیم (از دکمه‌های داخلی)
         if (isDrawActive && pageId !== 'page-draw') {
             (async () => {
-                const confirmed = await confirmExitDraw();
-                if (confirmed) {
+                // فقط برای برگشت به تنظیمات تأیید بگیر
+                if (pageId === 'page-roles' || pageId === 'page-player-select') {
+                    const confirmed = await confirmBackToRoles();
+                    if (confirmed) {
+                        performSwitchPage(pageId);
+                    }
+                } else {
+                    // برای صفحات دیگر (گاد) بدون تأیید
                     performSwitchPage(pageId);
                 }
             })();
@@ -1922,7 +1930,7 @@
     async function backToRoles() {
         const drawPage = document.getElementById('page-draw');
         if (drawPage.classList.contains('active')) {
-            const confirmed = await confirmExitDraw();
+            const confirmed = await confirmBackToRoles();
             if (!confirmed) return;
         }
         switchPage('page-roles');
@@ -2570,12 +2578,7 @@
     // 16. GOD SCREEN
     // ================================================================
     async function showGodScreen() {
-        const drawPage = document.getElementById('page-draw');
-        if (drawPage.classList.contains('active')) {
-            const confirmed = await confirmExitDraw();
-            if (!confirmed) return;
-        }
-        
+        // ورود به گاد نیازی به تأیید ندارد (از دکمه‌ی داخل صفحه‌ی قرعه‌کشی)
         if (!isGameActive()) {
             showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
             switchPage('page-roles');
