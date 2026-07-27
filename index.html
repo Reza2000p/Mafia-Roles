@@ -175,7 +175,7 @@
         .btn-action:active { transform:scale(0.97); }
         .btn-action:disabled { background:#334155; color:#64748b; cursor:not-allowed; box-shadow:none; }
 
-        /* ===== PAGE: DRAW (بدون منو) ===== */
+        /* ===== PAGE: DRAW ===== */
         .page-draw .bottom-nav { display: none !important; }
         .page-draw body { padding-bottom: 14px; }
         .draw-cards-grid {
@@ -386,7 +386,16 @@
             display:inline-flex; align-items:center; flex:1;
         }
 
-        /* ===== PAGE: LEADERBOARD ===== */
+        /* ===== PAGE: LEADERBOARD (با هدر ثابت برای دکمه‌ها) ===== */
+        .leaderboard-header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: #0f172a;
+            padding: 8px 0 12px;
+            border-bottom: 1px solid #2d3a4f;
+            margin-bottom: 12px;
+        }
         .lb-table {
             width:100%; border-collapse:collapse; font-size:clamp(12px,2vw,15px);
         }
@@ -402,8 +411,10 @@
         .lb-rank-1 { color:#fbbf24; font-weight:700; }
         .lb-rank-2 { color:#94a3b8; font-weight:700; }
         .lb-rank-3 { color:#cd7f32; font-weight:700; }
+
         .lb-actions {
-            display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;
+            display:flex; gap:8px; flex-wrap:wrap;
+            justify-content:center;
         }
         .lb-actions button {
             background:#2d3a4f; border:none; color:#f8fafc; padding:8px 16px;
@@ -881,15 +892,7 @@
             filter: drop-shadow(0 0 8px rgba(56,189,248,0.2));
         }
         .bottom-nav .nav-item.active::after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            border-radius: 0 0 4px 4px;
-            background: #38bdf8;
+            display: none;
         }
         .bottom-nav .nav-item:active { transform: scale(0.92); }
         .bottom-nav .nav-item.disabled {
@@ -906,6 +909,11 @@
             border-radius: 50%;
             background: #ef4444;
             border: 2px solid #0f172a;
+        }
+        .bottom-nav .nav-item.roles-disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -957,6 +965,8 @@
             .player-select-item .pname{font-size:12px}
             .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
             .player-select-stats .count{font-size:12px}
+            .leaderboard-header-sticky{padding:6px 0 8px}
+            .lb-actions button{font-size:11px;padding:6px 12px;min-width:50px}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
@@ -978,6 +988,7 @@
             .bottom-nav .nav-item .label{font-size:7px}
             .bottom-nav .nav-item{max-width:50px}
             .bottom-nav .nav-item .badge{width:6px;height:6px;top:1px;right:2px}
+            .lb-actions button{font-size:10px;padding:4px 10px;min-width:40px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
@@ -992,6 +1003,7 @@
             .bottom-nav .nav-item{max-width:80px}
             .bottom-nav .nav-item .icon{font-size:26px}
             .bottom-nav .nav-item .label{font-size:12px}
+            .lb-actions button{font-size:14px;padding:10px 20px}
         }
         @media(min-width:1024px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
@@ -1020,7 +1032,7 @@
     </header>
 
     <!-- ============================================================ -->
-    <!-- ===== PAGE 1: ROLES (نقش‌ها و سناریو) ===== -->
+    <!-- ===== PAGE 1: ROLES ===== -->
     <!-- ============================================================ -->
     <div id="page-roles" class="page active">
         <div class="setup-box">
@@ -1076,7 +1088,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== PAGE 2: PLAYER SELECTION (ورود اسامی) ===== -->
+    <!-- ===== PAGE 2: PLAYER SELECTION ===== -->
     <!-- ============================================================ -->
     <div id="page-player-select" class="page">
         <div class="setup-box" style="justify-content:center;">
@@ -1098,7 +1110,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== PAGE 3: DRAW (قرعه‌کشی - بدون منو) ===== -->
+    <!-- ===== PAGE 3: DRAW ===== -->
     <!-- ============================================================ -->
     <div id="page-draw" class="page page-draw">
         <div class="setup-box" style="justify-content:center;">
@@ -1119,7 +1131,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== PAGE 4: GOD (گاد) ===== -->
+    <!-- ===== PAGE 4: GOD ===== -->
     <!-- ============================================================ -->
     <div id="page-god" class="page god-screen-padding">
         <div class="god-header-bar">
@@ -1159,8 +1171,14 @@
     <!-- ===== PAGE 5: LEADERBOARD ===== -->
     <!-- ============================================================ -->
     <div id="page-leaderboard" class="page">
-        <div class="leaderboard-content" id="lb-content">
-            <!-- محتوای لیدربورد توسط JS پر می‌شود -->
+        <div class="leaderboard-header-sticky" id="lb-header">
+            <div style="font-size:18px;font-weight:700;color:#f87171;margin-bottom:6px;">🏆 لیدربورد</div>
+            <div class="lb-actions" id="lb-actions-container">
+                <!-- دکمه‌ها توسط JS پر می‌شوند -->
+            </div>
+        </div>
+        <div id="lb-table-container">
+            <!-- جدول توسط JS پر می‌شود -->
         </div>
     </div>
 
@@ -1169,7 +1187,7 @@
     <!-- ============================================================ -->
     <div id="page-players" class="page">
         <div id="players-content">
-            <!-- محتوای مدیریت بازیکنان توسط JS پر می‌شود -->
+            <!-- مدیریت بازیکنان توسط JS پر می‌شود -->
         </div>
     </div>
 
@@ -1178,12 +1196,12 @@
     <!-- ============================================================ -->
     <div id="page-gallery" class="page">
         <div id="gallery-content">
-            <!-- محتوای گالری توسط JS پر می‌شود -->
+            <!-- گالری توسط JS پر می‌شود -->
         </div>
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== GOD BOTTOM BAR (تایمر + استعلام + موزیک) ===== -->
+    <!-- ===== GOD BOTTOM BAR ===== -->
     <!-- ============================================================ -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display:none;">
         <div class="god-bottom-row">
@@ -1208,10 +1226,10 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== BOTTOM NAVIGATION (۵ بخش) ===== -->
+    <!-- ===== BOTTOM NAVIGATION ===== -->
     <!-- ============================================================ -->
     <nav class="bottom-nav" id="bottom-nav">
-        <button class="nav-item active" data-page="page-roles" onclick="switchPage('page-roles')">
+        <button class="nav-item active" data-page="page-roles" id="nav-roles" onclick="switchPage('page-roles')">
             <span class="icon">🎯</span>
             <span class="label">نقش‌ها</span>
         </button>
@@ -1604,7 +1622,11 @@
     // 7. PAGE MANAGEMENT
     // ================================================================
     function switchPage(pageId) {
-        // اگر صفحه قرعه‌کشی فعال باشد، اجازه خروج نمی‌دهیم (مگر از دکمه‌های داخلی)
+        if (pageId === 'page-roles' && assignedCards.length > 0) {
+            alert('در حین بازی نمی‌توانید به صفحه نقش‌ها بروید. لطفاً ابتدا بازی را تمام کنید.');
+            return;
+        }
+
         const drawPage = document.getElementById('page-draw');
         if (drawPage.classList.contains('active') && pageId !== 'page-draw') {
             if (!confirm('آیا از خروج از صفحه قرعه‌کشی مطمئن هستید؟ بازی فعلی ادامه خواهد یافت.')) {
@@ -1612,20 +1634,16 @@
             }
         }
 
-        // اگر صفحه گاد را انتخاب کرده و بازی فعال نیست
         if (pageId === 'page-god' && !isGameActive()) {
             alert('هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.');
             switchPage('page-roles');
             return;
         }
 
-        // مخفی کردن همه صفحات
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        // نمایش صفحه مورد نظر
         const target = document.getElementById(pageId);
         if (target) target.classList.add('active');
 
-        // به‌روزرسانی منو
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.toggle('active', item.dataset.page === pageId);
         });
@@ -1633,14 +1651,12 @@
         currentPage = pageId;
         saveState();
 
-        // Wake Lock: فقط در صفحه گاد
         if (pageId === 'page-god') {
             requestWakeLock();
         } else {
             releaseWakeLock();
         }
 
-        // رندر محتوای صفحات
         if (pageId === 'page-leaderboard') renderLeaderboardContent();
         if (pageId === 'page-players') renderPlayersContent();
         if (pageId === 'page-gallery') renderGalleryContent();
@@ -1653,8 +1669,17 @@
     }
 
     function updateNavState() {
+        const rolesItem = document.getElementById('nav-roles');
         const godItem = document.querySelector('.nav-item[data-page="page-god"]');
-        if (isGameActive()) {
+        const isActive = isGameActive();
+
+        if (isActive) {
+            rolesItem.classList.add('roles-disabled');
+        } else {
+            rolesItem.classList.remove('roles-disabled');
+        }
+
+        if (isActive) {
             godItem.classList.remove('disabled');
             document.getElementById('god-badge').style.display = 'block';
         } else {
@@ -1664,7 +1689,6 @@
     }
 
     function backToRoles() {
-        // بازگشت به صفحه نقش‌ها از هر جایی
         switchPage('page-roles');
     }
 
@@ -1720,7 +1744,6 @@
             const cb = document.getElementById('enable-player-select');
             if (cb) cb.checked = enablePlayerSelect;
 
-            // بازیابی صفحه
             const pageToShow = currentPage;
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             const target = document.getElementById(pageToShow);
@@ -1730,7 +1753,6 @@
                 item.classList.toggle('active', item.dataset.page === pageToShow);
             });
 
-            // اگر صفحه گاد است و بازی فعال نیست، به نقش‌ها برو
             if (pageToShow === 'page-god' && !isGameActive()) {
                 document.getElementById('page-roles').classList.add('active');
                 document.getElementById('page-god').classList.remove('active');
@@ -1740,7 +1762,6 @@
                 currentPage = 'page-roles';
             }
 
-            // اگر صفحه قرعه‌کشی است و بازی وجود ندارد، به نقش‌ها برو
             if (pageToShow === 'page-draw' && assignedCards.length === 0) {
                 document.getElementById('page-roles').classList.add('active');
                 document.getElementById('page-draw').classList.remove('active');
@@ -1768,7 +1789,6 @@
                 document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
             }
 
-            // اگر در صفحه گاد هستیم، لیست را رندر کن
             if (pageToShow === 'page-god' && isGameActive()) {
                 renderGodList();
                 document.getElementById('god-bottom-bar').style.display = 'flex';
@@ -1776,8 +1796,6 @@
             }
 
             updateNavState();
-
-            // رندر محتوای صفحات دیگر
             renderLeaderboardContent();
             renderPlayersContent();
             renderGalleryContent();
@@ -2161,7 +2179,6 @@
         document.getElementById('god-btn').style.display = 'none';
 
         switchPage('page-draw');
-        // منو در صفحه قرعه‌کشی مخفی می‌شود (با کلاس page-draw)
         saveState();
         updateNavState();
     }
@@ -2744,16 +2761,25 @@
     // 21. LEADERBOARD PAGE
     // ================================================================
     function renderLeaderboardContent() {
-        const container = document.getElementById('lb-content');
-        if (!container) return;
+        const tableContainer = document.getElementById('lb-table-container');
+        const actionsContainer = document.getElementById('lb-actions-container');
+        if (!tableContainer || !actionsContainer) return;
+
         const players = PlayerManager.getLeaderboard(0);
+        actionsContainer.innerHTML = `
+            <button class="primary" onclick="exportLeaderboardTXT()">📋 کپی متن</button>
+            <button class="primary" onclick="downloadLeaderboardTXT()">📥 دانلود TXT</button>
+            <button class="primary" onclick="downloadLeaderboardHTML()">🌐 دانلود HTML</button>
+            <button class="primary" onclick="downloadLeaderboardCSV()">📊 دانلود CSV</button>
+            <button class="danger" onclick="resetScoresOnly()">🔄 ریست امتیازها</button>
+        `;
+
         if(players.length === 0) {
-            container.innerHTML = `<div style="text-align:center;padding:40px;color:#94a3b8;">هیچ بازیکنی ثبت نشده است.</div>`;
+            tableContainer.innerHTML = `<div style="text-align:center;padding:40px;color:#94a3b8;">هیچ بازیکنی ثبت نشده است.</div>`;
             return;
         }
 
         let html = `
-            <div style="margin-bottom:12px;font-size:18px;font-weight:700;color:#f87171;">🏆 لیدربورد</div>
             <table class="lb-table">
                 <thead><tr>
                     <th>#</th><th>نام</th><th>⭐ امتیاز</th><th>⚠️ اخطار</th><th>🎮 بازی</th><th>📊 میانگین</th>
@@ -2774,17 +2800,7 @@
             `;
         });
         html += `</tbody></table>`;
-
-        html += `
-            <div class="lb-actions">
-                <button class="primary" onclick="exportLeaderboardTXT()">📋 کپی متن</button>
-                <button class="primary" onclick="downloadLeaderboardTXT()">📥 دانلود TXT</button>
-                <button class="primary" onclick="downloadLeaderboardHTML()">🌐 دانلود HTML</button>
-                <button class="primary" onclick="downloadLeaderboardCSV()">📊 دانلود CSV</button>
-                <button class="danger" onclick="resetScoresOnly()">🔄 ریست امتیازها</button>
-            </div>
-        `;
-        container.innerHTML = html;
+        tableContainer.innerHTML = html;
     }
 
     function exportLeaderboardTXT() {
@@ -3080,7 +3096,7 @@
     });
 
     // ================================================================
-    // 25. RESET APP (با حفظ سناریو)
+    // 25. RESET APP
     // ================================================================
     function resetApp() {
         if(!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
