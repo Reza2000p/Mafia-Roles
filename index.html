@@ -22,7 +22,7 @@
             background: #0b0f19;
             color: #e8edf5;
             padding: 14px;
-            padding-bottom: 100px;
+            padding-bottom: 80px;
             min-height: 100vh;
             background-image: radial-gradient(circle at 20% 30%, #182235 0%, #0b0f19 70%);
         }
@@ -39,6 +39,8 @@
             text-align: center;
             margin-bottom: 16px;
             box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 10;
         }
         .app-header h1 {
             font-size: clamp(18px,5vw,24px);
@@ -52,7 +54,20 @@
             color:#94a3b8;
         }
 
-        /* ===== SETUP BOX ===== */
+        /* ===== PAGES ===== */
+        .page {
+            display: none;
+            animation: fadeUp .3s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PAGE: ROLES ===== */
         .setup-box {
             background: #182235;
             border: 1px solid #2d3a4f;
@@ -100,7 +115,6 @@
         .scenario-actions .del-btn { background:#7f1d1d; border-color:#7f1d1d; color:#fca5a5; display:none; }
         .scenario-actions .del-btn:hover { background:#991b1b; }
 
-        /* ===== SECTION HEADERS ===== */
         .section-header {
             padding:6px 12px; border-radius:12px;
             font-size:clamp(13px,2.8vw,16px); font-weight:700; text-align:center;
@@ -110,7 +124,6 @@
         .bg-mafia { background:linear-gradient(135deg,#7f1d1d,#991b1b); color:#fca5a5; border:1px solid #ef4444; }
         .bg-free { background:linear-gradient(135deg,#7c2d12,#9a3412); color:#fdba74; border:1px solid #f97316; }
 
-        /* ===== ROLES GRID ===== */
         .roles-grid {
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(115px,1fr));
@@ -150,14 +163,6 @@
             min-width:22px; text-align:center;
         }
 
-        /* ===== BOTTOM BAR ===== */
-        .bottom-bar {
-            position:fixed; bottom:0; left:0; right:0;
-            background:#0f172aee; backdrop-filter:blur(8px);
-            padding:12px 16px; border-top:1px solid #1e293b;
-            display:flex; justify-content:center; z-index:50;
-            box-shadow:0 -6px 30px rgba(0,0,0,0.5);
-        }
         .btn-action {
             width:100%; max-width:500px;
             background:linear-gradient(135deg,#dc2626,#991b1b);
@@ -170,13 +175,10 @@
         .btn-action:active { transform:scale(0.97); }
         .btn-action:disabled { background:#334155; color:#64748b; cursor:not-allowed; box-shadow:none; }
 
-        /* ===== SCREENS ===== */
-        .screen { display:none; animation:fadeUp .25s ease; }
-        .screen.active { display:block; }
-        @keyframes fadeUp { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
-
-        /* ===== CARDS GRID (DRAW) - فقط شماره ===== */
-        .cards-grid {
+        /* ===== PAGE: DRAW (بدون منو) ===== */
+        .page-draw .bottom-nav { display: none !important; }
+        .page-draw body { padding-bottom: 14px; }
+        .draw-cards-grid {
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
             gap:16px;
@@ -207,8 +209,17 @@
             transform:scale(.95);
             box-shadow:none;
         }
+        .draw-actions {
+            display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; justify-content:center;
+        }
+        .draw-actions .btn-action {
+            max-width:200px; font-size:14px; padding:10px;
+        }
+        .draw-actions .btn-action.gold { background:#f59e0b; box-shadow:none; }
+        .draw-actions .btn-action.gray { background:#475569; box-shadow:none; }
+        .draw-actions .btn-action.green { background:linear-gradient(135deg,#059669,#047857); }
 
-        /* ===== GOD PANEL ===== */
+        /* ===== PAGE: GOD ===== */
         .god-header-bar {
             display:flex; justify-content:space-between; align-items:center;
             background:#182235; padding:8px 12px; border-radius:14px;
@@ -292,7 +303,6 @@
             margin-right:2px;
         }
 
-        /* ===== GOD STATS ===== */
         .god-stats-panel {
             background:#0f172a; border:1px solid #1e293b; border-radius:14px;
             padding:12px 14px; margin-top:12px; font-size:clamp(12px,2.2vw,14px);
@@ -313,24 +323,34 @@
         }
         .stat-box .num { font-size:clamp(16px,3vw,22px); display:block; margin-top:2px; }
 
-        /* ===== GOD BOTTOM BAR ===== */
+        .god-fixed-buttons {
+            display:flex; flex-direction:column; gap:8px; margin-top:6px; padding-bottom:4px;
+        }
+        .god-fixed-buttons .btn-action {
+            width:100%; max-width:100%; font-size:clamp(15px,2.8vw,18px); padding:12px;
+        }
+        .god-fixed-buttons .btn-action.primary {
+            background:linear-gradient(135deg,#0284c7,#0369a1);
+        }
+        .god-fixed-buttons .btn-action.secondary { background:#334155; box-shadow:none; }
+
         .god-bottom-bar {
-            position:fixed; bottom:0; left:0; right:0;
+            position:fixed; bottom:70px; left:0; right:0;
             background:#0f172aee; backdrop-filter:blur(8px);
-            border-top:1px solid #1e293b; padding:12px 16px;
-            display:flex; flex-direction:column; gap:10px; z-index:50;
+            border-top:1px solid #1e293b; padding:10px 14px;
+            display:flex; flex-direction:column; gap:8px; z-index:50;
             box-shadow:0 -6px 30px rgba(0,0,0,0.5);
         }
         .god-bottom-row {
             display:flex; align-items:center; justify-content:center;
-            flex-wrap:wrap; gap:10px; width:100%;
+            flex-wrap:wrap; gap:8px; width:100%;
         }
         .god-bottom-row .btn-sm {
-            background:#2d3a4f; border:none; color:#f8fafc; padding:10px 20px;
-            border-radius:30px; font-size:clamp(16px,2.8vw,20px); font-weight:700;
+            background:#2d3a4f; border:none; color:#f8fafc; padding:8px 16px;
+            border-radius:30px; font-size:clamp(14px,2.5vw,17px); font-weight:600;
             cursor:pointer; transition:background .15s; white-space:nowrap;
-            min-height:48px; display:inline-flex; align-items:center; justify-content:center;
-            flex:1 0 auto; min-width:50px;
+            min-height:40px; display:inline-flex; align-items:center; justify-content:center;
+            flex:1 0 auto; min-width:45px;
         }
         .god-bottom-row .btn-sm:hover { background:#3b4a63; }
         .god-bottom-row .btn-sm.green { background:#10b981; }
@@ -345,71 +365,28 @@
         .god-bottom-row .btn-sm.purple:hover { background:#7c3aed; }
         .god-bottom-row .btn-sm:disabled { opacity:.4; cursor:not-allowed; transform:none; }
         .timer-display {
-            font-size:clamp(28px,5vw,40px); font-weight:700; color:#38bdf8;
-            min-width:100px; text-align:center; font-variant-numeric:tabular-nums;
-            direction:ltr; padding:0 8px;
+            font-size:clamp(26px,4.5vw,36px); font-weight:700; color:#38bdf8;
+            min-width:90px; text-align:center; font-variant-numeric:tabular-nums;
+            direction:ltr; padding:0 6px;
         }
-        .timer-icon { font-size:clamp(30px,5vw,44px); line-height:1; }
+        .timer-icon { font-size:clamp(26px,4.5vw,36px); line-height:1; }
         .inquiry-display {
-            font-size:clamp(26px,4.5vw,38px); font-weight:700; color:#f59e0b;
-            min-width:40px; text-align:center;
+            font-size:clamp(22px,4vw,32px); font-weight:700; color:#f59e0b;
+            min-width:35px; text-align:center;
         }
         .inquiry-label {
-            font-weight:700; font-size:clamp(18px,3vw,26px); color:#94a3b8;
+            font-weight:600; font-size:clamp(16px,2.8vw,22px); color:#94a3b8;
         }
         .music-name {
-            font-size:clamp(14px,2.2vw,18px); color:#cbd5e1;
-            max-width:260px; min-width:100px; white-space:nowrap; overflow:hidden;
+            font-size:clamp(12px,2vw,15px); color:#cbd5e1;
+            max-width:180px; min-width:80px; white-space:nowrap; overflow:hidden;
             text-overflow:ellipsis; direction:ltr;
-            background:#0b0f19; padding:6px 18px; border-radius:30px;
-            border:1px solid #2d3a4f; min-height:44px;
-            display:inline-flex; align-items:center; flex:2;
+            background:#0b0f19; padding:4px 14px; border-radius:20px;
+            border:1px solid #2d3a4f; min-height:36px;
+            display:inline-flex; align-items:center; flex:1;
         }
-        .god-fixed-buttons {
-            display:flex; flex-direction:column; gap:8px; margin-top:6px; padding-bottom:4px;
-        }
-        .god-fixed-buttons .btn-action {
-            width:100%; max-width:100%; font-size:clamp(15px,2.8vw,18px); padding:12px;
-        }
-        .god-fixed-buttons .btn-action.primary {
-            background:linear-gradient(135deg,#0284c7,#0369a1);
-        }
-        .god-fixed-buttons .btn-action.secondary { background:#334155; box-shadow:none; }
 
-        /* ===== LEADERBOARD PANEL ===== */
-        .leaderboard-panel {
-            position:fixed; top:0; left:0; right:0; bottom:0;
-            background:rgba(0,0,0,0.95); backdrop-filter:blur(8px);
-            z-index:200; display:none; flex-direction:column; padding:20px;
-            overflow-y:auto;
-        }
-        .leaderboard-panel.active { display:flex; }
-        .leaderboard-header {
-            display:flex; justify-content:space-between; align-items:center;
-            margin-bottom:16px; flex-wrap:wrap; gap:10px;
-        }
-        .leaderboard-header h2 {
-            font-size:clamp(20px,4vw,30px); color:#f87171;
-        }
-        .leaderboard-close {
-            background:#2d3a4f; border:none; color:#f8fafc; padding:8px 20px;
-            border-radius:30px; font-size:16px; font-weight:600; cursor:pointer;
-        }
-        .leaderboard-close:hover { background:#3b4a63; }
-        .leaderboard-tabs {
-            display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;
-        }
-        .leaderboard-tabs button {
-            background:#2d3a4f; border:none; color:#f8fafc; padding:8px 20px;
-            border-radius:30px; font-size:14px; font-weight:600; cursor:pointer;
-            transition:background .15s;
-        }
-        .leaderboard-tabs button.active { background:#3b82f6; }
-        .leaderboard-tabs button:hover { background:#3b4a63; }
-        .leaderboard-content {
-            flex:1; overflow-y:auto; background:#0f172a; border-radius:16px;
-            padding:16px; border:1px solid #2d3a4f;
-        }
+        /* ===== PAGE: LEADERBOARD ===== */
         .lb-table {
             width:100%; border-collapse:collapse; font-size:clamp(12px,2vw,15px);
         }
@@ -431,17 +408,74 @@
         .lb-actions button {
             background:#2d3a4f; border:none; color:#f8fafc; padding:8px 16px;
             border-radius:30px; font-size:13px; font-weight:600; cursor:pointer;
-            transition:background .15s; flex:1 1 auto; min-width:80px;
+            transition:background .15s; flex:1 1 auto; min-width:70px;
         }
         .lb-actions button:hover { background:#3b4a63; }
         .lb-actions button.primary { background:#3b82f6; }
         .lb-actions button.primary:hover { background:#2563eb; }
         .lb-actions button.danger { background:#ef4444; }
         .lb-actions button.danger:hover { background:#dc2626; }
-        .lb-actions button.success { background:#10b981; }
-        .lb-actions button.success:hover { background:#059669; }
 
-        /* ===== GALLERY ===== */
+        /* ===== PAGE: PLAYERS ===== */
+        .player-mgmt {
+            display:flex; flex-direction:column; gap:10px;
+        }
+        .player-mgmt-search {
+            display:flex; gap:8px; flex-wrap:wrap;
+        }
+        .player-mgmt-search input {
+            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
+            color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:14px;
+            outline:none;
+        }
+        .player-mgmt-search input:focus { border-color:#38bdf8; }
+        .player-mgmt-search button {
+            background:#2d3a4f; border:none; color:#f8fafc; padding:8px 16px;
+            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
+            transition:background .15s;
+        }
+        .player-mgmt-search button:hover { background:#3b4a63; }
+        .player-mgmt-list {
+            max-height:400px; overflow-y:auto; border:1px solid #2d3a4f;
+            border-radius:10px; background:#0b0f19;
+        }
+        .player-mgmt-item {
+            display:flex; justify-content:space-between; align-items:center;
+            padding:8px 12px; border-bottom:1px solid #1e293b; flex-wrap:wrap; gap:6px;
+        }
+        .player-mgmt-item:last-child { border-bottom:none; }
+        .player-mgmt-item .info {
+            display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+        }
+        .player-mgmt-item .info span { color:#cbd5e1; font-size:14px; }
+        .player-mgmt-item .info .name { font-weight:600; color:#f8fafc; }
+        .player-mgmt-item .actions {
+            display:flex; gap:6px;
+        }
+        .player-mgmt-item .actions button {
+            background:transparent; border:none; color:#94a3b8; cursor:pointer;
+            font-size:16px; padding:4px 8px; border-radius:6px; transition:background .15s;
+        }
+        .player-mgmt-item .actions button:hover { background:#2d3a4f; color:#f8fafc; }
+        .player-mgmt-item .actions button.edit { color:#3b82f6; }
+        .player-mgmt-item .actions button.delete { color:#ef4444; }
+        .player-mgmt-add {
+            display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;
+        }
+        .player-mgmt-add input {
+            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
+            color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:14px;
+            outline:none;
+        }
+        .player-mgmt-add input:focus { border-color:#38bdf8; }
+        .player-mgmt-add button {
+            background:#3b82f6; border:none; color:#fff; padding:8px 20px;
+            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
+            transition:background .15s;
+        }
+        .player-mgmt-add button:hover { background:#2563eb; }
+
+        /* ===== PAGE: GALLERY ===== */
         .gallery-grid {
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
@@ -511,7 +545,104 @@
         .gallery-group-title.mafia { color:#fca5a5; background:#7f1d1d; border:1px solid #ef4444; }
         .gallery-group-title.free { color:#fdba74; background:#7c2d12; border:1px solid #f97316; }
 
-        /* ===== GALLERY MODAL (شبیه مودال نقش‌ها) ===== */
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            position:fixed; top:0; left:0; right:0; bottom:0;
+            background:rgba(0,0,0,0.88); backdrop-filter:blur(6px);
+            display:none; flex-direction:column; align-items:center; justify-content:center;
+            z-index:100; padding:20px; animation:fadeIn .2s ease;
+        }
+        @keyframes fadeIn { 0%{opacity:0;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
+        .modal-card {
+            background:#182235;
+            border-radius:28px;
+            padding:clamp(24px,4vw,36px);
+            width:100%;
+            max-width:520px;
+            border:1px solid #2d3a4f;
+            text-align:center;
+            box-shadow:0 25px 70px rgba(0,0,0,0.8);
+            position:relative;
+            overflow:hidden;
+        }
+        .modal-card::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            height:6px;
+            border-radius:28px 28px 0 0;
+            background:linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
+            opacity:0.3;
+        }
+        .modal-role-title {
+            font-size:clamp(28px,5vw,38px);
+            font-weight:800;
+            margin:12px 0 6px 0;
+            padding:12px 16px;
+            border-radius:16px;
+            background:rgba(0,0,0,0.4);
+            backdrop-filter:blur(4px);
+            letter-spacing:0.5px;
+        }
+        .modal-role-image-wrapper {
+            border-radius:16px;
+            overflow:hidden;
+            padding:8px;
+            background:#0b0f19;
+            margin:8px 0 12px;
+            border:4px solid #38bdf8;
+            transition:border-color 0.3s ease;
+            box-shadow:0 0 30px rgba(56,189,248,0.1);
+        }
+        .modal-role-image-wrapper.border-citizen { border-color:#10b981; box-shadow:0 0 30px rgba(16,185,129,0.15); }
+        .modal-role-image-wrapper.border-mafia { border-color:#ef4444; box-shadow:0 0 30px rgba(239,68,68,0.15); }
+        .modal-role-image-wrapper.border-free { border-color:#f97316; box-shadow:0 0 30px rgba(249,115,22,0.15); }
+        .modal-role-image {
+            width:100%;
+            max-height:50vh;
+            object-fit:contain;
+            border-radius:12px;
+            display:block;
+            background:#0b0f19;
+        }
+        .modal-team-name {
+            font-size:clamp(16px,2.5vw,22px);
+            font-weight:700;
+            padding:8px 16px;
+            border-radius:30px;
+            display:inline-block;
+            margin:4px 0 8px;
+            background:rgba(0,0,0,0.3);
+            backdrop-filter:blur(4px);
+        }
+        .modal-team-name.team-citizen { color:#6ee7b7; border:1px solid #10b981; }
+        .modal-team-name.team-mafia { color:#fca5a5; border:1px solid #ef4444; }
+        .modal-team-name.team-free { color:#fdba74; border:1px solid #f97316; }
+        .modal-role-description {
+            font-size:14px;
+            color:#94a3b8;
+            margin:8px 0 16px;
+            line-height:1.8;
+            text-align:right;
+            padding:0 8px;
+            max-height:none;
+            overflow:visible;
+            word-wrap:break-word;
+        }
+        .modal-player-num {
+            color:#94a3b8;
+            font-size:clamp(14px,2vw,18px);
+            font-weight:600;
+            background:rgba(0,0,0,0.3);
+            padding:4px 16px;
+            border-radius:30px;
+            display:inline-block;
+            margin-bottom:6px;
+        }
+
+        /* ===== GALLERY MODAL ===== */
         .gallery-modal {
             position:fixed;
             top:0; left:0; right:0; bottom:0;
@@ -618,66 +749,26 @@
         }
         .gallery-modal .modal-close:hover { background:#3b4a63; }
 
-        /* ===== PLAYER MANAGEMENT ===== */
-        .player-mgmt {
-            display:flex; flex-direction:column; gap:10px;
+        .report-textarea {
+            width:100%; height:180px; background:#0b0f19; color:#e2e8f0;
+            border:1px solid #2d3a4f; border-radius:14px; padding:10px;
+            font-size:clamp(11px,2vw,13px); line-height:1.6; outline:none;
+            user-select:text; -webkit-user-select:text; margin-bottom:10px; resize:vertical;
         }
-        .player-mgmt-search {
-            display:flex; gap:8px; flex-wrap:wrap;
+        .report-actions {
+            display:flex; flex-direction:column; gap:6px;
         }
-        .player-mgmt-search input {
-            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
-            color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:14px;
-            outline:none;
+        .report-actions .btn-action {
+            font-size:clamp(12px,2.5vw,15px); padding:10px; border-radius:12px;
         }
-        .player-mgmt-search input:focus { border-color:#38bdf8; }
-        .player-mgmt-search button {
-            background:#2d3a4f; border:none; color:#f8fafc; padding:8px 16px;
-            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
-            transition:background .15s;
-        }
-        .player-mgmt-search button:hover { background:#3b4a63; }
-        .player-mgmt-list {
-            max-height:400px; overflow-y:auto; border:1px solid #2d3a4f;
-            border-radius:10px; background:#0b0f19;
-        }
-        .player-mgmt-item {
-            display:flex; justify-content:space-between; align-items:center;
-            padding:8px 12px; border-bottom:1px solid #1e293b; flex-wrap:wrap; gap:6px;
-        }
-        .player-mgmt-item:last-child { border-bottom:none; }
-        .player-mgmt-item .info {
-            display:flex; gap:12px; align-items:center; flex-wrap:wrap;
-        }
-        .player-mgmt-item .info span { color:#cbd5e1; font-size:14px; }
-        .player-mgmt-item .info .name { font-weight:600; color:#f8fafc; }
-        .player-mgmt-item .actions {
-            display:flex; gap:6px;
-        }
-        .player-mgmt-item .actions button {
-            background:transparent; border:none; color:#94a3b8; cursor:pointer;
-            font-size:16px; padding:4px 8px; border-radius:6px; transition:background .15s;
-        }
-        .player-mgmt-item .actions button:hover { background:#2d3a4f; color:#f8fafc; }
-        .player-mgmt-item .actions button.edit { color:#3b82f6; }
-        .player-mgmt-item .actions button.delete { color:#ef4444; }
-        .player-mgmt-add {
-            display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;
-        }
-        .player-mgmt-add input {
-            flex:1; min-width:150px; background:#0b0f19; border:1px solid #2d3a4f;
-            color:#f8fafc; padding:8px 14px; border-radius:10px; font-size:14px;
-            outline:none;
-        }
-        .player-mgmt-add input:focus { border-color:#38bdf8; }
-        .player-mgmt-add button {
-            background:#3b82f6; border:none; color:#fff; padding:8px 20px;
-            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
-            transition:background .15s;
-        }
-        .player-mgmt-add button:hover { background:#2563eb; }
+        .btn-copy { background:linear-gradient(135deg,#10b981,#059669) !important; }
+        .btn-download-txt { background:linear-gradient(135deg,#3b82f6,#2563eb) !important; }
+        .btn-download-html { background:linear-gradient(135deg,#8b5cf6,#7c3aed) !important; }
+        .btn-download-csv { background:linear-gradient(135deg,#f59e0b,#d97706) !important; }
+        .btn-back { background:#475569 !important; }
+        .btn-save-results { background:linear-gradient(135deg,#8b5cf6,#7c3aed) !important; }
 
-        /* ===== PLAYER SELECTION SCREEN ===== */
+        /* ===== PLAYER SELECTION ===== */
         .player-select-container {
             background:#0f172a; border:1px solid #2d3a4f; border-radius:14px;
             padding:16px; margin-top:12px;
@@ -736,125 +827,92 @@
             max-width:200px; font-size:14px; padding:10px;
         }
 
-        /* ===== MODALS ===== */
-        .modal-overlay {
-            position:fixed; top:0; left:0; right:0; bottom:0;
-            background:rgba(0,0,0,0.88); backdrop-filter:blur(6px);
-            display:none; flex-direction:column; align-items:center; justify-content:center;
-            z-index:100; padding:20px; animation:fadeIn .2s ease;
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172aee;
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 8px;
+            z-index: 200;
+            box-shadow: 0 -6px 30px rgba(0,0,0,0.5);
+            height: 65px;
         }
-        @keyframes fadeIn { 0%{opacity:0;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
-        .modal-card {
-            background:#182235;
-            border-radius:28px;
-            padding:clamp(24px,4vw,36px);
-            width:100%;
-            max-width:520px;
-            border:1px solid #2d3a4f;
-            text-align:center;
-            box-shadow:0 25px 70px rgba(0,0,0,0.8);
-            position:relative;
-            overflow:hidden;
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all .15s ease;
+            flex: 1;
+            max-width: 70px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-family: inherit;
+            position: relative;
         }
-        .modal-card::before {
-            content:'';
-            position:absolute;
-            top:0;
-            left:0;
-            right:0;
-            height:6px;
-            border-radius:28px 28px 0 0;
-            background:linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
-            opacity:0.3;
+        .bottom-nav .nav-item .icon {
+            font-size: clamp(20px, 4vw, 28px);
+            line-height: 1.2;
         }
-        .modal-role-title {
-            font-size:clamp(28px,5vw,38px);
-            font-weight:800;
-            margin:12px 0 6px 0;
-            padding:12px 16px;
-            border-radius:16px;
-            background:rgba(0,0,0,0.4);
-            backdrop-filter:blur(4px);
-            letter-spacing:0.5px;
+        .bottom-nav .nav-item .label {
+            font-size: clamp(9px, 1.6vw, 11px);
+            font-weight: 600;
+            color: #64748b;
+            transition: color .15s;
+            text-align: center;
+            line-height: 1.1;
         }
-        .modal-role-image-wrapper {
-            border-radius:16px;
-            overflow:hidden;
-            padding:8px;
-            background:#0b0f19;
-            margin:8px 0 12px;
-            border:4px solid #38bdf8;
-            transition:border-color 0.3s ease;
-            box-shadow:0 0 30px rgba(56,189,248,0.1);
+        .bottom-nav .nav-item.active .label {
+            color: #38bdf8;
         }
-        .modal-role-image-wrapper.border-citizen { border-color:#10b981; box-shadow:0 0 30px rgba(16,185,129,0.15); }
-        .modal-role-image-wrapper.border-mafia { border-color:#ef4444; box-shadow:0 0 30px rgba(239,68,68,0.15); }
-        .modal-role-image-wrapper.border-free { border-color:#f97316; box-shadow:0 0 30px rgba(249,115,22,0.15); }
-        .modal-role-image {
-            width:100%;
-            max-height:50vh;
-            object-fit:contain;
-            border-radius:12px;
-            display:block;
-            background:#0b0f19;
+        .bottom-nav .nav-item.active .icon {
+            filter: drop-shadow(0 0 8px rgba(56,189,248,0.2));
         }
-        .modal-team-name {
-            font-size:clamp(16px,2.5vw,22px);
-            font-weight:700;
-            padding:8px 16px;
-            border-radius:30px;
-            display:inline-block;
-            margin:4px 0 8px;
-            background:rgba(0,0,0,0.3);
-            backdrop-filter:blur(4px);
+        .bottom-nav .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            border-radius: 0 0 4px 4px;
+            background: #38bdf8;
         }
-        .modal-team-name.team-citizen { color:#6ee7b7; border:1px solid #10b981; }
-        .modal-team-name.team-mafia { color:#fca5a5; border:1px solid #ef4444; }
-        .modal-team-name.team-free { color:#fdba74; border:1px solid #f97316; }
-        .modal-role-description {
-            font-size:14px;
-            color:#94a3b8;
-            margin:8px 0 16px;
-            line-height:1.8;
-            text-align:right;
-            padding:0 8px;
-            max-height:none;
-            overflow:visible;
-            word-wrap:break-word;
+        .bottom-nav .nav-item:active { transform: scale(0.92); }
+        .bottom-nav .nav-item.disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
         }
-        .modal-player-num {
-            color:#94a3b8;
-            font-size:clamp(14px,2vw,18px);
-            font-weight:600;
-            background:rgba(0,0,0,0.3);
-            padding:4px 16px;
-            border-radius:30px;
-            display:inline-block;
-            margin-bottom:6px;
+        .bottom-nav .nav-item .badge {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid #0f172a;
         }
-        .report-textarea {
-            width:100%; height:180px; background:#0b0f19; color:#e2e8f0;
-            border:1px solid #2d3a4f; border-radius:14px; padding:10px;
-            font-size:clamp(11px,2vw,13px); line-height:1.6; outline:none;
-            user-select:text; -webkit-user-select:text; margin-bottom:10px; resize:vertical;
-        }
-        .report-actions {
-            display:flex; flex-direction:column; gap:6px;
-        }
-        .report-actions .btn-action {
-            font-size:clamp(12px,2.5vw,15px); padding:10px; border-radius:12px;
-        }
-        .btn-copy { background:linear-gradient(135deg,#10b981,#059669) !important; }
-        .btn-download-txt { background:linear-gradient(135deg,#3b82f6,#2563eb) !important; }
-        .btn-download-html { background:linear-gradient(135deg,#8b5cf6,#7c3aed) !important; }
-        .btn-download-csv { background:linear-gradient(135deg,#f59e0b,#d97706) !important; }
-        .btn-back { background:#475569 !important; }
-        .btn-save-results { background:linear-gradient(135deg,#8b5cf6,#7c3aed) !important; }
 
         /* ===== RESPONSIVE ===== */
-        .god-screen-padding { padding-bottom:190px; }
+        .god-screen-padding { padding-bottom: 80px; }
+
         @media(max-width:480px){
-            body{padding:10px;padding-bottom:85px}
+            body{padding:10px;padding-bottom:75px}
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px}
             .role-card{min-height:64px;padding:8px 4px}
             .role-card .role-name{font-size:11px}
@@ -865,26 +923,21 @@
             .badge-row{font-size:9px;padding:1px 4px;min-width:50px}
             .badge-row .btn-sm{width:16px;height:16px;font-size:11px}
             .alive-checkbox{width:18px;height:18px}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+            .draw-cards-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
             .draw-card{height:100px;font-size:28px}
             .god-stats-panel{padding:10px}
-            .god-bottom-row{gap:6px}
-            .god-bottom-row .btn-sm{padding:8px 12px;font-size:13px;min-height:38px;min-width:40px}
-            .timer-display{font-size:24px;min-width:70px}
-            .timer-icon{font-size:26px}
-            .music-name{max-width:120px;font-size:12px;min-width:60px;padding:4px 12px;min-height:34px}
+            .god-bottom-row{gap:4px}
+            .god-bottom-row .btn-sm{padding:6px 10px;font-size:11px;min-height:34px;min-width:34px}
+            .timer-display{font-size:20px;min-width:60px}
+            .timer-icon{font-size:22px}
+            .music-name{max-width:100px;font-size:10px;min-width:50px;padding:3px 10px;min-height:30px}
             .god-fixed-buttons .btn-action{padding:10px;font-size:13px}
-            .god-bottom-bar{padding:10px 12px;gap:8px}
-            .inquiry-display{font-size:22px;min-width:30px}
-            .inquiry-label{font-size:16px}
-            .god-screen-padding{padding-bottom:210px}
+            .god-bottom-bar{padding:8px 10px;gap:6px;bottom:65px}
+            .inquiry-display{font-size:18px;min-width:26px}
+            .inquiry-label{font-size:14px}
+            .god-screen-padding{padding-bottom:75px}
             .lb-table{font-size:11px}
             .lb-table th,.lb-table td{padding:6px 8px}
-            .leaderboard-panel{padding:12px}
-            .player-select-item{padding:6px 10px}
-            .player-select-item .pname{font-size:12px}
-            .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
-            .player-select-stats .count{font-size:12px}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
             .gallery-item .gallery-img{height:80px}
             .gallery-item .gallery-name{font-size:10px}
@@ -896,48 +949,65 @@
             .gallery-modal .modal-name{font-size:22px}
             .gallery-modal .modal-team{font-size:14px}
             .gallery-modal .modal-desc{font-size:12px}
+            .bottom-nav{height:58px;padding:4px 0 6px}
+            .bottom-nav .nav-item{max-width:60px;padding:2px 4px}
+            .bottom-nav .nav-item .icon{font-size:18px}
+            .bottom-nav .nav-item .label{font-size:8px}
+            .player-select-item{padding:6px 10px}
+            .player-select-item .pname{font-size:12px}
+            .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
+            .player-select-stats .count{font-size:12px}
         }
         @media(max-width:380px){
             .roles-grid{grid-template-columns:repeat(2,1fr)}
-            .cards-grid{grid-template-columns:repeat(2,1fr)}
+            .draw-cards-grid{grid-template-columns:repeat(2,1fr)}
             .player-info{flex:1 1 100%}
             .player-name-select,.player-name-input{width:100%}
             .god-player-row{flex-direction:column;align-items:stretch}
             .player-actions{justify-content:space-between;margin-top:4px}
-            .music-name{max-width:80px;font-size:11px}
-            .god-bottom-row .btn-sm{padding:6px 10px;font-size:12px;min-height:34px;min-width:34px}
-            .timer-display{font-size:20px;min-width:60px}
-            .god-screen-padding{padding-bottom:230px}
-            .player-select-item .pname{font-size:11px}
+            .music-name{max-width:70px;font-size:9px}
+            .god-bottom-row .btn-sm{padding:4px 8px;font-size:10px;min-height:28px;min-width:28px}
+            .timer-display{font-size:17px;min-width:50px}
+            .god-screen-padding{padding-bottom:70px}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}
             .gallery-item .gallery-img{height:60px}
             .modal-role-title{font-size:18px}
             .gallery-modal .modal-name{font-size:18px}
+            .bottom-nav{height:52px;padding:3px 0 4px}
+            .bottom-nav .nav-item .icon{font-size:16px}
+            .bottom-nav .nav-item .label{font-size:7px}
+            .bottom-nav .nav-item{max-width:50px}
+            .bottom-nav .nav-item .badge{width:6px;height:6px;top:1px;right:2px}
         }
         @media(min-width:768px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+            .draw-cards-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
             .player-name-select,.player-name-input{width:180px}
-            .music-name{max-width:350px}
-            .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:52px}
+            .music-name{max-width:300px}
+            .god-bottom-row .btn-sm{padding:10px 20px;font-size:16px;min-height:46px}
             .draw-card{height:clamp(160px,30vw,200px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
             .gallery-item .gallery-img{height:160px}
             .modal-card{padding:32px}
+            .bottom-nav .nav-item{max-width:80px}
+            .bottom-nav .nav-item .icon{font-size:26px}
+            .bottom-nav .nav-item .label{font-size:12px}
         }
         @media(min-width:1024px){
             .roles-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-            .cards-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-            body{padding:20px 36px;padding-bottom:100px}
+            .draw-cards-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+            body{padding:20px 36px;padding-bottom:85px}
             .player-name-select,.player-name-input{width:220px}
-            .music-name{max-width:450px}
-            .god-bottom-row .btn-sm{padding:14px 32px;font-size:20px;min-height:56px}
+            .music-name{max-width:400px}
+            .god-bottom-row .btn-sm{padding:12px 26px;font-size:18px;min-height:50px}
             .draw-card{height:clamp(180px,35vw,220px)}
             .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
             .gallery-item .gallery-img{height:180px}
             .modal-card{padding:40px}
             .modal-role-title{font-size:34px}
             .gallery-modal .modal-name{font-size:34px}
+            .bottom-nav .nav-item{max-width:90px}
+            .bottom-nav .nav-item .icon{font-size:30px}
         }
     </style>
 </head>
@@ -950,9 +1020,9 @@
     </header>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 1: SETUP ===== -->
+    <!-- ===== PAGE 1: ROLES (نقش‌ها و سناریو) ===== -->
     <!-- ============================================================ -->
-    <div id="setup-screen" class="screen active">
+    <div id="page-roles" class="page active">
         <div class="setup-box">
             <span style="font-size:clamp(13px,2.5vw,16px);font-weight:600;color:#cbd5e1;">تعداد بازیکنان:</span>
             <input type="number" id="player-count" class="player-input" value="0" readonly>
@@ -981,7 +1051,6 @@
             </div>
         </div>
 
-        <!-- گزینه ورود اسامی -->
         <div class="setup-box" style="justify-content:flex-start;gap:12px;">
             <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
                 <input type="checkbox" id="enable-player-select" checked>
@@ -998,13 +1067,7 @@
         <div class="section-header bg-free" id="free-header">🟧 گروه مستقل — ۰</div>
         <div class="roles-grid" id="free-grid"></div>
 
-        <div style="display:flex;gap:10px;margin:16px 0 8px;flex-wrap:wrap;justify-content:center;">
-            <button class="btn-action" style="max-width:220px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);font-size:14px;padding:10px;" onclick="openLeaderboard()">
-                👑 پنل گرداننده
-            </button>
-        </div>
-
-        <div class="bottom-bar">
+        <div style="margin-top:16px;">
             <button class="btn-action" id="start-btn" onclick="startGame()">
                 <span>🚀 شروع و تقسیم نقش‌ها</span>
                 <span id="btn-count" style="background:#0b0f19aa;padding:2px 12px;border-radius:30px;">(۰ نقش)</span>
@@ -1013,9 +1076,9 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 2: PLAYER SELECTION ===== -->
+    <!-- ===== PAGE 2: PLAYER SELECTION (ورود اسامی) ===== -->
     <!-- ============================================================ -->
-    <div id="player-select-screen" class="screen">
+    <div id="page-player-select" class="page">
         <div class="setup-box" style="justify-content:center;">
             <h2 style="font-size:clamp(16px,3.5vw,22px);font-weight:700;color:#f1f5f9;">👥 انتخاب بازیکنان</h2>
         </div>
@@ -1027,7 +1090,7 @@
             <button class="btn-action" style="max-width:200px;background:linear-gradient(135deg,#10b981,#059669);font-size:14px;padding:10px;" id="confirm-players-btn" onclick="confirmPlayers()" disabled>
                 ✅ تایید و توزیع نقش‌ها
             </button>
-            <button class="btn-action" style="max-width:200px;background:#475569;font-size:14px;padding:10px;box-shadow:none;" onclick="backToSetup()">
+            <button class="btn-action" style="max-width:200px;background:#475569;font-size:14px;padding:10px;box-shadow:none;" onclick="backToRoles()">
                 ↩️ برگشت
             </button>
         </div>
@@ -1035,35 +1098,30 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 3: DRAW CARDS ===== -->
+    <!-- ===== PAGE 3: DRAW (قرعه‌کشی - بدون منو) ===== -->
     <!-- ============================================================ -->
-    <div id="draw-screen" class="screen">
+    <div id="page-draw" class="page page-draw">
         <div class="setup-box" style="justify-content:center;">
             <h2 style="font-size:clamp(16px,3.5vw,22px);font-weight:700;color:#f1f5f9;">🎴 کارت شماره خود را انتخاب کنید</h2>
         </div>
         <p style="text-align:center;color:#94a3b8;font-size:clamp(11px,2vw,14px);margin-top:-4px;">
             ترتیب شماره‌ها کاملاً تصادفی است. هر بازیکن شماره خود را باز کند.
         </p>
-        <div class="cards-grid" id="cards-container"></div>
-        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;justify-content:center;">
-            <button class="btn-action" style="max-width:200px;background:#f59e0b;box-shadow:none;font-size:14px;" onclick="resetDraw()">
-                🔄 ریست نقش‌ها
-            </button>
-            <button class="btn-action" style="max-width:200px;background:#475569;box-shadow:none;font-size:14px;" onclick="backToSetup()">
-                ↩️ برگشت به تنظیمات
-            </button>
-        </div>
-        <div class="bottom-bar">
-            <button class="btn-action" id="god-btn" style="display:none;background:linear-gradient(135deg,#059669,#047857);" onclick="showGodScreen()">
+        <div class="draw-cards-grid" id="cards-container"></div>
+        <div class="draw-actions">
+            <button class="btn-action gold" onclick="resetDraw()">🔄 ریست نقش‌ها</button>
+            <button class="btn-action gray" onclick="backToRoles()">↩️ برگشت به تنظیمات</button>
+            <button class="btn-action green" id="god-btn" style="display:none;" onclick="showGodScreen()">
                 👑 ورود به پنل گاد (گرداننده)
             </button>
         </div>
+        <div style="height:20px;"></div>
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== SCREEN 4: GOD PANEL ===== -->
+    <!-- ===== PAGE 4: GOD (گاد) ===== -->
     <!-- ============================================================ -->
-    <div id="god-screen" class="screen god-screen-padding">
+    <div id="page-god" class="page god-screen-padding">
         <div class="god-header-bar">
             <span class="title">👥 ترتیب نوبت و ثبت اسم</span>
             <button class="toggle-btn" onclick="toggleRolesVisibility()">
@@ -1098,7 +1156,34 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== GOD BOTTOM BAR ===== -->
+    <!-- ===== PAGE 5: LEADERBOARD ===== -->
+    <!-- ============================================================ -->
+    <div id="page-leaderboard" class="page">
+        <div class="leaderboard-content" id="lb-content">
+            <!-- محتوای لیدربورد توسط JS پر می‌شود -->
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE 6: PLAYERS ===== -->
+    <!-- ============================================================ -->
+    <div id="page-players" class="page">
+        <div id="players-content">
+            <!-- محتوای مدیریت بازیکنان توسط JS پر می‌شود -->
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== PAGE 7: GALLERY ===== -->
+    <!-- ============================================================ -->
+    <div id="page-gallery" class="page">
+        <div id="gallery-content">
+            <!-- محتوای گالری توسط JS پر می‌شود -->
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== GOD BOTTOM BAR (تایمر + استعلام + موزیک) ===== -->
     <!-- ============================================================ -->
     <div id="god-bottom-bar" class="god-bottom-bar" style="display:none;">
         <div class="god-bottom-row">
@@ -1123,8 +1208,37 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== ROLE MODAL (با توضیحات) ===== -->
+    <!-- ===== BOTTOM NAVIGATION (۵ بخش) ===== -->
     <!-- ============================================================ -->
+    <nav class="bottom-nav" id="bottom-nav">
+        <button class="nav-item active" data-page="page-roles" onclick="switchPage('page-roles')">
+            <span class="icon">🎯</span>
+            <span class="label">نقش‌ها</span>
+        </button>
+        <button class="nav-item disabled" data-page="page-god" onclick="switchPage('page-god')">
+            <span class="icon">👑</span>
+            <span class="label">گاد</span>
+            <span class="badge" id="god-badge" style="display:none;"></span>
+        </button>
+        <button class="nav-item" data-page="page-leaderboard" onclick="switchPage('page-leaderboard')">
+            <span class="icon">🏆</span>
+            <span class="label">لیدربورد</span>
+        </button>
+        <button class="nav-item" data-page="page-players" onclick="switchPage('page-players')">
+            <span class="icon">👥</span>
+            <span class="label">بازیکنان</span>
+        </button>
+        <button class="nav-item" data-page="page-gallery" onclick="switchPage('page-gallery')">
+            <span class="icon">🖼️</span>
+            <span class="label">گالری</span>
+        </button>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- ===== MODALS ===== -->
+    <!-- ============================================================ -->
+
+    <!-- ===== ROLE MODAL ===== -->
     <div class="modal-overlay" id="role-modal">
         <div class="modal-card">
             <div class="modal-player-num" id="modal-player-num">کارت شماره ۱</div>
@@ -1141,9 +1255,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
     <!-- ===== REPORT MODAL ===== -->
-    <!-- ============================================================ -->
     <div class="modal-overlay" id="report-modal">
         <div class="modal-card" style="max-width:460px;">
             <h3 style="font-size:clamp(16px,3vw,20px);color:#f87171;margin-bottom:10px;">📊 گزارش نهایی نقش‌ها</h3>
@@ -1158,9 +1270,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== GALLERY MODAL (شبیه مودال نقش‌ها) ===== -->
-    <!-- ============================================================ -->
+    <!-- ===== GALLERY MODAL ===== -->
     <div class="gallery-modal" id="gallery-modal">
         <div class="modal-content">
             <div class="modal-img-wrapper" id="gallery-img-wrapper">
@@ -1173,30 +1283,13 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ===== LEADERBOARD PANEL ===== -->
-    <!-- ============================================================ -->
-    <div class="leaderboard-panel" id="leaderboard-panel">
-        <div class="leaderboard-header">
-            <h2>🏆 پنل گرداننده</h2>
-            <button class="leaderboard-close" onclick="closeLeaderboard()">✕ بستن</button>
-        </div>
-        <div class="leaderboard-tabs">
-            <button class="active" onclick="switchLBtab('leaderboard')">📊 لیدربورد</button>
-            <button onclick="switchLBtab('players')">👥 مدیریت بازیکنان</button>
-            <button onclick="switchLBtab('gallery')">🎴 گالری نقش‌ها</button>
-        </div>
-        <div class="leaderboard-content" id="lb-content">
-            <!-- محتوای لیدربورد توسط JS پر می‌شود -->
-        </div>
-    </div>
 
     <!-- ============================================================ -->
     <!-- ===== SCRIPTS ===== -->
     <!-- ============================================================ -->
     <script>
     // ================================================================
-    // 1. ALL_ROLES (نانو حذف شد)
+    // 1. ALL_ROLES
     // ================================================================
     const ALL_ROLES = {
         citizen: [
@@ -1233,9 +1326,9 @@
             { id: 'c_ravanshenas', name: 'روانشناس', teamLabel: 'گروه شهروندی' },
             { id: 'c_roointan', name: 'رویین‌تن', teamLabel: 'گروه شهروندی' },
             { id: 'c_roshanbin', name: 'روشن‌بین', teamLabel: 'گروه شهروندی' },
-            { id: 'c_sarbaz', name: 'سرباز', teamLabel: 'گروه شهروندی' },
             { id: 'c_saatsaz', name: 'ساعت‌ساز', teamLabel: 'گروه شهروندی' },
             { id: 'c_saghi', name: 'ساقی', teamLabel: 'گروه شهروندی' },
+            { id: 'c_sarbaz', name: 'سرباز', teamLabel: 'گروه شهروندی' },
             { id: 'c_shekarchi', name: 'شکارچی', teamLabel: 'گروه شهروندی' },
             { id: 'c_simple', name: 'شهروند ساده', teamLabel: 'گروه شهروندی', isMultiple: true, count: 0 },
             { id: 'c_sniper', name: 'اسنایپر', teamLabel: 'گروه شهروندی' },
@@ -1425,33 +1518,28 @@
     let enablePlayerSelect = true;
     let usePlayerSelectForGame = true;
 
-    // Timer
     let timerSeconds = 0;
     let timerInitialSeconds = 0;
     let timerInterval = null;
     let timerRunning = false;
     let timerMode = 'normal';
 
-    // Audio
     let audioPlayer = null;
     let audioFileLoaded = false;
     let currentAudioName = '';
 
-    // Descriptions
     let roleDescriptions = {};
-
-    // Wake Lock
     let wakeLock = null;
+    let currentPage = 'page-roles';
 
     // ================================================================
-    // 4. WAKE LOCK (فقط در صفحه گاد)
+    // 4. WAKE LOCK
     // ================================================================
     async function requestWakeLock() {
         try {
             if ('wakeLock' in navigator && !wakeLock) {
                 wakeLock = await navigator.wakeLock.request('screen');
                 console.log('Wake Lock فعال شد');
-                // در صورت آزاد شدن ناگهانی، دوباره درخواست بده
                 wakeLock.addEventListener('release', () => {
                     console.log('Wake Lock به صورت خودکار آزاد شد');
                     wakeLock = null;
@@ -1497,6 +1585,9 @@
         renderRoles();
         updateCounts();
         updateGodBottomBar();
+        renderLeaderboardContent();
+        renderPlayersContent();
+        renderGalleryContent();
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW register skipped:', err));
         }
@@ -1506,12 +1597,81 @@
             enablePlayerSelect = this.checked;
             saveState();
         });
+        updateNavState();
     };
 
     // ================================================================
-    // 7. STATE PERSISTENCE
+    // 7. PAGE MANAGEMENT
     // ================================================================
-    const stateKey = 'mafia_assistant_state';
+    function switchPage(pageId) {
+        // اگر صفحه قرعه‌کشی فعال باشد، اجازه خروج نمی‌دهیم (مگر از دکمه‌های داخلی)
+        const drawPage = document.getElementById('page-draw');
+        if (drawPage.classList.contains('active') && pageId !== 'page-draw') {
+            if (!confirm('آیا از خروج از صفحه قرعه‌کشی مطمئن هستید؟ بازی فعلی ادامه خواهد یافت.')) {
+                return;
+            }
+        }
+
+        // اگر صفحه گاد را انتخاب کرده و بازی فعال نیست
+        if (pageId === 'page-god' && !isGameActive()) {
+            alert('هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.');
+            switchPage('page-roles');
+            return;
+        }
+
+        // مخفی کردن همه صفحات
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        // نمایش صفحه مورد نظر
+        const target = document.getElementById(pageId);
+        if (target) target.classList.add('active');
+
+        // به‌روزرسانی منو
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.page === pageId);
+        });
+
+        currentPage = pageId;
+        saveState();
+
+        // Wake Lock: فقط در صفحه گاد
+        if (pageId === 'page-god') {
+            requestWakeLock();
+        } else {
+            releaseWakeLock();
+        }
+
+        // رندر محتوای صفحات
+        if (pageId === 'page-leaderboard') renderLeaderboardContent();
+        if (pageId === 'page-players') renderPlayersContent();
+        if (pageId === 'page-gallery') renderGalleryContent();
+
+        window.scrollTo(0, 0);
+    }
+
+    function isGameActive() {
+        return assignedCards.length > 0 && pickedHistory.length > 0;
+    }
+
+    function updateNavState() {
+        const godItem = document.querySelector('.nav-item[data-page="page-god"]');
+        if (isGameActive()) {
+            godItem.classList.remove('disabled');
+            document.getElementById('god-badge').style.display = 'block';
+        } else {
+            godItem.classList.add('disabled');
+            document.getElementById('god-badge').style.display = 'none';
+        }
+    }
+
+    function backToRoles() {
+        // بازگشت به صفحه نقش‌ها از هر جایی
+        switchPage('page-roles');
+    }
+
+    // ================================================================
+    // 8. STATE PERSISTENCE
+    // ================================================================
+    const stateKey = 'mafia_assistant_state_v2';
 
     function saveState() {
         const state = {
@@ -1530,7 +1690,7 @@
             selectedPlayerIds,
             enablePlayerSelect,
             usePlayerSelectForGame,
-            currentScreen: document.querySelector('.screen.active')?.id || 'setup-screen'
+            currentPage
         };
         try { localStorage.setItem(stateKey, JSON.stringify(state)); } catch(e) {}
     }
@@ -1555,28 +1715,39 @@
             selectedPlayerIds = state.selectedPlayerIds || [];
             enablePlayerSelect = state.enablePlayerSelect !== undefined ? state.enablePlayerSelect : true;
             usePlayerSelectForGame = state.usePlayerSelectForGame !== undefined ? state.usePlayerSelectForGame : true;
+            currentPage = state.currentPage || 'page-roles';
 
             const cb = document.getElementById('enable-player-select');
             if (cb) cb.checked = enablePlayerSelect;
 
-            if (state.currentScreen === 'draw-screen') {
-                showScreen('draw-screen', false);
-                renderDrawCards();
-                if (openedCount === assignedCards.length && assignedCards.length > 0) {
-                    document.getElementById('god-btn').style.display = 'block';
-                }
-            } else if (state.currentScreen === 'god-screen') {
-                showScreen('god-screen', false);
-                renderGodList();
-                document.getElementById('god-bottom-bar').style.display = 'flex';
-                updateGodBottomBar();
-                requestWakeLock();
-            } else if (state.currentScreen === 'player-select-screen') {
-                showScreen('player-select-screen', false);
-                renderPlayerSelect();
-            } else {
-                showScreen('setup-screen', false);
-                releaseWakeLock();
+            // بازیابی صفحه
+            const pageToShow = currentPage;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageToShow);
+            if (target) target.classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === pageToShow);
+            });
+
+            // اگر صفحه گاد است و بازی فعال نیست، به نقش‌ها برو
+            if (pageToShow === 'page-god' && !isGameActive()) {
+                document.getElementById('page-roles').classList.add('active');
+                document.getElementById('page-god').classList.remove('active');
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.page === 'page-roles');
+                });
+                currentPage = 'page-roles';
+            }
+
+            // اگر صفحه قرعه‌کشی است و بازی وجود ندارد، به نقش‌ها برو
+            if (pageToShow === 'page-draw' && assignedCards.length === 0) {
+                document.getElementById('page-roles').classList.add('active');
+                document.getElementById('page-draw').classList.remove('active');
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.page === 'page-roles');
+                });
+                currentPage = 'page-roles';
             }
 
             Object.keys(selectedRoles).forEach(id => {
@@ -1596,11 +1767,26 @@
             } else {
                 document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
             }
+
+            // اگر در صفحه گاد هستیم، لیست را رندر کن
+            if (pageToShow === 'page-god' && isGameActive()) {
+                renderGodList();
+                document.getElementById('god-bottom-bar').style.display = 'flex';
+                updateGodBottomBar();
+            }
+
+            updateNavState();
+
+            // رندر محتوای صفحات دیگر
+            renderLeaderboardContent();
+            renderPlayersContent();
+            renderGalleryContent();
+
         } catch(e) {}
     }
 
     // ================================================================
-    // 8. HELPER FUNCTIONS
+    // 9. HELPER FUNCTIONS
     // ================================================================
     function getSavedScenarios() {
         try { return JSON.parse(localStorage.getItem('mafia_custom_scenarios') || '[]'); } catch(e) { return []; }
@@ -1790,7 +1976,7 @@
     }
 
     // ================================================================
-    // 9. START GAME
+    // 10. START GAME
     // ================================================================
     function startGame() {
         enablePlayerSelect = document.getElementById('enable-player-select').checked;
@@ -1802,7 +1988,7 @@
         selectedPlayerNames = [];
 
         if(usePlayerSelectForGame) {
-            showScreen('player-select-screen');
+            switchPage('page-player-select');
             renderPlayerSelect();
         } else {
             doDistributeRoles([]);
@@ -1811,7 +1997,7 @@
     }
 
     // ================================================================
-    // 10. PLAYER SELECTION
+    // 11. PLAYER SELECTION
     // ================================================================
     function renderPlayerSelect() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
@@ -1926,7 +2112,7 @@
     }
 
     // ================================================================
-    // 11. DISTRIBUTE ROLES
+    // 12. DISTRIBUTE ROLES
     // ================================================================
     function doDistributeRoles(playerNames) {
         let rolePool = [];
@@ -1974,12 +2160,14 @@
         document.getElementById('god-inquiry-display').innerText = inquiryCount;
         document.getElementById('god-btn').style.display = 'none';
 
-        showScreen('draw-screen');
+        switchPage('page-draw');
+        // منو در صفحه قرعه‌کشی مخفی می‌شود (با کلاس page-draw)
         saveState();
+        updateNavState();
     }
 
     // ================================================================
-    // 12. RENDER DRAW CARDS
+    // 13. RENDER DRAW CARDS
     // ================================================================
     function renderDrawCards() {
         const container = document.getElementById('cards-container');
@@ -2014,7 +2202,7 @@
     }
 
     // ================================================================
-    // 13. REVEAL ROLE (با توضیحات و کادر رنگی)
+    // 14. REVEAL ROLE
     // ================================================================
     let currentCardIndex = -1;
 
@@ -2065,7 +2253,6 @@
         roleImage.style.display = 'block';
         roleImage.onerror = function() { this.style.display = 'none'; };
 
-        // نمایش توضیحات
         const desc = roleDescriptions[roleId]?.description;
         if (desc && desc !== '-' && desc.trim() !== '') {
             descEl.textContent = desc;
@@ -2099,7 +2286,7 @@
     }
 
     // ================================================================
-    // 14. RESET DRAW / BACK
+    // 15. RESET DRAW / BACK
     // ================================================================
     function resetDraw() {
         if(!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
@@ -2119,31 +2306,22 @@
         saveState();
     }
 
-    function backToSetup() {
-        if(!confirm('آیا از بازگشت به صفحه تنظیمات مطمئن هستید؟ اطلاعات فعلی بازی از دست خواهد رفت.')) return;
-        assignedCards = [];
-        pickedHistory = [];
-        openedCount = 0;
-        inquiryCount = 0;
-        selectedPlayerIds = [];
-        selectedPlayerNames = [];
-        document.getElementById('god-btn').style.display = 'none';
-        document.getElementById('god-bottom-bar').style.display = 'none';
-        releaseWakeLock();
-        showScreen('setup-screen');
-        saveState();
-    }
-
     // ================================================================
-    // 15. GOD SCREEN (با Wake Lock فعال)
+    // 16. GOD SCREEN
     // ================================================================
     function showGodScreen() {
+        if (!isGameActive()) {
+            alert('هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.');
+            switchPage('page-roles');
+            return;
+        }
         renderGodList();
-        showScreen('god-screen');
+        switchPage('page-god');
         document.getElementById('god-bottom-bar').style.display = 'flex';
         updateGodBottomBar();
         requestWakeLock();
         saveState();
+        updateNavState();
     }
 
     function renderGodList() {
@@ -2302,7 +2480,7 @@
     }
 
     // ================================================================
-    // 16. TIMER
+    // 17. TIMER
     // ================================================================
     function updateTimerDisplay() {
         const mins = Math.floor(timerSeconds / 60);
@@ -2397,8 +2575,19 @@
         }, 1000);
     }
 
+    function updateGodBottomBar() {
+        document.getElementById('god-inquiry-display').innerText = inquiryCount;
+        updateTimerDisplay();
+        updateTimerModeUI();
+        if(timerRunning) {
+            document.getElementById('timer-toggle-btn').innerText = '⏸';
+        } else {
+            document.getElementById('timer-toggle-btn').innerText = '▶';
+        }
+    }
+
     // ================================================================
-    // 17. AUDIO
+    // 18. AUDIO
     // ================================================================
     function loadAudio(event) {
         const file = event.target.files[0];
@@ -2436,7 +2625,7 @@
     }
 
     // ================================================================
-    // 18. REPORT
+    // 19. REPORT
     // ================================================================
     function generateRawReport() {
         let r = `====================================\n`;
@@ -2494,9 +2683,8 @@
 
     function closeReportModal() {
         document.getElementById('report-modal').style.display = 'none';
-        // اگر از صفحه گاد خارج می‌شویم، Wake Lock را آزاد می‌کنیم
-        const activeScreen = document.querySelector('.screen.active');
-        if (!activeScreen || activeScreen.id !== 'god-screen') {
+        const activeScreen = document.querySelector('.page.active');
+        if (!activeScreen || activeScreen.id !== 'page-god') {
             releaseWakeLock();
         }
     }
@@ -2524,7 +2712,7 @@
     }
 
     // ================================================================
-    // 19. SAVE GAME RESULTS
+    // 20. SAVE GAME RESULTS
     // ================================================================
     function saveGameResults() {
         let savedCount = 0;
@@ -2553,35 +2741,11 @@
     }
 
     // ================================================================
-    // 20. LEADERBOARD PANEL + GALLERY
+    // 21. LEADERBOARD PAGE
     // ================================================================
-    function openLeaderboard() {
-        document.getElementById('leaderboard-panel').classList.add('active');
-        switchLBtab('leaderboard');
-    }
-
-    function closeLeaderboard() {
-        document.getElementById('leaderboard-panel').classList.remove('active');
-    }
-
-    function switchLBtab(tab) {
-        document.querySelectorAll('.leaderboard-tabs button').forEach(btn => btn.classList.remove('active'));
-        const tabs = document.querySelectorAll('.leaderboard-tabs button');
-        if(tab === 'leaderboard') tabs[0].classList.add('active');
-        else if(tab === 'players') tabs[1].classList.add('active');
-        else if(tab === 'gallery') tabs[2].classList.add('active');
-
-        const content = document.getElementById('lb-content');
-        if(tab === 'leaderboard') {
-            renderLeaderboard(content);
-        } else if(tab === 'players') {
-            renderPlayerManagement(content);
-        } else if(tab === 'gallery') {
-            renderGallery(content);
-        }
-    }
-
-    function renderLeaderboard(container) {
+    function renderLeaderboardContent() {
+        const container = document.getElementById('lb-content');
+        if (!container) return;
         const players = PlayerManager.getLeaderboard(0);
         if(players.length === 0) {
             container.innerHTML = `<div style="text-align:center;padding:40px;color:#94a3b8;">هیچ بازیکنی ثبت نشده است.</div>`;
@@ -2589,6 +2753,7 @@
         }
 
         let html = `
+            <div style="margin-bottom:12px;font-size:18px;font-weight:700;color:#f87171;">🏆 لیدربورد</div>
             <table class="lb-table">
                 <thead><tr>
                     <th>#</th><th>نام</th><th>⭐ امتیاز</th><th>⚠️ اخطار</th><th>🎮 بازی</th><th>📊 میانگین</th>
@@ -2622,123 +2787,101 @@
         container.innerHTML = html;
     }
 
-    // ================================================================
-    // 21. GALLERY (با مودال شبیه نقش‌ها)
-    // ================================================================
-    function renderGallery(container) {
-        const groups = [
-            { key: 'citizen', label: '🟩 شهروندان', className: 'citizen' },
-            { key: 'mafia', label: '🟥 مافیا', className: 'mafia' },
-            { key: 'free', label: '🟧 مستقل‌ها', className: 'free' }
-        ];
-
-        let html = `
-            <input type="text" class="gallery-search" id="gallery-search" placeholder="🔍 جستجوی نقش..." oninput="filterGallery()">
-            <div id="gallery-grid-container">
-        `;
-
-        groups.forEach(group => {
-            const roles = ALL_ROLES[group.key] || [];
-            const uniqueRoles = roles.filter((role, index, self) => 
-                index === self.findIndex(r => r.id === role.id)
-            );
-            
-            html += `<div class="gallery-group-title ${group.className}">${group.label} (${uniqueRoles.length})</div>`;
-            html += `<div class="gallery-grid" data-group="${group.key}">`;
-            
-            uniqueRoles.forEach(role => {
-                const imgSrc = `assets/images/${role.id}.png`;
-                html += `
-                    <div class="gallery-item gallery-${group.className}" data-name="${role.name}" onclick="openGalleryModal('${role.id}', '${role.name}', '${role.teamLabel}', '${group.key}')">
-                        <img class="gallery-img" src="${imgSrc}" alt="${role.name}" loading="lazy" 
-                             onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-name').style.color='#64748b';">
-                        <div class="gallery-name">${role.name}</div>
-                        <div class="gallery-team">${role.teamLabel}</div>
-                    </div>
-                `;
-            });
-            
-            html += `</div>`;
+    function exportLeaderboardTXT() {
+        const data = PlayerManager.getLeaderboard(0);
+        let txt = `═══════════════════════════════════════\n`;
+        txt += `        🏆 لیدربورد بازی مافیا         \n`;
+        txt += `        ✒️ طراح: رضا پاکدل             \n`;
+        txt += `═══════════════════════════════════════\n\n`;
+        data.forEach((p, i) => {
+            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
+            txt += `#️⃣ ${i+1}  | ${p.name.padEnd(15)} | امتیاز: ${p.totalScore} | اخطار: ${p.totalWarnings} | بازی: ${p.gamesPlayed} | میانگین: ${avg}\n`;
         });
-
-        html += `</div>`;
-        container.innerHTML = html;
+        navigator.clipboard.writeText(txt).then(() => {
+            alert('لیدربورد با موفقیت کپی شد!');
+        });
     }
 
-    function filterGallery() {
-        const query = document.getElementById('gallery-search')?.value?.toLowerCase() || '';
-        const items = document.querySelectorAll('.gallery-item');
-        items.forEach(item => {
-            const name = item.getAttribute('data-name')?.toLowerCase() || '';
-            item.style.display = name.includes(query) ? 'flex' : 'none';
+    function downloadLeaderboardTXT() {
+        const data = PlayerManager.getLeaderboard(0);
+        let txt = `═══════════════════════════════════════\n`;
+        txt += `        🏆 لیدربورد بازی مافیا         \n`;
+        txt += `        ✒️ طراح: رضا پاکدل             \n`;
+        txt += `═══════════════════════════════════════\n\n`;
+        data.forEach((p, i) => {
+            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
+            txt += `#️⃣ ${i+1}  | ${p.name.padEnd(15)} | امتیاز: ${p.totalScore} | اخطار: ${p.totalWarnings} | بازی: ${p.gamesPlayed} | میانگین: ${avg}\n`;
         });
-        const grids = document.querySelectorAll('.gallery-grid');
-        grids.forEach(grid => {
-            const items2 = grid.querySelectorAll('.gallery-item');
-            let visible = false;
-            items2.forEach(item => {
-                if (item.style.display !== 'none') visible = true;
-            });
-            grid.style.display = visible ? 'grid' : 'none';
-            const title = grid.previousElementSibling;
-            if (title && title.classList.contains('gallery-group-title')) {
-                title.style.display = visible ? 'inline-block' : 'none';
+        const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Leaderboard_${Date.now()}.txt`;
+        link.click();
+    }
+
+    function downloadLeaderboardHTML() {
+        const data = PlayerManager.getLeaderboard(0);
+        let rows = '';
+        data.forEach((p, i) => {
+            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
+            const color = i === 0 ? '#fbbf24' : (i === 1 ? '#94a3b8' : (i === 2 ? '#cd7f32' : '#e8edf5'));
+            rows += `
+                <tr style="border-bottom:1px solid #1e293b;">
+                    <td style="padding:8px 12px;color:${color};font-weight:${i<3?'700':'400'}">${i+1}</td>
+                    <td style="padding:8px 12px;">${p.name}</td>
+                    <td style="padding:8px 12px;text-align:center;">${p.totalScore}</td>
+                    <td style="padding:8px 12px;text-align:center;">${p.totalWarnings}</td>
+                    <td style="padding:8px 12px;text-align:center;">${p.gamesPlayed}</td>
+                    <td style="padding:8px 12px;text-align:center;">${avg}</td>
+                </tr>
+            `;
+        });
+        const html = `<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>لیدربورد مافیا</title>
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,'Vazirmatn',sans-serif}body{background:#0b0f19;color:#f1f5f9;padding:20px;max-width:800px;margin:0 auto}.header{text-align:center;padding:20px;border-bottom:2px solid #2d3a4f;margin-bottom:20px}.header h1{color:#f87171;font-size:24px}.header p{color:#94a3b8;font-size:14px}table{width:100%;border-collapse:collapse}th{text-align:right;padding:10px 12px;border-bottom:2px solid #2d3a4f;color:#94a3b8;font-weight:600}td{padding:10px 12px;border-bottom:1px solid #1e293b}.gold{color:#fbbf24;font-weight:700}.silver{color:#94a3b8;font-weight:700}.bronze{color:#cd7f32;font-weight:700}</style></head>
+<body><div class="header"><h1>🏆 لیدربورد بازی مافیا</h1><p>طراحی و توسعه تخصصی: رضا پاکدل</p></div>
+<table><thead><tr><th>#</th><th>نام</th><th>⭐ امتیاز</th><th>⚠️ اخطار</th><th>🎮 بازی</th><th>📊 میانگین</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Leaderboard_${Date.now()}.html`;
+        link.click();
+    }
+
+    function downloadLeaderboardCSV() {
+        const data = PlayerManager.getLeaderboard(0);
+        let csv = 'نام,امتیاز کل,اخطار,تعداد بازی,میانگین امتیاز\n';
+        data.forEach(p => {
+            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
+            csv += `"${p.name}",${p.totalScore},${p.totalWarnings},${p.gamesPlayed},${avg}\n`;
+        });
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Leaderboard_${Date.now()}.csv`;
+        link.click();
+    }
+
+    function resetScoresOnly() {
+        if(confirm('آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟')) {
+            if(confirm('این عمل غیرقابل بازگشت است. ادامه دهید؟')) {
+                PlayerManager.resetScores();
+                renderLeaderboardContent();
+                alert('امتیازها با موفقیت ریست شدند.');
             }
-        });
-    }
-
-    function openGalleryModal(roleId, name, teamLabel, team) {
-        const img = document.getElementById('gallery-modal-img');
-        const nameEl = document.getElementById('gallery-modal-name');
-        const teamEl = document.getElementById('gallery-modal-team');
-        const descEl = document.getElementById('gallery-modal-desc');
-        const wrapper = document.getElementById('gallery-img-wrapper');
-
-        // تنظیم عکس
-        img.src = `assets/images/${roleId}.png`;
-        img.onerror = function() { this.style.display = 'none'; };
-        img.style.display = 'block';
-
-        // تنظیم نام
-        nameEl.textContent = name;
-
-        // تنظیم گروه و رنگ
-        const teamColors = {
-            citizen: { label: '🟩 گروه شهروندی', color: '#6ee7b7', borderClass: 'border-citizen' },
-            mafia: { label: '🟥 گروه مافیا', color: '#fca5a5', borderClass: 'border-mafia' },
-            free: { label: '🟧 گروه مستقل', color: '#fdba74', borderClass: 'border-free' }
-        };
-        const info = teamColors[team] || teamColors.citizen;
-        teamEl.textContent = info.label;
-        teamEl.className = `modal-team team-${team}`;
-        wrapper.className = `modal-img-wrapper ${info.borderClass}`;
-
-        // تنظیم توضیحات
-        const desc = roleDescriptions[roleId]?.description;
-        if (desc && desc !== '-' && desc.trim() !== '') {
-            descEl.textContent = desc;
-            descEl.style.display = 'block';
-        } else {
-            descEl.style.display = 'none';
         }
-
-        document.getElementById('gallery-modal').classList.add('active');
     }
 
-    function closeGalleryModal() {
-        document.getElementById('gallery-modal').classList.remove('active');
-    }
-
-    document.getElementById('gallery-modal').addEventListener('click', function(e) {
-        if (e.target === this) closeGalleryModal();
-    });
-
     // ================================================================
-    // 22. PLAYER MANAGEMENT
+    // 22. PLAYERS PAGE
     // ================================================================
-    function renderPlayerManagement(container) {
+    function renderPlayersContent() {
+        const container = document.getElementById('players-content');
+        if (!container) return;
         const allPlayers = PlayerManager.getAll();
         let html = `
+            <div style="margin-bottom:12px;font-size:18px;font-weight:700;color:#f87171;">👥 مدیریت بازیکنان</div>
             <div class="player-mgmt">
                 <div class="player-mgmt-search">
                     <input type="text" id="player-search-input-mgmt" placeholder="جستجوی نام..." oninput="filterPlayerListMgmt()">
@@ -2793,7 +2936,7 @@
         const result = PlayerManager.add(val);
         if(result.success) {
             input.value = '';
-            switchLBtab('players');
+            renderPlayersContent();
         } else {
             alert(result.message);
         }
@@ -2806,7 +2949,8 @@
         if(newName && newName.trim() && newName.trim() !== player.name) {
             const result = PlayerManager.update(id, { name: newName.trim() });
             if(result.success) {
-                switchLBtab('players');
+                renderPlayersContent();
+                renderLeaderboardContent();
             } else {
                 alert(result.message);
             }
@@ -2818,121 +2962,126 @@
         if(!player) return;
         if(confirm(`آیا از حذف "${player.name}" مطمئن هستید؟`)) {
             PlayerManager.delete(id);
-            switchLBtab('players');
+            renderPlayersContent();
+            renderLeaderboardContent();
         }
     }
 
-    function resetScoresOnly() {
-        if(confirm('آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟')) {
-            if(confirm('این عمل غیرقابل بازگشت است. ادامه دهید؟')) {
-                PlayerManager.resetScores();
-                switchLBtab('leaderboard');
-                alert('امتیازها با موفقیت ریست شدند.');
+    // ================================================================
+    // 23. GALLERY PAGE
+    // ================================================================
+    function renderGalleryContent() {
+        const container = document.getElementById('gallery-content');
+        if (!container) return;
+        const groups = [
+            { key: 'citizen', label: '🟩 شهروندان', className: 'citizen' },
+            { key: 'mafia', label: '🟥 مافیا', className: 'mafia' },
+            { key: 'free', label: '🟧 مستقل‌ها', className: 'free' }
+        ];
+
+        let html = `
+            <div style="margin-bottom:12px;font-size:18px;font-weight:700;color:#f87171;">🖼️ گالری نقش‌ها</div>
+            <input type="text" class="gallery-search" id="gallery-search" placeholder="🔍 جستجوی نقش..." oninput="filterGalleryPage()">
+            <div id="gallery-grid-container">
+        `;
+
+        groups.forEach(group => {
+            const roles = ALL_ROLES[group.key] || [];
+            const uniqueRoles = roles.filter((role, index, self) => 
+                index === self.findIndex(r => r.id === role.id)
+            );
+            
+            html += `<div class="gallery-group-title ${group.className}">${group.label} (${uniqueRoles.length})</div>`;
+            html += `<div class="gallery-grid" data-group="${group.key}">`;
+            
+            uniqueRoles.forEach(role => {
+                const imgSrc = `assets/images/${role.id}.png`;
+                html += `
+                    <div class="gallery-item gallery-${group.className}" data-name="${role.name}" onclick="openGalleryModal('${role.id}', '${role.name}', '${role.teamLabel}', '${group.key}')">
+                        <img class="gallery-img" src="${imgSrc}" alt="${role.name}" loading="lazy" 
+                             onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-name').style.color='#64748b';">
+                        <div class="gallery-name">${role.name}</div>
+                        <div class="gallery-team">${role.teamLabel}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        });
+
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+
+    function filterGalleryPage() {
+        const query = document.getElementById('gallery-search')?.value?.toLowerCase() || '';
+        const items = document.querySelectorAll('#gallery-grid-container .gallery-item');
+        items.forEach(item => {
+            const name = item.getAttribute('data-name')?.toLowerCase() || '';
+            item.style.display = name.includes(query) ? 'flex' : 'none';
+        });
+        const grids = document.querySelectorAll('#gallery-grid-container .gallery-grid');
+        grids.forEach(grid => {
+            const items2 = grid.querySelectorAll('.gallery-item');
+            let visible = false;
+            items2.forEach(item => {
+                if (item.style.display !== 'none') visible = true;
+            });
+            grid.style.display = visible ? 'grid' : 'none';
+            const title = grid.previousElementSibling;
+            if (title && title.classList.contains('gallery-group-title')) {
+                title.style.display = visible ? 'inline-block' : 'none';
             }
-        }
+        });
     }
 
     // ================================================================
-    // 23. LEADERBOARD EXPORTS
+    // 24. GALLERY MODAL
     // ================================================================
-    function getLeaderboardData() {
-        return PlayerManager.getLeaderboard(0);
-    }
+    function openGalleryModal(roleId, name, teamLabel, team) {
+        const img = document.getElementById('gallery-modal-img');
+        const nameEl = document.getElementById('gallery-modal-name');
+        const teamEl = document.getElementById('gallery-modal-team');
+        const descEl = document.getElementById('gallery-modal-desc');
+        const wrapper = document.getElementById('gallery-img-wrapper');
 
-    function exportLeaderboardTXT() {
-        const data = getLeaderboardData();
-        let txt = `═══════════════════════════════════════\n`;
-        txt += `        🏆 لیدربورد بازی مافیا         \n`;
-        txt += `        ✒️ طراح: رضا پاکدل             \n`;
-        txt += `═══════════════════════════════════════\n\n`;
-        data.forEach((p, i) => {
-            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
-            txt += `#️⃣ ${i+1}  | ${p.name.padEnd(15)} | امتیاز: ${p.totalScore} | اخطار: ${p.totalWarnings} | بازی: ${p.gamesPlayed} | میانگین: ${avg}\n`;
-        });
-        navigator.clipboard.writeText(txt).then(() => {
-            alert('لیدربورد با موفقیت کپی شد!');
-        });
-    }
+        img.src = `assets/images/${roleId}.png`;
+        img.onerror = function() { this.style.display = 'none'; };
+        img.style.display = 'block';
+        nameEl.textContent = name;
 
-    function downloadLeaderboardTXT() {
-        const data = getLeaderboardData();
-        let txt = `═══════════════════════════════════════\n`;
-        txt += `        🏆 لیدربورد بازی مافیا         \n`;
-        txt += `        ✒️ طراح: رضا پاکدل             \n`;
-        txt += `═══════════════════════════════════════\n\n`;
-        data.forEach((p, i) => {
-            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
-            txt += `#️⃣ ${i+1}  | ${p.name.padEnd(15)} | امتیاز: ${p.totalScore} | اخطار: ${p.totalWarnings} | بازی: ${p.gamesPlayed} | میانگین: ${avg}\n`;
-        });
-        const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `Leaderboard_${Date.now()}.txt`;
-        link.click();
-    }
+        const teamColors = {
+            citizen: { label: '🟩 گروه شهروندی', color: '#6ee7b7', borderClass: 'border-citizen' },
+            mafia: { label: '🟥 گروه مافیا', color: '#fca5a5', borderClass: 'border-mafia' },
+            free: { label: '🟧 گروه مستقل', color: '#fdba74', borderClass: 'border-free' }
+        };
+        const info = teamColors[team] || teamColors.citizen;
+        teamEl.textContent = info.label;
+        teamEl.className = `modal-team team-${team}`;
+        wrapper.className = `modal-img-wrapper ${info.borderClass}`;
 
-    function downloadLeaderboardHTML() {
-        const data = getLeaderboardData();
-        let rows = '';
-        data.forEach((p, i) => {
-            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
-            const color = i === 0 ? '#fbbf24' : (i === 1 ? '#94a3b8' : (i === 2 ? '#cd7f32' : '#e8edf5'));
-            rows += `
-                <tr style="border-bottom:1px solid #1e293b;">
-                    <td style="padding:8px 12px;color:${color};font-weight:${i<3?'700':'400'}">${i+1}</td>
-                    <td style="padding:8px 12px;">${p.name}</td>
-                    <td style="padding:8px 12px;text-align:center;">${p.totalScore}</td>
-                    <td style="padding:8px 12px;text-align:center;">${p.totalWarnings}</td>
-                    <td style="padding:8px 12px;text-align:center;">${p.gamesPlayed}</td>
-                    <td style="padding:8px 12px;text-align:center;">${avg}</td>
-                </tr>
-            `;
-        });
-        const html = `<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>لیدربورد مافیا</title>
-<style>*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,'Vazirmatn',sans-serif}body{background:#0b0f19;color:#f1f5f9;padding:20px;max-width:800px;margin:0 auto}.header{text-align:center;padding:20px;border-bottom:2px solid #2d3a4f;margin-bottom:20px}.header h1{color:#f87171;font-size:24px}.header p{color:#94a3b8;font-size:14px}table{width:100%;border-collapse:collapse}th{text-align:right;padding:10px 12px;border-bottom:2px solid #2d3a4f;color:#94a3b8;font-weight:600}td{padding:10px 12px;border-bottom:1px solid #1e293b}.gold{color:#fbbf24;font-weight:700}.silver{color:#94a3b8;font-weight:700}.bronze{color:#cd7f32;font-weight:700}</style></head>
-<body><div class="header"><h1>🏆 لیدربورد بازی مافیا</h1><p>طراحی و توسعه تخصصی: رضا پاکدل</p></div>
-<table><thead><tr><th>#</th><th>نام</th><th>⭐ امتیاز</th><th>⚠️ اخطار</th><th>🎮 بازی</th><th>📊 میانگین</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
-        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `Leaderboard_${Date.now()}.html`;
-        link.click();
-    }
-
-    function downloadLeaderboardCSV() {
-        const data = getLeaderboardData();
-        let csv = 'نام,امتیاز کل,اخطار,تعداد بازی,میانگین امتیاز\n';
-        data.forEach(p => {
-            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
-            csv += `"${p.name}",${p.totalScore},${p.totalWarnings},${p.gamesPlayed},${avg}\n`;
-        });
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `Leaderboard_${Date.now()}.csv`;
-        link.click();
-    }
-
-    // ================================================================
-    // 24. SCREEN MANAGEMENT (با Wake Lock)
-    // ================================================================
-    function showScreen(screenId, save = true) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(screenId).classList.add('active');
-        
-        // مدیریت Wake Lock
-        if (screenId === 'god-screen') {
-            requestWakeLock();
+        const desc = roleDescriptions[roleId]?.description;
+        if (desc && desc !== '-' && desc.trim() !== '') {
+            descEl.textContent = desc;
+            descEl.style.display = 'block';
         } else {
-            releaseWakeLock();
+            descEl.style.display = 'none';
         }
-        
-        if(save) saveState();
-        window.scrollTo(0, 0);
+
+        document.getElementById('gallery-modal').classList.add('active');
     }
 
+    function closeGalleryModal() {
+        document.getElementById('gallery-modal').classList.remove('active');
+    }
+
+    document.getElementById('gallery-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeGalleryModal();
+    });
+
+    // ================================================================
+    // 25. RESET APP (با حفظ سناریو)
+    // ================================================================
     function resetApp() {
         if(!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
         
@@ -2969,7 +3118,6 @@
         document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
         document.getElementById('god-inquiry-display').innerText = '0';
         
-        // آزاد کردن Wake Lock
         releaseWakeLock();
         
         document.getElementById('scenario-select').value = currentScenario;
@@ -2985,24 +3133,14 @@
         }
         
         updateUI();
-        showScreen('setup-screen');
+        switchPage('page-roles');
         localStorage.removeItem(stateKey);
         saveState();
-    }
-
-    function updateGodBottomBar() {
-        document.getElementById('god-inquiry-display').innerText = inquiryCount;
-        updateTimerDisplay();
-        updateTimerModeUI();
-        if(timerRunning) {
-            document.getElementById('timer-toggle-btn').innerText = '⏸';
-        } else {
-            document.getElementById('timer-toggle-btn').innerText = '▶';
-        }
+        updateNavState();
     }
 
     // ================================================================
-    // 25. AUTO SAVE
+    // 26. AUTO SAVE
     // ================================================================
     window.addEventListener('beforeunload', () => {
         saveState();
