@@ -6,8 +6,7 @@
     <title>تقسیم نقش و دستیار مافیا - رضا پاکدل</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎩</text></svg>">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#dc2626">
-
+    <meta name="theme-color" content="#0b0f19">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
@@ -18,6 +17,10 @@
             font-family: 'Vazirmatn', 'Tahoma', system-ui, -apple-system, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html {
+            background: #0b0f19;
         }
         body {
             background: #0b0f19;
@@ -30,6 +33,7 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        ::-webkit-scrollbar-button { display: none; }
 
         /* ===== HEADER ===== */
         .app-header {
@@ -70,7 +74,7 @@
 
         /* ===== PAGE: ROLES ===== */
         .setup-box {
-            background: #182235;
+            background: #1e293b;
             border: 1px solid #2d3a4f;
             border-radius: 14px;
             padding: 12px 14px;
@@ -131,7 +135,7 @@
             gap:10px;
         }
         .role-card {
-            background:#182235; border:1px solid #2d3a4f; border-radius:14px;
+            background:#1e293b; border:1px solid #2d3a4f; border-radius:14px;
             padding:10px 6px; display:flex; flex-direction:column;
             justify-content:space-between; align-items:center; cursor:pointer;
             min-height:72px; transition:all .15s ease; box-shadow:0 3px 10px rgba(0,0,0,0.2);
@@ -223,7 +227,7 @@
         /* ===== PAGE: GOD ===== */
         .god-header-bar {
             display:flex; justify-content:space-between; align-items:center;
-            background:#182235; padding:8px 12px; border-radius:14px;
+            background:#1e293b; padding:8px 12px; border-radius:14px;
             border:1px solid #2d3a4f; margin-bottom:12px; flex-wrap:wrap; gap:6px;
         }
         .god-header-bar .title { font-weight:700; font-size:clamp(13px,2.5vw,16px); color:#e2e8f0; }
@@ -235,7 +239,7 @@
         }
         .toggle-btn:hover { background:#3b4a63; }
         .god-player-row {
-            background:#182235; border:1px solid #2d3a4f; border-radius:12px;
+            background:#1e293b; border:1px solid #2d3a4f; border-radius:12px;
             padding:8px 10px; margin-bottom:6px;
             display:flex; align-items:center; justify-content:space-between; gap:8px;
             transition:all .2s; box-shadow:0 2px 6px rgba(0,0,0,0.2); flex-wrap:wrap;
@@ -318,7 +322,7 @@
             display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px;
         }
         .stat-box {
-            background:#182235; padding:6px 8px; border-radius:10px;
+            background:#1e293b; padding:6px 8px; border-radius:10px;
             border:1px solid #2d3a4f; font-size:clamp(11px,2vw,13px);
             text-align:center; font-weight:600;
         }
@@ -387,7 +391,7 @@
             display:inline-flex; align-items:center; flex:1;
         }
 
-        /* ===== PAGE: LEADERBOARD (با هدر ثابت برای دکمه‌ها) ===== */
+        /* ===== PAGE: LEADERBOARD ===== */
         .leaderboard-header-sticky {
             position: sticky;
             top: 0;
@@ -408,7 +412,7 @@
         .lb-table td {
             padding:8px 12px; border-bottom:1px solid #1e293b;
         }
-        .lb-table tr:hover { background:#182235; }
+        .lb-table tr:hover { background:#1e293b; }
         .lb-rank-1 { color:#fbbf24; font-weight:700; }
         .lb-rank-2 { color:#94a3b8; font-weight:700; }
         .lb-rank-3 { color:#cd7f32; font-weight:700; }
@@ -487,6 +491,21 @@
         }
         .player-mgmt-add button:hover { background:#2563eb; }
 
+        .player-mgmt-import {
+            display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+        }
+        .player-mgmt-import button {
+            background:#8b5cf6; border:none; color:#fff; padding:8px 20px;
+            border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;
+            transition:background .15s;
+        }
+        .player-mgmt-import button:hover { background:#7c3aed; }
+        .player-mgmt-import .file-label {
+            color:#94a3b8; font-size:13px; padding:6px 10px;
+            background:#0b0f19; border-radius:8px; border:1px solid #2d3a4f;
+            flex:1; min-width:100px;
+        }
+
         /* ===== PAGE: GALLERY ===== */
         .gallery-grid {
             display:grid;
@@ -495,7 +514,7 @@
             margin-top:12px;
         }
         .gallery-item {
-            background:#182235;
+            background:#1e293b;
             border-radius:14px;
             overflow:hidden;
             cursor:pointer;
@@ -508,7 +527,7 @@
             align-items:center;
             gap:6px;
         }
-        .gallery-item:hover { transform:scale(1.03); border-color:#38bdf8; }
+        .gallery-item:active { transform:scale(0.96); }
         .gallery-item .gallery-img {
             width:100%;
             height:120px;
@@ -562,11 +581,16 @@
             position:fixed; top:0; left:0; right:0; bottom:0;
             background:rgba(0,0,0,0.88); backdrop-filter:blur(6px);
             display:none; flex-direction:column; align-items:center; justify-content:center;
-            z-index:100; padding:20px; animation:fadeIn .2s ease;
+            z-index:250; padding:20px; animation:fadeIn .2s ease;
         }
+        .modal-overlay.show {
+            display:flex;
+        }
+        body.modal-open .bottom-nav { display: none !important; }
+
         @keyframes fadeIn { 0%{opacity:0;transform:scale(.96)} 100%{opacity:1;transform:scale(1)} }
         .modal-card {
-            background:#182235;
+            background:#1e293b;
             border-radius:28px;
             padding:clamp(24px,4vw,36px);
             width:100%;
@@ -588,6 +612,44 @@
             background:linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
             opacity:0.3;
         }
+        .modal-title {
+            font-size:clamp(20px,4vw,28px);
+            font-weight:800;
+            color:#f87171;
+            margin-bottom:8px;
+        }
+        .modal-message {
+            font-size:clamp(14px,2.2vw,18px);
+            color:#e2e8f0;
+            line-height:1.6;
+            margin-bottom:16px;
+            text-align:right;
+        }
+        .modal-input {
+            width:100%;
+            padding:10px 14px;
+            background:#0b0f19;
+            border:1px solid #2d3a4f;
+            border-radius:10px;
+            color:#f8fafc;
+            font-size:16px;
+            outline:none;
+            margin-bottom:12px;
+            text-align:right;
+        }
+        .modal-input:focus { border-color:#38bdf8; }
+        .modal-actions {
+            display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+        }
+        .modal-actions .btn-action {
+            max-width:200px; font-size:14px; padding:10px;
+            box-shadow:none;
+        }
+        .modal-actions .btn-action.secondary { background:#475569; }
+        .modal-actions .btn-action.cancel { background:#475569; }
+        .modal-actions .btn-action.confirm { background:linear-gradient(135deg,#10b981,#059669); }
+
+        /* ===== ROLE MODAL ===== */
         .modal-role-title {
             font-size:clamp(28px,5vw,38px);
             font-weight:800;
@@ -670,7 +732,7 @@
         }
         .gallery-modal.active { display:flex; }
         .gallery-modal .modal-content {
-            background:#182235;
+            background:#1e293b;
             border-radius:28px;
             padding:clamp(24px,4vw,36px);
             max-width:520px;
@@ -761,6 +823,7 @@
         }
         .gallery-modal .modal-close:hover { background:#3b4a63; }
 
+        /* ===== REPORT MODAL ===== */
         .report-textarea {
             width:100%; height:180px; background:#0b0f19; color:#e2e8f0;
             border:1px solid #2d3a4f; border-radius:14px; padding:10px;
@@ -787,7 +850,7 @@
         }
         .player-select-stats {
             display:flex; justify-content:space-between; align-items:center;
-            padding:8px 12px; background:#182235; border-radius:10px;
+            padding:8px 12px; background:#1e293b; border-radius:10px;
             margin-bottom:12px; flex-wrap:wrap; gap:8px;
         }
         .player-select-stats .count {
@@ -851,10 +914,10 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 6px 0 8px;
+            padding: 6px 0 10px;
             z-index: 200;
             box-shadow: 0 -6px 30px rgba(0,0,0,0.5);
-            height: 65px;
+            height: 68px;
         }
         .bottom-nav .nav-item {
             display: flex;
@@ -875,12 +938,12 @@
             position: relative;
         }
         .bottom-nav .nav-item .icon {
-            font-size: clamp(20px, 4vw, 28px);
+            font-size: clamp(22px, 4.5vw, 30px);
             line-height: 1.2;
         }
         .bottom-nav .nav-item .label {
-            font-size: clamp(9px, 1.6vw, 11px);
-            font-weight: 600;
+            font-size: clamp(11px, 2vw, 14px);
+            font-weight: 700;
             color: #64748b;
             transition: color .15s;
             text-align: center;
@@ -958,10 +1021,10 @@
             .gallery-modal .modal-name{font-size:22px}
             .gallery-modal .modal-team{font-size:14px}
             .gallery-modal .modal-desc{font-size:12px}
-            .bottom-nav{height:58px;padding:4px 0 6px}
+            .bottom-nav{height:60px;padding:4px 0 6px}
             .bottom-nav .nav-item{max-width:60px;padding:2px 4px}
-            .bottom-nav .nav-item .icon{font-size:18px}
-            .bottom-nav .nav-item .label{font-size:8px}
+            .bottom-nav .nav-item .icon{font-size:20px}
+            .bottom-nav .nav-item .label{font-size:10px}
             .player-select-item{padding:6px 10px}
             .player-select-item .pname{font-size:12px}
             .player-select-toolbar input[type="text"]{font-size:12px;padding:6px 10px}
@@ -984,9 +1047,9 @@
             .gallery-item .gallery-img{height:60px}
             .modal-role-title{font-size:18px}
             .gallery-modal .modal-name{font-size:18px}
-            .bottom-nav{height:52px;padding:3px 0 4px}
-            .bottom-nav .nav-item .icon{font-size:16px}
-            .bottom-nav .nav-item .label{font-size:7px}
+            .bottom-nav{height:54px;padding:3px 0 4px}
+            .bottom-nav .nav-item .icon{font-size:17px}
+            .bottom-nav .nav-item .label{font-size:9px}
             .bottom-nav .nav-item{max-width:50px}
             .bottom-nav .nav-item .badge{width:6px;height:6px;top:1px;right:2px}
             .lb-actions button{font-size:10px;padding:4px 10px;min-width:40px}
@@ -1002,8 +1065,8 @@
             .gallery-item .gallery-img{height:160px}
             .modal-card{padding:32px}
             .bottom-nav .nav-item{max-width:80px}
-            .bottom-nav .nav-item .icon{font-size:26px}
-            .bottom-nav .nav-item .label{font-size:12px}
+            .bottom-nav .nav-item .icon{font-size:28px}
+            .bottom-nav .nav-item .label{font-size:14px}
             .lb-actions button{font-size:14px;padding:10px 20px}
         }
         @media(min-width:1024px){
@@ -1020,7 +1083,8 @@
             .modal-role-title{font-size:34px}
             .gallery-modal .modal-name{font-size:34px}
             .bottom-nav .nav-item{max-width:90px}
-            .bottom-nav .nav-item .icon{font-size:30px}
+            .bottom-nav .nav-item .icon{font-size:32px}
+            .bottom-nav .nav-item .label{font-size:16px}
         }
     </style>
 </head>
@@ -1302,11 +1366,108 @@
         </div>
     </div>
 
+    <!-- ===== CUSTOM ALERT/CONFIRM/PROMPT MODAL ===== -->
+    <div class="modal-overlay" id="custom-modal">
+        <div class="modal-card">
+            <div class="modal-title" id="custom-modal-title">عنوان</div>
+            <div class="modal-message" id="custom-modal-message">پیام</div>
+            <input type="text" class="modal-input" id="custom-modal-input" style="display:none;" placeholder="مقدار را وارد کنید...">
+            <div class="modal-actions" id="custom-modal-actions">
+                <button class="btn-action confirm" id="custom-modal-confirm">تأیید</button>
+                <button class="btn-action cancel" id="custom-modal-cancel" style="display:none;">لغو</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ============================================================ -->
     <!-- ===== SCRIPTS ===== -->
     <!-- ============================================================ -->
     <script>
+    // ================================================================
+    // 0. CUSTOM MODAL SYSTEM (جایگزین alert/confirm/prompt)
+    // ================================================================
+    function showCustomModal(title, message, type = 'alert', defaultValue = '') {
+        return new Promise((resolve) => {
+            const overlay = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('custom-modal-title');
+            const messageEl = document.getElementById('custom-modal-message');
+            const inputEl = document.getElementById('custom-modal-input');
+            const confirmBtn = document.getElementById('custom-modal-confirm');
+            const cancelBtn = document.getElementById('custom-modal-cancel');
+
+            titleEl.textContent = title || 'اطلاعیه';
+            messageEl.textContent = message || '';
+            inputEl.style.display = 'none';
+            cancelBtn.style.display = 'none';
+            confirmBtn.textContent = 'تأیید';
+
+            if (type === 'confirm') {
+                cancelBtn.style.display = 'inline-block';
+                cancelBtn.textContent = 'لغو';
+                confirmBtn.textContent = 'تأیید';
+            } else if (type === 'prompt') {
+                inputEl.style.display = 'block';
+                inputEl.value = defaultValue || '';
+                inputEl.focus();
+                cancelBtn.style.display = 'inline-block';
+                cancelBtn.textContent = 'لغو';
+                confirmBtn.textContent = 'تأیید';
+            }
+
+            overlay.classList.add('show');
+            document.body.classList.add('modal-open');
+
+            const cleanup = () => {
+                overlay.classList.remove('show');
+                document.body.classList.remove('modal-open');
+                confirmBtn.onclick = null;
+                cancelBtn.onclick = null;
+                inputEl.onkeydown = null;
+            };
+
+            confirmBtn.onclick = () => {
+                cleanup();
+                if (type === 'prompt') {
+                    resolve(inputEl.value);
+                } else {
+                    resolve(true);
+                }
+            };
+
+            cancelBtn.onclick = () => {
+                cleanup();
+                if (type === 'prompt') {
+                    resolve(null);
+                } else {
+                    resolve(false);
+                }
+            };
+
+            inputEl.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    confirmBtn.click();
+                }
+            };
+
+            // کلیک خارج از مودال
+            overlay.onclick = (e) => {
+                if (e.target === overlay) {
+                    if (type === 'alert') {
+                        confirmBtn.click();
+                    } else {
+                        cancelBtn.click();
+                    }
+                }
+            };
+        });
+    }
+
+    // جایگزین‌های global
+    window.alert = (msg) => showCustomModal('اطلاعیه', msg, 'alert');
+    window.confirm = (msg) => showCustomModal('تأیید', msg, 'confirm');
+    window.prompt = (msg, def) => showCustomModal('ورود اطلاعات', msg, 'prompt', def);
+
     // ================================================================
     // 1. ALL_ROLES
     // ================================================================
@@ -1520,6 +1681,63 @@
         },
         getNames() {
             return this.getAll().map(p => p.name);
+        },
+        // ===== CSV IMPORT =====
+        importCSV(data) {
+            const lines = data.split('\n').filter(line => line.trim());
+            if (lines.length < 2) return { success: false, message: 'فایل CSV معتبر نیست.' };
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const nameIdx = headers.indexOf('نام');
+            const scoreIdx = headers.indexOf('امتیاز کل');
+            const warnIdx = headers.indexOf('اخطار');
+            const gameIdx = headers.indexOf('تعداد بازی');
+            if (nameIdx === -1) return { success: false, message: 'ستون "نام" در فایل CSV یافت نشد.' };
+
+            let added = 0;
+            let updated = 0;
+            let errors = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                if (cols.length <= nameIdx) continue;
+                const name = cols[nameIdx] || '';
+                if (!name) continue;
+                const score = (scoreIdx !== -1 && cols[scoreIdx]) ? parseFloat(cols[scoreIdx]) || 0 : 0;
+                const warnings = (warnIdx !== -1 && cols[warnIdx]) ? parseFloat(cols[warnIdx]) || 0 : 0;
+                const games = (gameIdx !== -1 && cols[gameIdx]) ? parseFloat(cols[gameIdx]) || 0 : 0;
+
+                const existing = this.getByName(name);
+                if (existing) {
+                    // به‌روزرسانی (جمع شدن)
+                    const result = this.update(existing.id, {
+                        totalScore: (existing.totalScore || 0) + score,
+                        totalWarnings: (existing.totalWarnings || 0) + warnings,
+                        gamesPlayed: (existing.gamesPlayed || 0) + games
+                    });
+                    if (result.success) updated++;
+                    else errors.push(`${name}: ${result.message}`);
+                } else {
+                    const result = this.add(name);
+                    if (result.success) {
+                        this.update(result.data.id, { totalScore: score, totalWarnings: warnings, gamesPlayed: games });
+                        added++;
+                    } else {
+                        errors.push(`${name}: ${result.message}`);
+                    }
+                }
+            }
+
+            return { success: true, added, updated, errors };
+        },
+        // ===== CSV EXPORT =====
+        exportCSV() {
+            const data = this.getAll();
+            let csv = 'نام,امتیاز کل,اخطار,تعداد بازی,میانگین امتیاز\n';
+            data.forEach(p => {
+                const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
+                csv += `"${p.name}",${p.totalScore},${p.totalWarnings},${p.gamesPlayed},${avg}\n`;
+            });
+            return csv;
         }
     };
 
@@ -1623,20 +1841,20 @@
     // 7. PAGE MANAGEMENT
     // ================================================================
     function switchPage(pageId) {
-        if (pageId === 'page-roles' && assignedCards.length > 0) {
-            alert('در حین بازی نمی‌توانید به صفحه نقش‌ها بروید. لطفاً ابتدا بازی را تمام کنید.');
+        // جلوگیری از خروج از صفحه قرعه‌کشی
+        const drawPage = document.getElementById('page-draw');
+        if (drawPage.classList.contains('active') && pageId !== 'page-draw') {
+            showCustomModal('توجه', 'لطفاً ابتدا انتخاب نقش را به پایان برسانید.', 'alert');
             return;
         }
 
-        const drawPage = document.getElementById('page-draw');
-        if (drawPage.classList.contains('active') && pageId !== 'page-draw') {
-            if (!confirm('آیا از خروج از صفحه قرعه‌کشی مطمئن هستید؟ بازی فعلی ادامه خواهد یافت.')) {
-                return;
-            }
+        if (pageId === 'page-roles' && assignedCards.length > 0) {
+            showCustomModal('توجه', 'در حین بازی نمی‌توانید به صفحه نقش‌ها بروید. لطفاً ابتدا بازی را تمام کنید.', 'alert');
+            return;
         }
 
         if (pageId === 'page-god' && !isGameActive()) {
-            alert('هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.');
+            showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
             switchPage('page-roles');
             return;
         }
@@ -1836,8 +2054,8 @@
         ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id]||0));
         ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id]||0));
         const total = citizenCount + mafiaCount + freeCount;
-        if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
-        const name = prompt('لطفاً یک نام برای این سناریوی شخصی وارد کنید:');
+        if(total === 0) { showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert'); return; }
+        const name = showCustomModal('سناریوی جدید', 'لطفاً یک نام برای این سناریوی شخصی وارد کنید:', 'prompt');
         if(!name || !name.trim()) return;
         const saved = getSavedScenarios();
         const newScenario = {
@@ -1851,7 +2069,7 @@
         renderCustomScenariosOptions();
         document.getElementById('scenario-select').value = `user_${newScenario.id}`;
         applyScenario();
-        alert(`سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`);
+        showCustomModal('موفقیت', `سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`, 'alert');
         saveState();
     }
 
@@ -1859,15 +2077,18 @@
         const val = document.getElementById('scenario-select').value;
         if(!val.startsWith('user_')) return;
         const scenarioId = parseInt(val.replace('user_',''));
-        if(confirm('آیا از حذف این سناریوی شخصی مطمئن هستید؟')) {
-            let saved = getSavedScenarios();
-            saved = saved.filter(s => s.id !== scenarioId);
-            localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
-            renderCustomScenariosOptions();
-            document.getElementById('scenario-select').value = 'custom';
-            applyScenario();
-            saveState();
-        }
+        (async () => {
+            const result = await showCustomModal('تأیید حذف', 'آیا از حذف این سناریوی شخصی مطمئن هستید؟', 'confirm');
+            if (result) {
+                let saved = getSavedScenarios();
+                saved = saved.filter(s => s.id !== scenarioId);
+                localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+                renderCustomScenariosOptions();
+                document.getElementById('scenario-select').value = 'custom';
+                applyScenario();
+                saveState();
+            }
+        })();
     }
 
     function renderRoles() {
@@ -2001,7 +2222,7 @@
         enablePlayerSelect = document.getElementById('enable-player-select').checked;
         usePlayerSelectForGame = enablePlayerSelect;
         const total = parseInt(document.getElementById('player-count').value) || 0;
-        if(total === 0) { alert('لطفاً حداقل یک نقش انتخاب کنید.'); return; }
+        if(total === 0) { showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert'); return; }
 
         selectedPlayerIds = [];
         selectedPlayerNames = [];
@@ -2078,7 +2299,7 @@
         const total = parseInt(document.getElementById('player-count').value) || 0;
         if (checked) {
             if (selectedPlayerIds.length >= total) {
-                alert('تعداد انتخاب‌شده از تعداد نقش‌ها بیشتر است.');
+                showCustomModal('توجه', 'تعداد انتخاب‌شده از تعداد نقش‌ها بیشتر است.', 'alert');
                 const cb = document.querySelector(`.player-select-item[data-id="${id}"] .checkbox`);
                 if (cb) cb.checked = false;
                 return;
@@ -2096,7 +2317,7 @@
         const input = document.getElementById('new-player-name');
         if (!input) return;
         const val = input.value.trim();
-        if (!val) { alert('لطفاً نام را وارد کنید.'); return; }
+        if (!val) { showCustomModal('توجه', 'لطفاً نام را وارد کنید.', 'alert'); return; }
         const result = PlayerManager.add(val);
         if (result.success) {
             input.value = '';
@@ -2106,14 +2327,14 @@
             }
             renderPlayerSelect();
         } else {
-            alert(result.message);
+            showCustomModal('خطا', result.message, 'alert');
         }
     }
 
     function confirmPlayers() {
         const total = parseInt(document.getElementById('player-count').value) || 0;
         if (selectedPlayerIds.length !== total) {
-            alert(`تعداد انتخاب‌شده (${selectedPlayerIds.length}) با تعداد نقش‌ها (${total}) برابر نیست.`);
+            showCustomModal('توجه', `تعداد انتخاب‌شده (${selectedPlayerIds.length}) با تعداد نقش‌ها (${total}) برابر نیست.`, 'alert');
             return;
         }
         const allPlayers = PlayerManager.getAll();
@@ -2122,7 +2343,7 @@
             return p ? p.name : '';
         }).filter(n => n);
         if (names.length !== total) {
-            alert('خطا در دریافت اسامی بازیکنان.');
+            showCustomModal('خطا', 'خطا در دریافت اسامی بازیکنان.', 'alert');
             return;
         }
         selectedPlayerNames = names;
@@ -2154,7 +2375,7 @@
         });
 
         if(rolePool.length === 0) {
-            alert('لطفاً حداقل یک نقش انتخاب کنید.');
+            showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert');
             return;
         }
 
@@ -2279,11 +2500,14 @@
             descEl.style.display = 'none';
         }
 
-        document.getElementById('role-modal').style.display = 'flex';
+        // برای جلوگیری از برخورد با منو، کلاس modal-open اضافه می‌شود
+        document.getElementById('role-modal').classList.add('show');
+        document.body.classList.add('modal-open');
     }
 
     function closeModal() {
-        document.getElementById('role-modal').style.display = 'none';
+        document.getElementById('role-modal').classList.remove('show');
+        document.body.classList.remove('modal-open');
         if(currentCardIndex !== -1) {
             const cardEl = document.getElementById(`draw-card-${currentCardIndex}`);
             if(!cardEl.classList.contains('opened')) {
@@ -2307,21 +2531,24 @@
     // 15. RESET DRAW / BACK
     // ================================================================
     function resetDraw() {
-        if(!confirm('آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟')) return;
-        const rolePool = [];
-        assignedCards.forEach(card => { rolePool.push({ ...card }); });
-        for(let i=rolePool.length-1; i>0; i--) {
-            const j = Math.floor(Math.random() * (i+1));
-            [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
-        }
-        assignedCards = rolePool;
-        pickedHistory = [];
-        openedCount = 0;
-        inquiryCount = 0;
-        document.getElementById('god-inquiry-display').innerText = inquiryCount;
-        document.getElementById('god-btn').style.display = 'none';
-        renderDrawCards();
-        saveState();
+        (async () => {
+            const result = await showCustomModal('تأیید ریست', 'آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟', 'confirm');
+            if (!result) return;
+            const rolePool = [];
+            assignedCards.forEach(card => { rolePool.push({ ...card }); });
+            for(let i=rolePool.length-1; i>0; i--) {
+                const j = Math.floor(Math.random() * (i+1));
+                [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
+            }
+            assignedCards = rolePool;
+            pickedHistory = [];
+            openedCount = 0;
+            inquiryCount = 0;
+            document.getElementById('god-inquiry-display').innerText = inquiryCount;
+            document.getElementById('god-btn').style.display = 'none';
+            renderDrawCards();
+            saveState();
+        })();
     }
 
     // ================================================================
@@ -2329,7 +2556,7 @@
     // ================================================================
     function showGodScreen() {
         if (!isGameActive()) {
-            alert('هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.');
+            showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
             switchPage('page-roles');
             return;
         }
@@ -2418,7 +2645,7 @@
     function updatePlayerNameFromSelect(idx, val) {
         const usedNames = pickedHistory.map((h, i) => (i !== idx) ? h.role.playerName : null).filter(n => n);
         if (val && usedNames.includes(val)) {
-            alert(`نام "${val}" قبلاً انتخاب شده است. لطفاً نام دیگری انتخاب کنید.`);
+            showCustomModal('توجه', `نام "${val}" قبلاً انتخاب شده است. لطفاً نام دیگری انتخاب کنید.`, 'alert');
             const prevName = pickedHistory[idx].role.playerName || '';
             const select = document.querySelector(`.god-player-row:nth-child(${idx+1}) .player-name-select`);
             if (select) {
@@ -2709,7 +2936,7 @@
 
     function copyReportTxt() {
         navigator.clipboard.writeText(generateRawReport()).then(() => {
-            alert('گزارش متنی با موفقیت در حافظه کپی شد!');
+            showCustomModal('موفقیت', 'گزارش متنی با موفقیت در حافظه کپی شد!', 'alert');
         });
     }
 
@@ -2754,7 +2981,7 @@
         if(errors.length) {
             msg += `\n❌ خطاها:\n${errors.join('\n')}`;
         }
-        alert(msg);
+        showCustomModal('ذخیره نتایج', msg, 'alert');
         saveState();
     }
 
@@ -2815,7 +3042,7 @@
             txt += `#️⃣ ${i+1}  | ${p.name.padEnd(15)} | امتیاز: ${p.totalScore} | اخطار: ${p.totalWarnings} | بازی: ${p.gamesPlayed} | میانگین: ${avg}\n`;
         });
         navigator.clipboard.writeText(txt).then(() => {
-            alert('لیدربورد با موفقیت کپی شد!');
+            showCustomModal('موفقیت', 'لیدربورد با موفقیت کپی شد!', 'alert');
         });
     }
 
@@ -2868,11 +3095,7 @@
 
     function downloadLeaderboardCSV() {
         const data = PlayerManager.getLeaderboard(0);
-        let csv = 'نام,امتیاز کل,اخطار,تعداد بازی,میانگین امتیاز\n';
-        data.forEach(p => {
-            const avg = p.gamesPlayed > 0 ? (p.totalScore / p.gamesPlayed).toFixed(1) : '0';
-            csv += `"${p.name}",${p.totalScore},${p.totalWarnings},${p.gamesPlayed},${avg}\n`;
-        });
+        let csv = PlayerManager.exportCSV();
         const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -2881,13 +3104,18 @@
     }
 
     function resetScoresOnly() {
-        if(confirm('آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟')) {
-            if(confirm('این عمل غیرقابل بازگشت است. ادامه دهید؟')) {
-                PlayerManager.resetScores();
-                renderLeaderboardContent();
-                alert('امتیازها با موفقیت ریست شدند.');
+        (async () => {
+            const result = await showCustomModal('تأیید ریست', 'آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟', 'confirm');
+            if (result) {
+                const result2 = await showCustomModal('تأیید نهایی', 'این عمل غیرقابل بازگشت است. ادامه دهید؟', 'confirm');
+                if (result2) {
+                    PlayerManager.resetScores();
+                    renderLeaderboardContent();
+                    renderPlayersContent();
+                    showCustomModal('موفقیت', 'امتیازها با موفقیت ریست شدند.', 'alert');
+                }
             }
-        }
+        })();
     }
 
     // ================================================================
@@ -2907,6 +3135,12 @@
                 <div class="player-mgmt-add">
                     <input type="text" id="new-player-name-mgmt" placeholder="نام کامل بازیکن..." onkeydown="if(event.key==='Enter') addNewPlayerFromMgmt()">
                     <button onclick="addNewPlayerFromMgmt()">➕ افزودن</button>
+                </div>
+                <div class="player-mgmt-import">
+                    <input type="file" id="csv-import-input" accept=".csv" style="display:none" onchange="importCSV(event)">
+                    <button onclick="document.getElementById('csv-import-input').click()">📥 ورود از CSV</button>
+                    <button onclick="exportCSV()" style="background:#f59e0b;">📤 خروجی CSV</button>
+                    <span class="file-label" id="csv-import-status">فایلی انتخاب نشده</span>
                 </div>
                 <div class="player-mgmt-list" id="player-mgmt-list">
         `;
@@ -2949,39 +3183,78 @@
         const input = document.getElementById('new-player-name-mgmt');
         if(!input) return;
         const val = input.value.trim();
-        if(!val) { alert('لطفاً نام را وارد کنید.'); return; }
+        if(!val) { showCustomModal('توجه', 'لطفاً نام را وارد کنید.', 'alert'); return; }
         const result = PlayerManager.add(val);
         if(result.success) {
             input.value = '';
             renderPlayersContent();
+            renderLeaderboardContent();
         } else {
-            alert(result.message);
+            showCustomModal('خطا', result.message, 'alert');
         }
     }
 
     function editPlayer(id) {
         const player = PlayerManager.getById(id);
         if(!player) return;
-        const newName = prompt('ویرایش نام بازیکن:', player.name);
-        if(newName && newName.trim() && newName.trim() !== player.name) {
-            const result = PlayerManager.update(id, { name: newName.trim() });
-            if(result.success) {
-                renderPlayersContent();
-                renderLeaderboardContent();
-            } else {
-                alert(result.message);
+        (async () => {
+            const newName = await showCustomModal('ویرایش نام', 'نام جدید را وارد کنید:', 'prompt', player.name);
+            if(newName && newName.trim() && newName.trim() !== player.name) {
+                const result = PlayerManager.update(id, { name: newName.trim() });
+                if(result.success) {
+                    renderPlayersContent();
+                    renderLeaderboardContent();
+                } else {
+                    showCustomModal('خطا', result.message, 'alert');
+                }
             }
-        }
+        })();
     }
 
     function deletePlayer(id) {
         const player = PlayerManager.getById(id);
         if(!player) return;
-        if(confirm(`آیا از حذف "${player.name}" مطمئن هستید؟`)) {
-            PlayerManager.delete(id);
-            renderPlayersContent();
-            renderLeaderboardContent();
-        }
+        (async () => {
+            const result = await showCustomModal('تأیید حذف', `آیا از حذف "${player.name}" مطمئن هستید؟`, 'confirm');
+            if (result) {
+                PlayerManager.delete(id);
+                renderPlayersContent();
+                renderLeaderboardContent();
+            }
+        })();
+    }
+
+    function importCSV(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        document.getElementById('csv-import-status').textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const result = PlayerManager.importCSV(e.target.result);
+            if (result.success) {
+                let msg = `✅ ${result.added} بازیکن جدید اضافه شد.\n✅ ${result.updated} بازیکن به‌روزرسانی شد.`;
+                if (result.errors.length) {
+                    msg += `\n❌ خطاها:\n${result.errors.join('\n')}`;
+                }
+                showCustomModal('نتیجه ورود CSV', msg, 'alert');
+                renderPlayersContent();
+                renderLeaderboardContent();
+            } else {
+                showCustomModal('خطا', result.message, 'alert');
+            }
+            document.getElementById('csv-import-status').textContent = 'فایلی انتخاب نشده';
+            event.target.value = '';
+        };
+        reader.readAsText(file, 'UTF-8');
+    }
+
+    function exportCSV() {
+        const csv = PlayerManager.exportCSV();
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Mafia_Players_${Date.now()}.csv`;
+        link.click();
     }
 
     // ================================================================
@@ -3100,60 +3373,63 @@
     // 25. RESET APP
     // ================================================================
     function resetApp() {
-        if(!confirm('آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.')) return;
-        
-        const currentScenario = document.getElementById('scenario-select').value;
-        const savedRoles = { ...selectedRoles };
-        
-        selectedRoles = {};
-        assignedCards = [];
-        pickedHistory = [];
-        openedCount = 0;
-        inquiryCount = 0;
-        selectedPlayerIds = [];
-        selectedPlayerNames = [];
-        timerSeconds = 0;
-        timerInitialSeconds = 0;
-        timerMode = 'normal';
-        if(timerRunning) {
-            clearInterval(timerInterval);
-            timerRunning = false;
-            document.getElementById('timer-toggle-btn').innerText = '▶';
-        }
-        updateTimerDisplay();
-        updateTimerModeUI();
-        if(audioPlayer) {
-            audioPlayer.pause();
-            audioPlayer = null;
-            audioFileLoaded = false;
-            document.getElementById('play-pause-btn').style.display = 'none';
-            document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
-            currentAudioName = '';
-        }
-        document.getElementById('god-btn').style.display = 'none';
-        document.getElementById('god-bottom-bar').style.display = 'none';
-        document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
-        document.getElementById('god-inquiry-display').innerText = '0';
-        
-        releaseWakeLock();
-        
-        document.getElementById('scenario-select').value = currentScenario;
-        applyScenario();
-        if (currentScenario === 'custom') {
-            selectedRoles = { ...savedRoles };
-            Object.keys(selectedRoles).forEach(id => {
-                const countEl = document.getElementById(`count-${id}`);
-                if (countEl) countEl.innerText = selectedRoles[id];
-            });
+        (async () => {
+            const result = await showCustomModal('تأیید ریست', 'آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.', 'confirm');
+            if (!result) return;
+            
+            const currentScenario = document.getElementById('scenario-select').value;
+            const savedRoles = { ...selectedRoles };
+            
+            selectedRoles = {};
+            assignedCards = [];
+            pickedHistory = [];
+            openedCount = 0;
+            inquiryCount = 0;
+            selectedPlayerIds = [];
+            selectedPlayerNames = [];
+            timerSeconds = 0;
+            timerInitialSeconds = 0;
+            timerMode = 'normal';
+            if(timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('timer-toggle-btn').innerText = '▶';
+            }
+            updateTimerDisplay();
+            updateTimerModeUI();
+            if(audioPlayer) {
+                audioPlayer.pause();
+                audioPlayer = null;
+                audioFileLoaded = false;
+                document.getElementById('play-pause-btn').style.display = 'none';
+                document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
+                currentAudioName = '';
+            }
+            document.getElementById('god-btn').style.display = 'none';
+            document.getElementById('god-bottom-bar').style.display = 'none';
+            document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
+            document.getElementById('god-inquiry-display').innerText = '0';
+            
+            releaseWakeLock();
+            
+            document.getElementById('scenario-select').value = currentScenario;
+            applyScenario();
+            if (currentScenario === 'custom') {
+                selectedRoles = { ...savedRoles };
+                Object.keys(selectedRoles).forEach(id => {
+                    const countEl = document.getElementById(`count-${id}`);
+                    if (countEl) countEl.innerText = selectedRoles[id];
+                });
+                updateUI();
+                saveState();
+            }
+            
             updateUI();
+            switchPage('page-roles');
+            localStorage.removeItem(stateKey);
             saveState();
-        }
-        
-        updateUI();
-        switchPage('page-roles');
-        localStorage.removeItem(stateKey);
-        saveState();
-        updateNavState();
+            updateNavState();
+        })();
     }
 
     // ================================================================
