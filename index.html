@@ -1385,7 +1385,7 @@
     <!-- ============================================================ -->
     <script>
     // ================================================================
-    // 0. CUSTOM MODAL SYSTEM (جایگزین alert/confirm/prompt)
+    // 0. CUSTOM MODAL SYSTEM
     // ================================================================
     function showCustomModal(title, message, type = 'alert', defaultValue = '') {
         return new Promise((resolve) => {
@@ -1450,7 +1450,6 @@
                 }
             };
 
-            // کلیک خارج از مودال
             overlay.onclick = (e) => {
                 if (e.target === overlay) {
                     if (type === 'alert') {
@@ -1463,7 +1462,6 @@
         });
     }
 
-    // جایگزین‌های global
     window.alert = (msg) => showCustomModal('اطلاعیه', msg, 'alert');
     window.confirm = (msg) => showCustomModal('تأیید', msg, 'confirm');
     window.prompt = (msg, def) => showCustomModal('ورود اطلاعات', msg, 'prompt', def);
@@ -1682,7 +1680,6 @@
         getNames() {
             return this.getAll().map(p => p.name);
         },
-        // ===== CSV IMPORT =====
         importCSV(data) {
             const lines = data.split('\n').filter(line => line.trim());
             if (lines.length < 2) return { success: false, message: 'فایل CSV معتبر نیست.' };
@@ -1708,7 +1705,6 @@
 
                 const existing = this.getByName(name);
                 if (existing) {
-                    // به‌روزرسانی (جمع شدن)
                     const result = this.update(existing.id, {
                         totalScore: (existing.totalScore || 0) + score,
                         totalWarnings: (existing.totalWarnings || 0) + warnings,
@@ -1729,7 +1725,6 @@
 
             return { success: true, added, updated, errors };
         },
-        // ===== CSV EXPORT =====
         exportCSV() {
             const data = this.getAll();
             let csv = 'نام,امتیاز کل,اخطار,تعداد بازی,میانگین امتیاز\n';
@@ -1840,25 +1835,42 @@
     // ================================================================
     // 7. PAGE MANAGEMENT
     // ================================================================
+    async function confirmExitDraw() {
+        return await showCustomModal(
+            'خروج از قرعه‌کشی',
+            'آیا از خروج از صفحه قرعه‌کشی مطمئن هستید؟ بازی فعلی ادامه خواهد یافت.',
+            'confirm'
+        );
+    }
+
     function switchPage(pageId) {
-        // جلوگیری از خروج از صفحه قرعه‌کشی
         const drawPage = document.getElementById('page-draw');
-        if (drawPage.classList.contains('active') && pageId !== 'page-draw') {
-            showCustomModal('توجه', 'لطفاً ابتدا انتخاب نقش را به پایان برسانید.', 'alert');
+        const isDrawActive = drawPage.classList.contains('active');
+        
+        if (isDrawActive && pageId !== 'page-draw') {
+            (async () => {
+                const confirmed = await confirmExitDraw();
+                if (confirmed) {
+                    performSwitchPage(pageId);
+                }
+            })();
             return;
         }
-
+        
+        if (pageId === 'page-god' && !isGameActive()) {
+            showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
+            return;
+        }
+        
         if (pageId === 'page-roles' && assignedCards.length > 0) {
             showCustomModal('توجه', 'در حین بازی نمی‌توانید به صفحه نقش‌ها بروید. لطفاً ابتدا بازی را تمام کنید.', 'alert');
             return;
         }
+        
+        performSwitchPage(pageId);
+    }
 
-        if (pageId === 'page-god' && !isGameActive()) {
-            showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
-            switchPage('page-roles');
-            return;
-        }
-
+    function performSwitchPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const target = document.getElementById(pageId);
         if (target) target.classList.add('active');
@@ -1907,7 +1919,12 @@
         }
     }
 
-    function backToRoles() {
+    async function backToRoles() {
+        const drawPage = document.getElementById('page-draw');
+        if (drawPage.classList.contains('active')) {
+            const confirmed = await confirmExitDraw();
+            if (!confirmed) return;
+        }
         switchPage('page-roles');
     }
 
@@ -2048,50 +2065,48 @@
         }
     }
 
-async function saveCurrentScenario() {
-    let citizenCount = 0, mafiaCount = 0, freeCount = 0;
-    ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id] || 0));
-    ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
-    ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
-    const total = citizenCount + mafiaCount + freeCount;
-    if (total === 0) {
-        await showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert');
-        return;
+    async function saveCurrentScenario() {
+        let citizenCount = 0, mafiaCount = 0, freeCount = 0;
+        ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id] || 0));
+        ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
+        ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
+        const total = citizenCount + mafiaCount + freeCount;
+        if (total === 0) {
+            await showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert');
+            return;
+        }
+        const name = await showCustomModal('سناریوی جدید', 'لطفاً یک نام برای این سناریوی شخصی وارد کنید:', 'prompt');
+        if (!name || !name.trim()) return;
+        const saved = getSavedScenarios();
+        const newScenario = {
+            id: Date.now(),
+            name: name.trim(),
+            count: total,
+            roles: { ...selectedRoles }
+        };
+        saved.push(newScenario);
+        localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+        renderCustomScenariosOptions();
+        document.getElementById('scenario-select').value = `user_${newScenario.id}`;
+        applyScenario();
+        await showCustomModal('موفقیت', `سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`, 'alert');
+        saveState();
     }
-    const name = await showCustomModal('سناریوی جدید', 'لطفاً یک نام برای این سناریوی شخصی وارد کنید:', 'prompt');
-    if (!name || !name.trim()) return;
-    const saved = getSavedScenarios();
-    const newScenario = {
-        id: Date.now(),
-        name: name.trim(),
-        count: total,
-        roles: { ...selectedRoles }
-    };
-    saved.push(newScenario);
-    localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
-    renderCustomScenariosOptions();
-    document.getElementById('scenario-select').value = `user_${newScenario.id}`;
-    applyScenario();
-    await showCustomModal('موفقیت', `سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`, 'alert');
-    saveState();
-}
 
-    function deleteCurrentScenario() {
+    async function deleteCurrentScenario() {
         const val = document.getElementById('scenario-select').value;
-        if(!val.startsWith('user_')) return;
-        const scenarioId = parseInt(val.replace('user_',''));
-        (async () => {
-            const result = await showCustomModal('تأیید حذف', 'آیا از حذف این سناریوی شخصی مطمئن هستید؟', 'confirm');
-            if (result) {
-                let saved = getSavedScenarios();
-                saved = saved.filter(s => s.id !== scenarioId);
-                localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
-                renderCustomScenariosOptions();
-                document.getElementById('scenario-select').value = 'custom';
-                applyScenario();
-                saveState();
-            }
-        })();
+        if (!val.startsWith('user_')) return;
+        const scenarioId = parseInt(val.replace('user_', ''));
+        const result = await showCustomModal('تأیید حذف', 'آیا از حذف این سناریوی شخصی مطمئن هستید؟', 'confirm');
+        if (result) {
+            let saved = getSavedScenarios();
+            saved = saved.filter(s => s.id !== scenarioId);
+            localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+            renderCustomScenariosOptions();
+            document.getElementById('scenario-select').value = 'custom';
+            applyScenario();
+            saveState();
+        }
     }
 
     function renderRoles() {
@@ -2503,7 +2518,6 @@ async function saveCurrentScenario() {
             descEl.style.display = 'none';
         }
 
-        // برای جلوگیری از برخورد با منو، کلاس modal-open اضافه می‌شود
         document.getElementById('role-modal').classList.add('show');
         document.body.classList.add('modal-open');
     }
@@ -2531,38 +2545,43 @@ async function saveCurrentScenario() {
     }
 
     // ================================================================
-    // 15. RESET DRAW / BACK
+    // 15. RESET DRAW
     // ================================================================
-    function resetDraw() {
-        (async () => {
-            const result = await showCustomModal('تأیید ریست', 'آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟', 'confirm');
-            if (!result) return;
-            const rolePool = [];
-            assignedCards.forEach(card => { rolePool.push({ ...card }); });
-            for(let i=rolePool.length-1; i>0; i--) {
-                const j = Math.floor(Math.random() * (i+1));
-                [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
-            }
-            assignedCards = rolePool;
-            pickedHistory = [];
-            openedCount = 0;
-            inquiryCount = 0;
-            document.getElementById('god-inquiry-display').innerText = inquiryCount;
-            document.getElementById('god-btn').style.display = 'none';
-            renderDrawCards();
-            saveState();
-        })();
+    async function resetDraw() {
+        const result = await showCustomModal('تأیید ریست', 'آیا از ریست کردن نقش‌ها و بازگرداندن کارت‌ها به حالت اولیه مطمئن هستید؟', 'confirm');
+        if (!result) return;
+        const rolePool = [];
+        assignedCards.forEach(card => { rolePool.push({ ...card }); });
+        for(let i=rolePool.length-1; i>0; i--) {
+            const j = Math.floor(Math.random() * (i+1));
+            [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
+        }
+        assignedCards = rolePool;
+        pickedHistory = [];
+        openedCount = 0;
+        inquiryCount = 0;
+        document.getElementById('god-inquiry-display').innerText = inquiryCount;
+        document.getElementById('god-btn').style.display = 'none';
+        renderDrawCards();
+        saveState();
     }
 
     // ================================================================
     // 16. GOD SCREEN
     // ================================================================
-    function showGodScreen() {
+    async function showGodScreen() {
+        const drawPage = document.getElementById('page-draw');
+        if (drawPage.classList.contains('active')) {
+            const confirmed = await confirmExitDraw();
+            if (!confirmed) return;
+        }
+        
         if (!isGameActive()) {
             showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
             switchPage('page-roles');
             return;
         }
+        
         renderGodList();
         switchPage('page-god');
         document.getElementById('god-bottom-bar').style.display = 'flex';
@@ -3106,19 +3125,17 @@ async function saveCurrentScenario() {
         link.click();
     }
 
-    function resetScoresOnly() {
-        (async () => {
-            const result = await showCustomModal('تأیید ریست', 'آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟', 'confirm');
-            if (result) {
-                const result2 = await showCustomModal('تأیید نهایی', 'این عمل غیرقابل بازگشت است. ادامه دهید؟', 'confirm');
-                if (result2) {
-                    PlayerManager.resetScores();
-                    renderLeaderboardContent();
-                    renderPlayersContent();
-                    showCustomModal('موفقیت', 'امتیازها با موفقیت ریست شدند.', 'alert');
-                }
+    async function resetScoresOnly() {
+        const result = await showCustomModal('تأیید ریست', 'آیا از ریست امتیازها، اخطارها و تاریخچه بازی‌ها (بدون حذف نام‌ها) مطمئن هستید؟', 'confirm');
+        if (result) {
+            const result2 = await showCustomModal('تأیید نهایی', 'این عمل غیرقابل بازگشت است. ادامه دهید؟', 'confirm');
+            if (result2) {
+                PlayerManager.resetScores();
+                renderLeaderboardContent();
+                renderPlayersContent();
+                showCustomModal('موفقیت', 'امتیازها با موفقیت ریست شدند.', 'alert');
             }
-        })();
+        }
     }
 
     // ================================================================
@@ -3197,34 +3214,30 @@ async function saveCurrentScenario() {
         }
     }
 
-    function editPlayer(id) {
+    async function editPlayer(id) {
         const player = PlayerManager.getById(id);
         if(!player) return;
-        (async () => {
-            const newName = await showCustomModal('ویرایش نام', 'نام جدید را وارد کنید:', 'prompt', player.name);
-            if(newName && newName.trim() && newName.trim() !== player.name) {
-                const result = PlayerManager.update(id, { name: newName.trim() });
-                if(result.success) {
-                    renderPlayersContent();
-                    renderLeaderboardContent();
-                } else {
-                    showCustomModal('خطا', result.message, 'alert');
-                }
-            }
-        })();
-    }
-
-    function deletePlayer(id) {
-        const player = PlayerManager.getById(id);
-        if(!player) return;
-        (async () => {
-            const result = await showCustomModal('تأیید حذف', `آیا از حذف "${player.name}" مطمئن هستید؟`, 'confirm');
-            if (result) {
-                PlayerManager.delete(id);
+        const newName = await showCustomModal('ویرایش نام', 'نام جدید را وارد کنید:', 'prompt', player.name);
+        if(newName && newName.trim() && newName.trim() !== player.name) {
+            const result = PlayerManager.update(id, { name: newName.trim() });
+            if(result.success) {
                 renderPlayersContent();
                 renderLeaderboardContent();
+            } else {
+                showCustomModal('خطا', result.message, 'alert');
             }
-        })();
+        }
+    }
+
+    async function deletePlayer(id) {
+        const player = PlayerManager.getById(id);
+        if(!player) return;
+        const result = await showCustomModal('تأیید حذف', `آیا از حذف "${player.name}" مطمئن هستید؟`, 'confirm');
+        if (result) {
+            PlayerManager.delete(id);
+            renderPlayersContent();
+            renderLeaderboardContent();
+        }
     }
 
     function importCSV(event) {
@@ -3375,64 +3388,62 @@ async function saveCurrentScenario() {
     // ================================================================
     // 25. RESET APP
     // ================================================================
-    function resetApp() {
-        (async () => {
-            const result = await showCustomModal('تأیید ریست', 'آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.', 'confirm');
-            if (!result) return;
-            
-            const currentScenario = document.getElementById('scenario-select').value;
-            const savedRoles = { ...selectedRoles };
-            
-            selectedRoles = {};
-            assignedCards = [];
-            pickedHistory = [];
-            openedCount = 0;
-            inquiryCount = 0;
-            selectedPlayerIds = [];
-            selectedPlayerNames = [];
-            timerSeconds = 0;
-            timerInitialSeconds = 0;
-            timerMode = 'normal';
-            if(timerRunning) {
-                clearInterval(timerInterval);
-                timerRunning = false;
-                document.getElementById('timer-toggle-btn').innerText = '▶';
-            }
-            updateTimerDisplay();
-            updateTimerModeUI();
-            if(audioPlayer) {
-                audioPlayer.pause();
-                audioPlayer = null;
-                audioFileLoaded = false;
-                document.getElementById('play-pause-btn').style.display = 'none';
-                document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
-                currentAudioName = '';
-            }
-            document.getElementById('god-btn').style.display = 'none';
-            document.getElementById('god-bottom-bar').style.display = 'none';
-            document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
-            document.getElementById('god-inquiry-display').innerText = '0';
-            
-            releaseWakeLock();
-            
-            document.getElementById('scenario-select').value = currentScenario;
-            applyScenario();
-            if (currentScenario === 'custom') {
-                selectedRoles = { ...savedRoles };
-                Object.keys(selectedRoles).forEach(id => {
-                    const countEl = document.getElementById(`count-${id}`);
-                    if (countEl) countEl.innerText = selectedRoles[id];
-                });
-                updateUI();
-                saveState();
-            }
-            
+    async function resetApp() {
+        const result = await showCustomModal('تأیید ریست', 'آیا از شروع مجدد بازی مطمئن هستید؟ تمام اطلاعات فعلی پاک خواهد شد.', 'confirm');
+        if (!result) return;
+        
+        const currentScenario = document.getElementById('scenario-select').value;
+        const savedRoles = { ...selectedRoles };
+        
+        selectedRoles = {};
+        assignedCards = [];
+        pickedHistory = [];
+        openedCount = 0;
+        inquiryCount = 0;
+        selectedPlayerIds = [];
+        selectedPlayerNames = [];
+        timerSeconds = 0;
+        timerInitialSeconds = 0;
+        timerMode = 'normal';
+        if(timerRunning) {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            document.getElementById('timer-toggle-btn').innerText = '▶';
+        }
+        updateTimerDisplay();
+        updateTimerModeUI();
+        if(audioPlayer) {
+            audioPlayer.pause();
+            audioPlayer = null;
+            audioFileLoaded = false;
+            document.getElementById('play-pause-btn').style.display = 'none';
+            document.getElementById('music-file-name').innerText = 'انتخاب آهنگ';
+            currentAudioName = '';
+        }
+        document.getElementById('god-btn').style.display = 'none';
+        document.getElementById('god-bottom-bar').style.display = 'none';
+        document.querySelectorAll('[id^="count-"]').forEach(el => el.innerText = '0');
+        document.getElementById('god-inquiry-display').innerText = '0';
+        
+        releaseWakeLock();
+        
+        document.getElementById('scenario-select').value = currentScenario;
+        applyScenario();
+        if (currentScenario === 'custom') {
+            selectedRoles = { ...savedRoles };
+            Object.keys(selectedRoles).forEach(id => {
+                const countEl = document.getElementById(`count-${id}`);
+                if (countEl) countEl.innerText = selectedRoles[id];
+            });
             updateUI();
-            switchPage('page-roles');
-            localStorage.removeItem(stateKey);
             saveState();
-            updateNavState();
-        })();
+        }
+        
+        updateUI();
+        switchPage('page-roles');
+        localStorage.removeItem(stateKey);
+        saveState();
+        updateNavState();
     }
 
     // ================================================================
