@@ -2048,30 +2048,33 @@
         }
     }
 
-    function saveCurrentScenario() {
-        let citizenCount=0, mafiaCount=0, freeCount=0;
-        ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id]||0));
-        ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id]||0));
-        ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id]||0));
-        const total = citizenCount + mafiaCount + freeCount;
-        if(total === 0) { showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert'); return; }
-        const name = showCustomModal('سناریوی جدید', 'لطفاً یک نام برای این سناریوی شخصی وارد کنید:', 'prompt');
-        if(!name || !name.trim()) return;
-        const saved = getSavedScenarios();
-        const newScenario = {
-            id: Date.now(),
-            name: name.trim(),
-            count: total,
-            roles: { ...selectedRoles }
-        };
-        saved.push(newScenario);
-        localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
-        renderCustomScenariosOptions();
-        document.getElementById('scenario-select').value = `user_${newScenario.id}`;
-        applyScenario();
-        showCustomModal('موفقیت', `سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`, 'alert');
-        saveState();
+async function saveCurrentScenario() {
+    let citizenCount = 0, mafiaCount = 0, freeCount = 0;
+    ALL_ROLES.citizen.forEach(r => citizenCount += (selectedRoles[r.id] || 0));
+    ALL_ROLES.mafia.forEach(r => mafiaCount += (selectedRoles[r.id] || 0));
+    ALL_ROLES.free.forEach(r => freeCount += (selectedRoles[r.id] || 0));
+    const total = citizenCount + mafiaCount + freeCount;
+    if (total === 0) {
+        await showCustomModal('توجه', 'لطفاً حداقل یک نقش انتخاب کنید.', 'alert');
+        return;
     }
+    const name = await showCustomModal('سناریوی جدید', 'لطفاً یک نام برای این سناریوی شخصی وارد کنید:', 'prompt');
+    if (!name || !name.trim()) return;
+    const saved = getSavedScenarios();
+    const newScenario = {
+        id: Date.now(),
+        name: name.trim(),
+        count: total,
+        roles: { ...selectedRoles }
+    };
+    saved.push(newScenario);
+    localStorage.setItem('mafia_custom_scenarios', JSON.stringify(saved));
+    renderCustomScenariosOptions();
+    document.getElementById('scenario-select').value = `user_${newScenario.id}`;
+    applyScenario();
+    await showCustomModal('موفقیت', `سناریوی «${newScenario.name}» با موفقیت ذخیره شد!`, 'alert');
+    saveState();
+}
 
     function deleteCurrentScenario() {
         const val = document.getElementById('scenario-select').value;
