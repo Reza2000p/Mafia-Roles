@@ -35,6 +35,11 @@
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
         ::-webkit-scrollbar-button { display: none; }
 
+        /* Hide bottom nav during draw */
+        body.draw-active .bottom-nav {
+            display: none !important;
+        }
+
         /* ===== HEADER ===== */
         .app-header {
             background: linear-gradient(145deg, #1e293b, #0f172a);
@@ -181,8 +186,6 @@
         .btn-action:disabled { background:#334155; color:#64748b; cursor:not-allowed; box-shadow:none; }
 
         /* ===== PAGE: DRAW ===== */
-        .page-draw .bottom-nav { display: none !important; }
-        .page-draw body { padding-bottom: 14px; }
         .draw-cards-grid {
             display:grid;
             grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
@@ -955,9 +958,6 @@
         .bottom-nav .nav-item.active .icon {
             filter: drop-shadow(0 0 8px rgba(56,189,248,0.2));
         }
-        .bottom-nav .nav-item.active::after {
-            display: none;
-        }
         .bottom-nav .nav-item:active { transform: scale(0.92); }
         .bottom-nav .nav-item.disabled {
             opacity: 0.35;
@@ -1177,7 +1177,7 @@
     <!-- ============================================================ -->
     <!-- ===== PAGE 3: DRAW ===== -->
     <!-- ============================================================ -->
-    <div id="page-draw" class="page page-draw">
+    <div id="page-draw" class="page">
         <div class="setup-box" style="justify-content:center;">
             <h2 style="font-size:clamp(16px,3.5vw,22px);font-weight:700;color:#f1f5f9;">🎴 کارت شماره خود را انتخاب کنید</h2>
         </div>
@@ -1835,7 +1835,6 @@
     // ================================================================
     // 7. PAGE MANAGEMENT
     // ================================================================
-    // تابع تأیید برای برگشت به تنظیمات
     async function confirmBackToRoles() {
         return await showCustomModal(
             'خروج از قرعه‌کشی',
@@ -1844,25 +1843,26 @@
         );
     }
 
+    // تابع اصلی تغییر صفحه (با تأیید برای خروج از قرعه‌کشی)
     function switchPage(pageId) {
         const drawPage = document.getElementById('page-draw');
         const isDrawActive = drawPage.classList.contains('active');
         
-        // در قرعه‌کشی، منو مخفی است، اما در صورت فراخوانی مستقیم (از دکمه‌های داخلی)
         if (isDrawActive && pageId !== 'page-draw') {
-            (async () => {
-                // فقط برای برگشت به تنظیمات تأیید بگیر
-                if (pageId === 'page-roles' || pageId === 'page-player-select') {
+            // فقط برای برگشت به تنظیمات (نقش‌ها یا انتخاب بازیکن) تأیید بگیر
+            if (pageId === 'page-roles' || pageId === 'page-player-select') {
+                (async () => {
                     const confirmed = await confirmBackToRoles();
                     if (confirmed) {
                         performSwitchPage(pageId);
                     }
-                } else {
-                    // برای صفحات دیگر (گاد) بدون تأیید
-                    performSwitchPage(pageId);
-                }
-            })();
-            return;
+                })();
+                return;
+            } else {
+                // برای گاد، بدون تأیید
+                performSwitchPage(pageId);
+                return;
+            }
         }
         
         if (pageId === 'page-god' && !isGameActive()) {
@@ -1878,6 +1878,7 @@
         performSwitchPage(pageId);
     }
 
+    // تابع اجرای واقعی تغییر صفحه (بدون تأیید)
     function performSwitchPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const target = document.getElementById(pageId);
@@ -1886,6 +1887,13 @@
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.toggle('active', item.dataset.page === pageId);
         });
+
+        // مدیریت نمایش منو در قرعه‌کشی
+        if (pageId === 'page-draw') {
+            document.body.classList.add('draw-active');
+        } else {
+            document.body.classList.remove('draw-active');
+        }
 
         currentPage = pageId;
         saveState();
@@ -1927,13 +1935,14 @@
         }
     }
 
+    // دکمه برگشت به تنظیمات (با تأیید)
     async function backToRoles() {
         const drawPage = document.getElementById('page-draw');
         if (drawPage.classList.contains('active')) {
             const confirmed = await confirmBackToRoles();
             if (!confirmed) return;
         }
-        switchPage('page-roles');
+        performSwitchPage('page-roles');
     }
 
     // ================================================================
@@ -2013,6 +2022,13 @@
                     item.classList.toggle('active', item.dataset.page === 'page-roles');
                 });
                 currentPage = 'page-roles';
+            }
+
+            // در صورت بارگذاری صفحه قرعه‌کشی، کلاس draw-active را به body اضافه کن
+            if (pageToShow === 'page-draw') {
+                document.body.classList.add('draw-active');
+            } else {
+                document.body.classList.remove('draw-active');
             }
 
             Object.keys(selectedRoles).forEach(id => {
@@ -2426,7 +2442,8 @@
         document.getElementById('god-inquiry-display').innerText = inquiryCount;
         document.getElementById('god-btn').style.display = 'none';
 
-        switchPage('page-draw');
+        // به صفحه قرعه‌کشی برو و منو را مخفی کن
+        performSwitchPage('page-draw');
         saveState();
         updateNavState();
     }
@@ -2578,7 +2595,7 @@
     // 16. GOD SCREEN
     // ================================================================
     async function showGodScreen() {
-        // ورود به گاد نیازی به تأیید ندارد (از دکمه‌ی داخل صفحه‌ی قرعه‌کشی)
+        // ورود به گاد نیازی به تأیید ندارد
         if (!isGameActive()) {
             showCustomModal('توجه', 'هنوز بازی شروع نشده است. لطفاً ابتدا یک بازی جدید شروع کنید.', 'alert');
             switchPage('page-roles');
@@ -2586,7 +2603,7 @@
         }
         
         renderGodList();
-        switchPage('page-god');
+        performSwitchPage('page-god');
         document.getElementById('god-bottom-bar').style.display = 'flex';
         updateGodBottomBar();
         requestWakeLock();
@@ -3443,7 +3460,7 @@
         }
         
         updateUI();
-        switchPage('page-roles');
+        performSwitchPage('page-roles');
         localStorage.removeItem(stateKey);
         saveState();
         updateNavState();
